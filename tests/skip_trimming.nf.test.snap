@@ -50,7 +50,7 @@
                 "FQ_SUBSAMPLE": {
                     "fq": "0.12.0"
                 },
-                "GTF2BED": {
+                "EAUTILS_GTF2BED": {
                     "perl": "5.26.2"
                 },
                 "GUNZIP_ADDITIONAL_FASTA": {
