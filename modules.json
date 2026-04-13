@@ -42,7 +42,7 @@
                     },
                     "custom/gtffilter": {
                         "branch": "master",
-                        "git_sha": "c647aecc15f96c3fccd47b0fb4fcecbcc38fdb42",
+                        "git_sha": "f99b33c967d9182d1dedbc7383d2c457cd02d9a2",
                         "installed_by": ["modules"]
                     },
                     "custom/rsemmergecounts": {
