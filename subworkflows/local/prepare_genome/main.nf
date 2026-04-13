@@ -38,7 +38,7 @@ include { SENTIEON_RSEMPREPAREREFERENCE as SENTIEON_RSEM_PREPAREREFERENCE_GENOME
 include { SENTIEON_RSEMPREPAREREFERENCE as SENTIEON_MAKE_TRANSCRIPTS_FASTA       } from '../../../modules/nf-core/sentieon/rsempreparereference'
 
 include { PREPROCESS_TRANSCRIPTS_FASTA_GENCODE } from '../../../modules/local/preprocess_transcripts_fasta_gencode'
-include { GTF2BED                              } from '../../../modules/local/gtf2bed'
+include { EAUTILS_GTF2BED as GTF2BED           } from '../../../modules/nf-core/ea-utils/gtf2bed'
 include { CUSTOM_GTFFILTER                     } from '../../../modules/nf-core/custom/gtffilter'
 
 workflow PREPARE_GENOME {
@@ -166,7 +166,7 @@ workflow PREPARE_GENOME {
             ch_gene_bed = channel.value(file(gene_bed, checkIfExists: true))
         }
     } else {
-        ch_gene_bed = GTF2BED(ch_gtf).bed
+        ch_gene_bed = GTF2BED(ch_gtf.map { item -> [ [id: item.baseName], item ] }).bed.map { _meta, bed -> bed }
     }
 
     //----------------------------------------------------------------------
