@@ -15,11 +15,11 @@
                 "CUSTOM_GTFFILTER": {
                     "python": "3.9.5"
                 },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
+                },
                 "FQ_LINT": {
                     "fq": "0.12.0"
-                },
-                "GTF2BED": {
-                    "perl": "5.26.2"
                 },
                 "GUNZIP_ADDITIONAL_FASTA": {
                     "gunzip": 1.13
@@ -105,6 +105,9 @@
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
+                },
                 "FQ_LINT": {
                     "fq": "0.12.0"
                 },
@@ -116,9 +119,6 @@
                 },
                 "FQ_SUBSAMPLE": {
                     "fq": "0.12.0"
-                },
-                "GTF2BED": {
-                    "perl": "5.26.2"
                 },
                 "GUNZIP_ADDITIONAL_FASTA": {
                     "gunzip": 1.13

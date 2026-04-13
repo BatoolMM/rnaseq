@@ -9,6 +9,9 @@
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
+                },
                 "FASTQC": {
                     "fastqc": "0.12.1"
                 },
@@ -23,9 +26,6 @@
                 },
                 "GFFREAD_TRANSCRIPTS": {
                     "gffread": "0.12.7"
-                },
-                "GTF2BED": {
-                    "perl": "5.26.2"
                 },
                 "PICARD_MARKDUPLICATES": {
                     "picard": "3.4.0"
@@ -475,6 +475,9 @@
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
+                },
                 "FASTQC": {
                     "fastqc": "0.12.1"
                 },
@@ -489,9 +492,6 @@
                 },
                 "GFFREAD_TRANSCRIPTS": {
                     "gffread": "0.12.7"
-                },
-                "GTF2BED": {
-                    "perl": "5.26.2"
                 },
                 "PICARD_MARKDUPLICATES": {
                     "picard": "3.4.0"
@@ -920,6 +920,9 @@
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
+                },
                 "FASTQC": {
                     "fastqc": "0.12.1"
                 },
@@ -934,9 +937,6 @@
                 },
                 "GFFREAD_TRANSCRIPTS": {
                     "gffread": "0.12.7"
-                },
-                "GTF2BED": {
-                    "perl": "5.26.2"
                 },
                 "SALMON_QUANT": {
                     "salmon": "1.10.3"
@@ -1056,6 +1056,9 @@
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
+                },
                 "FASTQC": {
                     "fastqc": "0.12.1"
                 },
@@ -1070,9 +1073,6 @@
                 },
                 "GFFREAD_TRANSCRIPTS": {
                     "gffread": "0.12.7"
-                },
-                "GTF2BED": {
-                    "perl": "5.26.2"
                 },
                 "SALMON_QUANT": {
                     "salmon": "1.10.3"
