@@ -47,7 +47,7 @@
                     },
                     "custom/multiqccustombiotype": {
                         "branch": "master",
-                        "git_sha": "c3c8dea59b7181efcdb982557eaa2e6e7695617c",
+                        "git_sha": "76f0d65e94ce2f8944d94f4fb4cd9f5e4c9ad5cf",
                         "installed_by": ["bam_qc_rnaseq"]
                     },
                     "custom/rsemmergecounts": {
