@@ -15,6 +15,9 @@
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
+                },
                 "FQ_LINT": {
                     "fq": "0.12.0"
                 },
@@ -26,9 +29,6 @@
                 },
                 "FQ_SUBSAMPLE": {
                     "fq": "0.12.0"
-                },
-                "EAUTILS_GTF2BED": {
-                    "perl": "5.26.2"
                 },
                 "GUNZIP_GTF": {
                     "gunzip": 1.13
@@ -293,11 +293,11 @@
                 "CUSTOM_GTFFILTER": {
                     "python": "3.9.5"
                 },
-                "FQ_LINT": {
-                    "fq": "0.12.0"
-                },
                 "EAUTILS_GTF2BED": {
                     "perl": "5.26.2"
+                },
+                "FQ_LINT": {
+                    "fq": "0.12.0"
                 },
                 "GUNZIP_GTF": {
                     "gunzip": 1.13
@@ -346,9 +346,7 @@
                 "trimgalore/WT_REP2_trimmed_1.fastq.gz_trimming_report.txt",
                 "trimgalore/WT_REP2_trimmed_2.fastq.gz_trimming_report.txt"
             ],
-            [
-                
-            ]
+            []
         ],
         "timestamp": "2026-02-04T17:10:11.124774782",
         "meta": {
