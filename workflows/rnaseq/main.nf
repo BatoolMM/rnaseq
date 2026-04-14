@@ -38,7 +38,6 @@ include { mapBamToPublishedPath          } from '../../subworkflows/local/utils_
 //
 include { STRINGTIE_STRINGTIE        } from '../../modules/nf-core/stringtie/stringtie'
 include { STRINGTIE_MERGE            } from '../../modules/nf-core/stringtie/merge/main'
-include { SUBREAD_FEATURECOUNTS      } from '../../modules/nf-core/subread/featurecounts'
 include { KRAKEN2_KRAKEN2 as KRAKEN2 } from '../../modules/nf-core/kraken2/kraken2/main'
 include { BRACKEN_BRACKEN as BRACKEN } from '../../modules/nf-core/bracken/bracken/main'
 include { SYLPH_PROFILE              } from '../../modules/nf-core/sylph/profile/main'
@@ -57,7 +56,6 @@ include { paramsSummaryMultiqc             } from '../../subworkflows/nf-core/ut
 include { softwareVersionsToYAML           } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
 include { FASTQ_ALIGN_HISAT2               } from '../../subworkflows/nf-core/fastq_align_hisat2'
 include { BAM_MARKDUPLICATES_PICARD        } from '../../subworkflows/nf-core/bam_markduplicates_picard'
-include { BAM_RSEQC                        } from '../../subworkflows/nf-core/bam_rseqc'
 include { BAM_STRINGTIE_MERGE } from '../../subworkflows/nf-core/bam_stringtie_merge/main'
 include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_FORWARD } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
 include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_REVERSE } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
