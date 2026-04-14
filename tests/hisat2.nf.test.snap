@@ -34,7 +34,7 @@
                     "hisat2": "2.2.1"
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "TRIMGALORE": {
                     "trimgalore": "0.6.10"
@@ -47,10 +47,6 @@
                 }
             },
             [
-                "custom",
-                "custom/out",
-                "custom/out/genome_transcriptome.fasta",
-                "custom/out/genome_transcriptome.gtf",
                 "fastqc",
                 "fastqc/raw",
                 "fastqc/raw/RAP1_IAA_30M_REP1_raw.html",
@@ -71,6 +67,11 @@
                 "fq_lint/raw/RAP1_UNINDUCED_REP2.fq_lint.txt",
                 "fq_lint/raw/WT_REP1.fq_lint.txt",
                 "fq_lint/raw/WT_REP2.fq_lint.txt",
+                "hisat2",
+                "hisat2/stringtie",
+                "hisat2/stringtie/out",
+                "hisat2/stringtie/out/genome_transcriptome.fasta",
+                "hisat2/stringtie/out/genome_transcriptome.gtf",
                 "multiqc",
                 "multiqc/hisat2",
                 "multiqc/hisat2/multiqc_data",
@@ -97,9 +98,9 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "25.10.4"
         },
-        "timestamp": "2026-02-04T17:02:38.159554469"
+        "timestamp": "2026-04-09T19:05:29.853107999"
     },
     "Params: --aligner hisat2": {
         "content": [
@@ -195,25 +196,25 @@
                     "salmon": "1.10.3"
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_SORT": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_SORT_QUALIMAP": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SE_GENE_UNIFIED": {
                     "bioconductor-summarizedexperiment": "1.32.0"
@@ -247,10 +248,6 @@
                 "bbsplit/RAP1_UNINDUCED_REP2.stats.txt",
                 "bbsplit/WT_REP1.stats.txt",
                 "bbsplit/WT_REP2.stats.txt",
-                "custom",
-                "custom/out",
-                "custom/out/genome_gfp.fasta",
-                "custom/out/genome_gfp.gtf",
                 "fastqc",
                 "fastqc/filtered",
                 "fastqc/filtered/RAP1_IAA_30M_REP1_filtered_1_fastqc.html",
@@ -783,6 +780,9 @@
                 "hisat2/stringtie/WT_REP2.coverage.gtf",
                 "hisat2/stringtie/WT_REP2.gene.abundance.txt",
                 "hisat2/stringtie/WT_REP2.transcripts.gtf",
+                "hisat2/stringtie/out",
+                "hisat2/stringtie/out/genome_gfp.fasta",
+                "hisat2/stringtie/out/genome_gfp.gtf",
                 "multiqc",
                 "multiqc/hisat2",
                 "multiqc/hisat2/multiqc_report.html",
@@ -1262,8 +1262,6 @@
                 "trimgalore/WT_REP2_trimmed_2.fastq.gz_trimming_report.txt"
             ],
             [
-                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
-                "genome_gfp.gtf:md5,c98b12c302f15731bfc36bcf297cfe28",
                 "RAP1_IAA_30M_REP1.biotype_counts_mqc.tsv:md5,cd7494b3bb12295a287f36506638f3c6",
                 "RAP1_IAA_30M_REP1.biotype_counts_rrna_mqc.tsv:md5,dde2de0cb90e10d0195c726f768e9941",
                 "RAP1_IAA_30M_REP1.featureCounts.tsv:md5,289e47b060051eb33c17e52aa0ce52cc",
@@ -1279,21 +1277,6 @@
                 "WT_REP2.biotype_counts_mqc.tsv:md5,994f8e87aeaa769479fcc4747ffbe6d9",
                 "WT_REP2.biotype_counts_rrna_mqc.tsv:md5,12294618fe44df1e7f39348372dcb481",
                 "WT_REP2.featureCounts.tsv:md5,947b8b919223a184bf8f8201d90ca8f6",
-                "coverage_profile_along_genes_(high).txt:md5,b56043c3546cac003461c57abad93536",
-                "coverage_profile_along_genes_(low).txt:md5,1b55d86defcc541643137497c4c6bb06",
-                "coverage_profile_along_genes_(total).txt:md5,1b55d86defcc541643137497c4c6bb06",
-                "coverage_profile_along_genes_(high).txt:md5,9ffadadb953cc9ea1b1c01ac92fcdf61",
-                "coverage_profile_along_genes_(low).txt:md5,fb281c857a2c4e093b0d8e1f756abf81",
-                "coverage_profile_along_genes_(total).txt:md5,fb281c857a2c4e093b0d8e1f756abf81",
-                "coverage_profile_along_genes_(high).txt:md5,a31cb4ba804080544072cd57fc1bdf1c",
-                "coverage_profile_along_genes_(low).txt:md5,f744e295c3d034b1a86e1dde8bb18eff",
-                "coverage_profile_along_genes_(total).txt:md5,f744e295c3d034b1a86e1dde8bb18eff",
-                "coverage_profile_along_genes_(high).txt:md5,be72a2c9023f6eb81bd5816af33abb65",
-                "coverage_profile_along_genes_(low).txt:md5,9fce120533ff57f8bc2a2f44f1b6decb",
-                "coverage_profile_along_genes_(total).txt:md5,9fce120533ff57f8bc2a2f44f1b6decb",
-                "coverage_profile_along_genes_(high).txt:md5,83d436e0ddb7435bb343db5e4dfb744a",
-                "coverage_profile_along_genes_(low).txt:md5,58021e91f3595a0d6dc74abc41690638",
-                "coverage_profile_along_genes_(total).txt:md5,58021e91f3595a0d6dc74abc41690638",
                 "RAP1_IAA_30M_REP1.infer_experiment.txt:md5,1d4348685fa61819ff8076213d0873b3",
                 "RAP1_UNINDUCED_REP1.infer_experiment.txt:md5,3ee0f64e82f0b1ac16b5f3e2b30b024c",
                 "RAP1_UNINDUCED_REP2.infer_experiment.txt:md5,3d17628d178e5a3cc9dc03f32614bff7",
@@ -1319,6 +1302,8 @@
                 "e_data.ctab:md5,22bdc84c1c4acce9798868e8c7b56004",
                 "i2t.ctab:md5,dda3d3ccd7d4184d947c654ae73efb7b",
                 "i_data.ctab:md5,80fe14762a8f7230d516bba37b7275d1",
+                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
+                "genome_gfp.gtf:md5,c98b12c302f15731bfc36bcf297cfe28",
                 "cutadapt_filtered_reads_plot.txt:md5,6fa381627f7c1f664f3d4b2cb79cce90",
                 "cutadapt_trimmed_sequences_plot_3_Counts.txt:md5,13dfa866fd91dbb072689efe9aa83b1f",
                 "cutadapt_trimmed_sequences_plot_3_Obs_Exp.txt:md5,07145dd8dd3db654859b18eb0389046c",
@@ -1349,9 +1334,6 @@
                 "picard_MarkIlluminaAdapters_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_MeanQualityByCycle_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_QualityScoreDistribution_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "qualimap_gene_coverage_profile_Counts.txt:md5,f3b9bb1902af4c7b5e04c0830ded2c02",
-                "qualimap_gene_coverage_profile_Normalised.txt:md5,ebcedec8e5c959414a4e89ccae3fc07e",
-                "qualimap_rnaseq_cov_hist.txt:md5,b78ff616f267f9b061b3297b767e88fb",
                 "rseqc_infer_experiment_plot.txt:md5,0556a013129be7d78fac4345fddbe8c5",
                 "samtools-idxstats-mapped-reads-plot_Normalised_Counts.txt:md5,75acd04232d1804b5f960ee4c5db4722",
                 "samtools-idxstats-mapped-reads-plot_Observed_over_Expected_Counts.txt:md5,3625f666cc09d0f07990716aeccd869f",
@@ -1391,8 +1373,8 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "25.10.4"
         },
-        "timestamp": "2026-02-26T14:02:51.500913235"
+        "timestamp": "2026-04-09T19:01:20.031119092"
     }
 }

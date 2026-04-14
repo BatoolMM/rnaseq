@@ -93,25 +93,25 @@
                     "salmon": "1.10.3"
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_IDXSTATS": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_INDEX": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_SORT": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_SORT_QUALIMAP": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SE_GENE_UNIFIED": {
                     "bioconductor-summarizedexperiment": "1.32.0"
@@ -155,10 +155,6 @@
                 "bbsplit/RAP1_UNINDUCED_REP2.stats.txt",
                 "bbsplit/WT_REP1.stats.txt",
                 "bbsplit/WT_REP2.stats.txt",
-                "custom",
-                "custom/out",
-                "custom/out/genome_gfp.fasta",
-                "custom/out/genome_gfp.gtf",
                 "fastqc",
                 "fastqc/filtered",
                 "fastqc/filtered/RAP1_IAA_30M_REP1_filtered_1_fastqc.html",
@@ -1205,11 +1201,12 @@
                 "star_salmon/stringtie/WT_REP2.ballgown/t_data.ctab",
                 "star_salmon/stringtie/WT_REP2.coverage.gtf",
                 "star_salmon/stringtie/WT_REP2.gene.abundance.txt",
-                "star_salmon/stringtie/WT_REP2.transcripts.gtf"
+                "star_salmon/stringtie/WT_REP2.transcripts.gtf",
+                "star_salmon/stringtie/out",
+                "star_salmon/stringtie/out/genome_gfp.fasta",
+                "star_salmon/stringtie/out/genome_gfp.gtf"
             ],
             [
-                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
-                "genome_gfp.gtf:md5,c98b12c302f15731bfc36bcf297cfe28",
                 "fastqc_raw-status-check-heatmap.txt:md5,5a89b0d8d162f6b1dbdaf39457bbc03b",
                 "fastqc_raw_adapter_content_plot.txt:md5,da0389be84cfdd189b1d045212eb2974",
                 "fastqc_raw_overrepresented_sequences_plot.txt:md5,25d88ea8a72f55e8a374ae802bc7f0b1",
@@ -1227,9 +1224,6 @@
                 "picard_MarkIlluminaAdapters_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_MeanQualityByCycle_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_QualityScoreDistribution_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "qualimap_gene_coverage_profile_Counts.txt:md5,b16bc0437cb340aaf6fa1472888b6930",
-                "qualimap_gene_coverage_profile_Normalised.txt:md5,209b0020fcd4c3c497e3abbd1f8cd593",
-                "qualimap_rnaseq_cov_hist.txt:md5,3be7bc41531ce84b42092a742bfeb0ab",
                 "rseqc_infer_experiment_plot.txt:md5,382397ae264336395e2a3b03af8d7023",
                 "samtools-idxstats-mapped-reads-plot_Normalised_Counts.txt:md5,75acd04232d1804b5f960ee4c5db4722",
                 "samtools-idxstats-mapped-reads-plot_Observed_over_Expected_Counts.txt:md5,ae45731d8d4595f77e6b271004f3a070",
@@ -1310,21 +1304,6 @@
                 "RAP1_UNINDUCED_REP2.SJ.out.tab:md5,1c0458f66e4af56a56f4409c120434b3",
                 "WT_REP1.SJ.out.tab:md5,299a948b1aaf329152224ba573402a51",
                 "WT_REP2.SJ.out.tab:md5,073498a8fb5fb4da664c9129a6777c42",
-                "coverage_profile_along_genes_(high).txt:md5,59a01cd5d9bc7b6096490d7f3d6d6877",
-                "coverage_profile_along_genes_(low).txt:md5,8a5255e6f9f142bbd22c636296f41d72",
-                "coverage_profile_along_genes_(total).txt:md5,8a5255e6f9f142bbd22c636296f41d72",
-                "coverage_profile_along_genes_(high).txt:md5,61683a2fcf35174fe72a648be63d45ac",
-                "coverage_profile_along_genes_(low).txt:md5,031046ef33de379e0463fddc0b924ecd",
-                "coverage_profile_along_genes_(total).txt:md5,031046ef33de379e0463fddc0b924ecd",
-                "coverage_profile_along_genes_(high).txt:md5,2745780cc56258bbe587f9b6db03e9e4",
-                "coverage_profile_along_genes_(low).txt:md5,85154785601b18118ae2e6a19d0a1c0a",
-                "coverage_profile_along_genes_(total).txt:md5,85154785601b18118ae2e6a19d0a1c0a",
-                "coverage_profile_along_genes_(high).txt:md5,6afb5ffc9ddad52f69c518e32118ac61",
-                "coverage_profile_along_genes_(low).txt:md5,248345fdf0f8de2a8d7d329edd0a5c42",
-                "coverage_profile_along_genes_(total).txt:md5,248345fdf0f8de2a8d7d329edd0a5c42",
-                "coverage_profile_along_genes_(high).txt:md5,f7c11dace9fc4f446fc29e5db7b3ee24",
-                "coverage_profile_along_genes_(low).txt:md5,f53cfe3e30c560e3261818c2e6df3d5d",
-                "coverage_profile_along_genes_(total).txt:md5,f53cfe3e30c560e3261818c2e6df3d5d",
                 "RAP1_IAA_30M_REP1.infer_experiment.txt:md5,e1de3aba230cf3d40f04d682dfe4e803",
                 "RAP1_UNINDUCED_REP1.infer_experiment.txt:md5,0bc268f09da1676522f8adda63509f14",
                 "RAP1_UNINDUCED_REP2.infer_experiment.txt:md5,be4b322faffa736ab6ac39ff39c7aa9d",
@@ -1350,13 +1329,15 @@
                 "e2t.ctab:md5,54dd6de2daa90e973f47524a738a3d69",
                 "e_data.ctab:md5,3bddb4b7381a62a0104b7004e5b71f20",
                 "i2t.ctab:md5,dda3d3ccd7d4184d947c654ae73efb7b",
-                "i_data.ctab:md5,cd4c62717bb0a0db1a17e9c6d8788599"
+                "i_data.ctab:md5,cd4c62717bb0a0db1a17e9c6d8788599",
+                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
+                "genome_gfp.gtf:md5,c98b12c302f15731bfc36bcf297cfe28"
             ]
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nextflow": "25.10.4"
         },
-        "timestamp": "2026-02-26T14:42:47.379535303"
+        "timestamp": "2026-04-09T21:37:02.722934985"
     }
 }
