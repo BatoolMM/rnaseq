@@ -37,7 +37,6 @@ include { mapBamToPublishedPath          } from '../../subworkflows/local/utils_
 // MODULE: Installed directly from nf-core/modules
 //
 include { STRINGTIE_STRINGTIE        } from '../../modules/nf-core/stringtie/stringtie'
-include { STRINGTIE_MERGE            } from '../../modules/nf-core/stringtie/merge/main'
 include { KRAKEN2_KRAKEN2 as KRAKEN2 } from '../../modules/nf-core/kraken2/kraken2/main'
 include { BRACKEN_BRACKEN as BRACKEN } from '../../modules/nf-core/bracken/bracken/main'
 include { SYLPH_PROFILE              } from '../../modules/nf-core/sylph/profile/main'
