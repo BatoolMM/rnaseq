@@ -6,12 +6,18 @@
                 "CAT_FASTQ": {
                     "cat": 9.5
                 },
+                "CUSTOM_GTFFILTER": {
+                    "python": "3.9.5"
+                },
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
                 "DESEQ2_QC_PSEUDO": {
                     "bioconductor-deseq2": "1.46.0",
                     "r-base": "4.4.2"
+                },
+                "EAUTILS_GTF2BED": {
+                    "perl": "5.26.2"
                 },
                 "FASTQC": {
                     "fastqc": "0.12.1"
@@ -24,12 +30,6 @@
                 },
                 "FQ_SUBSAMPLE": {
                     "fq": "0.12.0"
-                },
-                "GTF2BED": {
-                    "perl": "5.26.2"
-                },
-                "GTF_FILTER": {
-                    "python": "3.9.5"
                 },
                 "GUNZIP_GTF": {
                     "gunzip": 1.13
