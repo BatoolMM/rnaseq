@@ -222,6 +222,22 @@ nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool ribodetector .
 
 RiboDetector automatically determines read length from your data and uses its pre-trained neural network model to classify reads.
 
+#### GPU acceleration for RiboDetector
+
+RiboDetector supports GPU acceleration via `--use_gpu_ribodetector`. When enabled, the pipeline uses a CUDA-enabled container with PyTorch GPU support and switches to the GPU binary automatically.
+
+```bash
+nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool ribodetector --use_gpu_ribodetector ...
+```
+
+Requirements:
+
+- One or more NVIDIA GPUs (with appropriate drivers installed)
+- A container runtime (Docker, Singularity, or Apptainer); Conda is also supported
+- x86_64 architecture (ARM GPU is not currently supported)
+
+Container GPU flags (`--gpus all` for Docker, `--nv` for Singularity/Apptainer) are automatically applied and can be overridden via `--gpu_container_options`.
+
 ## Alignment options
 
 By default, the pipeline uses [STAR](https://github.com/alexdobin/STAR) (i.e. `--aligner star_salmon`) to map the raw FastQ reads to the reference genome, project the alignments onto the transcriptome and to perform the downstream BAM-level quantification with [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html). STAR is fast but requires a lot of memory to run, typically around 38GB for the Human GRCh37 reference genome. Both `--aligner star_salmon` and `--aligner star_rsem` use STAR for alignment, so you should use the [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) aligner (i.e. `--aligner hisat2`) if you have memory limitations.
