@@ -310,6 +310,14 @@ def validateInputParameters() {
         error("Please provide --ribo_database_manifest to remove ribosomal RNA with SortMeRNA or Bowtie2.")
     }
 
+    if (params.use_gpu_ribodetector && params.ribo_removal_tool != 'ribodetector') {
+        error("--use_gpu_ribodetector requires --ribo_removal_tool 'ribodetector'.")
+    }
+
+    if (params.use_gpu_ribodetector && (params.arm ?: false)) {
+        error("--use_gpu_ribodetector is not supported on ARM architecture. GPU acceleration requires an x86_64 host with NVIDIA GPUs.")
+    }
+
     if (params.use_parabricks_star && (params.arm ?: false)) {
         error("Parabricks (--use_parabricks_star) is not supported on ARM architecture. Parabricks requires an x86_64 host with NVIDIA GPUs.")
     }
