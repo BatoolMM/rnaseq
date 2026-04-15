@@ -55,7 +55,7 @@ include { paramsSummaryMultiqc             } from '../../subworkflows/nf-core/ut
 include { softwareVersionsToYAML           } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
 include { FASTQ_ALIGN_HISAT2               } from '../../subworkflows/nf-core/fastq_align_hisat2'
 include { BAM_MARKDUPLICATES_PICARD        } from '../../subworkflows/nf-core/bam_markduplicates_picard'
-include { BAM_STRINGTIE_MERGE } from '../../subworkflows/nf-core/bam_stringtie_merge/main'
+include { BAM_STRINGTIE_MERGE              } from '../../subworkflows/nf-core/bam_stringtie_merge/main'
 include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_FORWARD } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
 include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_REVERSE } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
 include { QUANTIFY_PSEUDO_ALIGNMENT as QUANTIFY_BAM_SALMON } from '../../subworkflows/nf-core/quantify_pseudo_alignment'
@@ -491,23 +491,16 @@ workflow RNASEQ {
     // MODULE: StringTie assembly and quantification
     //
     if (!params.skip_stringtie) {
-
-        // Allow users to do de novo transcritome assembly
         if (params.stringtie_ignore_gtf) {
             BAM_STRINGTIE_MERGE(
                 ch_genome_bam,
-                ch_gtf
+                ch_gtf.map { gtf -> [ [:], gtf ] }
             )
-            STRINGTIE_STRINGTIE(
-                ch_genome_bam,
-                BAM_STRINGTIE_MERGE.out.stringtie_gtf
-            )
+            ch_stringtie_gtf = BAM_STRINGTIE_MERGE.out.stringtie_gtf.map { _meta, gtf -> gtf }
         } else {
-            STRINGTIE_STRINGTIE(
-                ch_genome_bam,
-                ch_gtf
-            )
+            ch_stringtie_gtf = ch_gtf
         }
+        STRINGTIE_STRINGTIE(ch_genome_bam, ch_stringtie_gtf)
     }
 
     //

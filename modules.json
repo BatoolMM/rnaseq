@@ -433,7 +433,7 @@
                     },
                     "bam_stringtie_merge": {
                         "branch": "master",
-                        "git_sha": "3e44e51c24ff88dbe266fd6b49098c27e83f2e1e",
+                        "git_sha": "2fc6aef2691483864904e31973ccafd2ed68fd56",
                         "installed_by": ["subworkflows"]
                     },
                     "bedgraph_bedclip_bedgraphtobigwig": {
