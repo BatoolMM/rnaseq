@@ -1,10 +1,13 @@
 {
     "BAM input for Salmon": {
         "content": [
-            144,
+            159,
             {
                 "BBMAP_BBSPLIT": {
                     "bbmap": 39.18
+                },
+                "BEDTOOLS_GENOMECOV_COMBINED": {
+                    "bedtools": "2.31.1"
                 },
                 "BEDTOOLS_GENOMECOV_FW": {
                     "bedtools": "2.31.1"
@@ -19,7 +22,7 @@
                     "python": "3.9.5"
                 },
                 "CUSTOM_MULTIQCCUSTOMBIOTYPE": {
-                    "python": "3.12.2"
+                    "python": "3.12.12"
                 },
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
@@ -385,14 +388,19 @@
                 "star_salmon/WT_REP2/quant.genes.sf",
                 "star_salmon/WT_REP2/quant.sf",
                 "star_salmon/bigwig",
+                "star_salmon/bigwig/RAP1_IAA_30M_REP1.bigWig",
                 "star_salmon/bigwig/RAP1_IAA_30M_REP1.forward.bigWig",
                 "star_salmon/bigwig/RAP1_IAA_30M_REP1.reverse.bigWig",
+                "star_salmon/bigwig/RAP1_UNINDUCED_REP1.bigWig",
                 "star_salmon/bigwig/RAP1_UNINDUCED_REP1.forward.bigWig",
                 "star_salmon/bigwig/RAP1_UNINDUCED_REP1.reverse.bigWig",
+                "star_salmon/bigwig/RAP1_UNINDUCED_REP2.bigWig",
                 "star_salmon/bigwig/RAP1_UNINDUCED_REP2.forward.bigWig",
                 "star_salmon/bigwig/RAP1_UNINDUCED_REP2.reverse.bigWig",
+                "star_salmon/bigwig/WT_REP1.bigWig",
                 "star_salmon/bigwig/WT_REP1.forward.bigWig",
                 "star_salmon/bigwig/WT_REP1.reverse.bigWig",
+                "star_salmon/bigwig/WT_REP2.bigWig",
                 "star_salmon/bigwig/WT_REP2.forward.bigWig",
                 "star_salmon/bigwig/WT_REP2.reverse.bigWig",
                 "star_salmon/deseq2_qc",
@@ -943,10 +951,13 @@
     },
     "BAM input for RSEM": {
         "content": [
-            147,
+            162,
             {
                 "BBMAP_BBSPLIT": {
                     "bbmap": 39.18
+                },
+                "BEDTOOLS_GENOMECOV_COMBINED": {
+                    "bedtools": "2.31.1"
                 },
                 "BEDTOOLS_GENOMECOV_FW": {
                     "bedtools": "2.31.1"
@@ -961,7 +972,7 @@
                     "python": "3.9.5"
                 },
                 "CUSTOM_MULTIQCCUSTOMBIOTYPE": {
-                    "python": "3.12.2"
+                    "python": "3.12.12"
                 },
                 "CUSTOM_RSEMMERGECOUNTS": {
                     "sed": 4.7
@@ -1305,14 +1316,19 @@
                 "star_rsem/WT_REP2.stat/WT_REP2.model",
                 "star_rsem/WT_REP2.stat/WT_REP2.theta",
                 "star_rsem/bigwig",
+                "star_rsem/bigwig/RAP1_IAA_30M_REP1.bigWig",
                 "star_rsem/bigwig/RAP1_IAA_30M_REP1.forward.bigWig",
                 "star_rsem/bigwig/RAP1_IAA_30M_REP1.reverse.bigWig",
+                "star_rsem/bigwig/RAP1_UNINDUCED_REP1.bigWig",
                 "star_rsem/bigwig/RAP1_UNINDUCED_REP1.forward.bigWig",
                 "star_rsem/bigwig/RAP1_UNINDUCED_REP1.reverse.bigWig",
+                "star_rsem/bigwig/RAP1_UNINDUCED_REP2.bigWig",
                 "star_rsem/bigwig/RAP1_UNINDUCED_REP2.forward.bigWig",
                 "star_rsem/bigwig/RAP1_UNINDUCED_REP2.reverse.bigWig",
+                "star_rsem/bigwig/WT_REP1.bigWig",
                 "star_rsem/bigwig/WT_REP1.forward.bigWig",
                 "star_rsem/bigwig/WT_REP1.reverse.bigWig",
+                "star_rsem/bigwig/WT_REP2.bigWig",
                 "star_rsem/bigwig/WT_REP2.forward.bigWig",
                 "star_rsem/bigwig/WT_REP2.reverse.bigWig",
                 "star_rsem/deseq2_qc",

@@ -118,7 +118,7 @@
                     "python": "3.9.5"
                 },
                 "CUSTOM_MULTIQCCUSTOMBIOTYPE": {
-                    "python": "3.12.2"
+                    "python": "3.12.12"
                 },
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
