@@ -93,19 +93,6 @@ sample_names_replace_exact: true
 use_filename_as_sample_name:
   - sortmerna
 
-# Group paired-end reads together in the general stats table
-table_sample_merge:
-  "Read 1":
-    - "_1"
-    - "_R1"
-    - type: regex
-      pattern: "[_.-][rR]?1$"
-  "Read 2":
-    - "_2"
-    - "_R2"
-    - type: regex
-      pattern: "[_.-][rR]?2$"
-
 # Run only these modules
 run_modules:
   - custom_content
