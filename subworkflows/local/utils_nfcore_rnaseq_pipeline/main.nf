@@ -479,6 +479,60 @@ def toolBibliographyText() {
     return reference_text
 }
 
+//
+// MultiQC `--replace-names` file: map each FASTQ simpleName to '<id>_1' /
+// '<id>_2' (or '<id>' for SE), skipping cases where simpleName already
+// equals the sample ID (see #1341 / #1659).
+//
+def multiqcNameReplacements(ch_fastq) {
+    return ch_fastq
+        .map { meta, reads ->
+            def paired   = reads[0][1] as boolean
+            def suffixes = paired ? ['_1', '_2'] : ['']
+            def mappings = []
+
+            def fastq1_simplename = file(reads[0][0]).simpleName
+            if (fastq1_simplename != meta.id) {
+                mappings << [fastq1_simplename, "${meta.id}${suffixes[0]}"]
+                if (paired) {
+                    mappings << [file(reads[0][1]).simpleName, "${meta.id}${suffixes[1]}"]
+                }
+            }
+
+            return mappings.collect { mapping -> mapping.join('\t') }
+        }
+        .flatten()
+        .collectFile(name: 'name_replacement.txt', newLine: true)
+        .ifEmpty([])
+}
+
+// Escape Python-regex metacharacters and YAML single-quote a sample ID for
+// use in a multiqcSampleMergeYaml lookbehind pattern.
+def multiqcSampleMergeYamlPattern(id, read) {
+    def esc = id.replaceAll(/[\\^$.|?*+()\[\]{}\/]/) { m -> "\\${m[0]}" }
+                .replace("'", "''")
+    return "    - type: regex\n      pattern: '(?<=^${esc})_${read}\$'"
+}
+
+//
+// MultiQC table_sample_merge YAML scoped to PE sample IDs via fixed-length
+// lookbehind, so sample IDs ending in `_1` / `_2` aren't wrongly collapsed.
+//
+def multiqcSampleMergeYaml(samplesheet_path, schema_path) {
+    // row order comes from assets/schema_input.json: [0]=meta, [1]=fastq_1,
+    // [2]=fastq_2 (truthy => paired-end).
+    def pe_sample_ids = samplesheetToList(samplesheet_path, schema_path)
+        .findAll { row -> row[2] as boolean }
+        .collect { row -> row[0].id as String }
+        .unique()
+        .sort()
+    if (!pe_sample_ids) return 'table_sample_merge: {}\n'
+
+    def r1 = pe_sample_ids.collect { id -> multiqcSampleMergeYamlPattern(id, 1) }.join('\n')
+    def r2 = pe_sample_ids.collect { id -> multiqcSampleMergeYamlPattern(id, 2) }.join('\n')
+    return "table_sample_merge:\n  \"Read 1\":\n${r1}\n  \"Read 2\":\n${r2}\n"
+}
+
 def methodsDescriptionText(mqc_methods_yaml) {
     // Convert  to a named map so can be used as with familiar NXF ${workflow} variable syntax in the MultiQC YML file
     def meta = [:]
