@@ -7,6 +7,7 @@ include { paramsSummaryMap        } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc    } from '../../nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText  } from '../utils_nfcore_rnaseq_pipeline'
 include { multiqcNameReplacements } from '../utils_nfcore_rnaseq_pipeline'
+include { multiqcSampleMergeYaml  } from '../utils_nfcore_rnaseq_pipeline'
 
 workflow MULTIQC_RNASEQ {
 
@@ -14,6 +15,8 @@ workflow MULTIQC_RNASEQ {
     ch_multiqc_files           // channel: [ val(meta), path(file) ]
     ch_fastq                   // channel: [ val(meta), [ reads ] ]
     ch_collated_versions       // channel: path(versions yaml)
+    samplesheet_path           // path: pipeline input samplesheet
+    samplesheet_schema         // path: samplesheet JSON schema
     mqc_default_config         // path: pipeline-bundled MultiQC config
     mqc_custom_config          // path (or []): optional user MultiQC config
     mqc_logo                   // path (or []): optional custom logo
@@ -21,6 +24,11 @@ workflow MULTIQC_RNASEQ {
     skip_quantification_merge  // boolean
 
     main:
+
+    // Per-run table_sample_merge config: only PE samples from the samplesheet
+    // get their _1/_2 rows grouped in the General Stats table.
+    ch_mqc_dynamic_config = channel.of(multiqcSampleMergeYaml(samplesheet_path, samplesheet_schema))
+        .collectFile(name: 'multiqc_sample_merge.yml')
 
     // Workflow summary and methods description rendered as MultiQC sections.
     ch_workflow_summary = channel.value(
@@ -45,8 +53,6 @@ workflow MULTIQC_RNASEQ {
     // --replace-names TSV so MultiQC uses sample IDs rather than FASTQ basenames.
     ch_name_replacements = multiqcNameReplacements(ch_fastq)
 
-    def mqc_configs = [mqc_default_config, mqc_custom_config].findAll { it }
-
     if (skip_quantification_merge) {
         // One MultiQC report per sample. Split incoming files into per-sample
         // and global buckets, then attach the global bucket to every sample.
@@ -64,11 +70,12 @@ workflow MULTIQC_RNASEQ {
             .map { meta, f -> [meta.id, f] }
             .groupTuple()
             .combine(ch_global_files.toList())
-            .map { id, sample_files, global_files ->
+            .combine(ch_mqc_dynamic_config)
+            .map { id, sample_files, global_files, dyn ->
                 [
                     [id: id],
                     sample_files + (global_files ?: []),
-                    mqc_configs,
+                    [mqc_default_config, dyn, mqc_custom_config].findAll { it },
                     mqc_logo,
                     [],  // no replace_names — each report contains one sample's files
                     [],
@@ -86,11 +93,12 @@ workflow MULTIQC_RNASEQ {
 
         ch_multiqc_input = ch_all_files
             .combine(ch_name_replacements.ifEmpty([]).toList())
-            .map { files, replace_names ->
+            .combine(ch_mqc_dynamic_config)
+            .map { files, replace_names, dyn ->
                 [
                     [id: 'multiqc_report'],
                     files,
-                    mqc_configs,
+                    [mqc_default_config, dyn, mqc_custom_config].findAll { it },
                     mqc_logo,
                     replace_names ?: [],
                     [],

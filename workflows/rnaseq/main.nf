@@ -762,6 +762,8 @@ workflow RNASEQ {
             ch_multiqc_files,
             ch_fastq,
             ch_collated_versions,
+            params.input,
+            "${projectDir}/assets/schema_input.json",
             file("$projectDir/workflows/rnaseq/assets/multiqc/multiqc_config.yml", checkIfExists: true),
             params.multiqc_config ? file(params.multiqc_config, checkIfExists: true) : [],
             params.multiqc_logo   ? file(params.multiqc_logo,   checkIfExists: true) : [],
