@@ -319,8 +319,8 @@
                     },
                     "stringtie/merge": {
                         "branch": "master",
-                        "git_sha": "3e44e51c24ff88dbe266fd6b49098c27e83f2e1e",
-                        "installed_by": ["bam_stringtie_merge", "modules"]
+                        "git_sha": "4850adabee5fba120ff2d763d5c5e07623b0976b",
+                        "installed_by": ["bam_stringtie_merge"]
                     },
                     "stringtie/stringtie": {
                         "branch": "master",
