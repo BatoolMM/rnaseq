@@ -602,16 +602,17 @@ nextflow run nf-core/rnaseq \
 
 ##### Input requirements
 
-| Input        | Parameter          | Requirements                                                                                                       |
-| ------------ | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| Samplesheet  | `--input`          | Standard CSV format (see [Samplesheet input](#samplesheet-input))                                                  |
-| Genome FASTA | `--fasta`          | Genomic sequence file (`.fasta`, `.fa`, `.fna`, optionally gzipped)                                                |
-| Annotation   | `--gff` or `--gtf` | Must contain **CDS features** with `gene_id` attributes. GFF3 format (`.gff3`, `.gff`) is typical for prokaryotes. |
+| Input        | Parameter          | Requirements                                                                                                                                        |
+| ------------ | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Samplesheet  | `--input`          | Standard CSV format (see [Samplesheet input](#samplesheet-input))                                                                                   |
+| Genome FASTA | `--fasta`          | Genomic sequence file (`.fasta`, `.fa`, `.fna`, optionally gzipped)                                                                                 |
+| Annotation   | `--gff` or `--gtf` | Transcript-like features (CDS, tRNA, rRNA, tmRNA, ncRNA, etc.) with `gene_id` attributes. GFF3 format (`.gff3`, `.gff`) is typical for prokaryotes. |
 
 **Key points:**
 
 - **Use GFF3 format**: Prokaryotic annotations are typically distributed as GFF3 (not GTF). Provide GFF3 files via `--gff` and GTF files via `--gtf`.
-- **CDS features required**: The annotation must contain CDS (coding sequence) features. The pipeline extracts transcripts from these.
+- **Transcripts are extracted from all transcript-like features**: GFFREAD will extract transcript sequences from CDS, tRNA, rRNA, tmRNA, ncRNA and other feature types present in the annotation, so non-coding RNAs are quantified alongside mRNAs.
+- **CDS used for featureCounts QC**: `featurecounts_feature_type` is set to `CDS`, so biotype/counting QC metrics are based on coding sequences. Your annotation should contain CDS features for these QC steps to be meaningful.
 - **Matching contig names**: Chromosome/contig names in your FASTA must exactly match those in your GFF/GTF (e.g., if your FASTA has `>NC_003197.2`, your GFF must use `NC_003197.2` in column 1).
 - **No transcript FASTA needed**: The pipeline generates the transcript FASTA automatically using GFFREAD.
 
