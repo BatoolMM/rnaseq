@@ -10,9 +10,7 @@ nextflow_pipeline {
             params {
                 outdir = "$outputDir"
                 skip_trimming = true
-                // Exercises the BAM_STRINGTIE_MERGE path (per-sample de novo
-                // assembly + cross-sample merge + re-quantification), which
-                // is otherwise uncovered by the test suite.
+                // Only test exercising the BAM_STRINGTIE_MERGE path.
                 stringtie_ignore_gtf = true
             }
         }
