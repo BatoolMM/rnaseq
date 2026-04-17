@@ -524,8 +524,9 @@ Unless you are using [UMIs](https://emea.illumina.com/science/sequencing-method-
 <summary>Output files</summary>
 
 - `<ALIGNER>/bigwig/`
-  - `*.forward.bigWig`: bigWig coverage file relative to genes on the forward DNA strand.
-  - `*.reverse.bigWig`: bigWig coverage file relative to genes on the reverse DNA strand.
+  - `*.bigWig`: Strand-agnostic bigWig coverage file (generated for all libraries).
+  - `*.forward.bigWig`: bigWig coverage file relative to genes on the forward DNA strand (stranded libraries only).
+  - `*.reverse.bigWig`: bigWig coverage file relative to genes on the reverse DNA strand (stranded libraries only).
 
 </details>
 
