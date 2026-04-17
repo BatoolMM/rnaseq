@@ -42,7 +42,7 @@ nextflow_pipeline {
 
         cleanup {
             if (System.getenv("NFT_PROFILE")?.contains("docker")) {
-                "docker system prune -f".execute()
+                "docker system prune -a -f --volumes".execute()
             }
             new File("${launchDir}").deleteDir()
         }
@@ -88,7 +88,7 @@ nextflow_pipeline {
 
         cleanup {
             if (System.getenv("NFT_PROFILE")?.contains("docker")) {
-                "docker system prune -f".execute()
+                "docker system prune -a -f --volumes".execute()
             }
             new File("${launchDir}").deleteDir()
         }
