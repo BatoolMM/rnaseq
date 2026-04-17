@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Special thanks to the following for their contributions to the release:
 
+- [Justin Payeur](https://github.com/Odulhin)
 - [Matthias Hörtenhuber](https://github.com/mashehu)
 - [Maxime U Garcia](https://github.com/maxulysse)
 - [Muhammad Imran](https://github.com/drimran87)
