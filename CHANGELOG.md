@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Credits
 
+Special thanks to the following for their contributions to the release:
+
+- [Matthias Hörtenhuber](https://github.com/mashehu)
+- [Maxime U Garcia](https://github.com/maxulysse)
+- [Muhammad Imran](https://github.com/drimran87)
+- [Phil Ewels](https://github.com/ewels)
+
 ### Enhancements and fixes
 
 - [PR #1781](https://github.com/nf-core/rnaseq/pull/1781) - Bump version to 3.25.0dev after release 3.24.0; fix SortMeRNA `%rRNA` appearing only under "Read 2" in MultiQC General Stats by using log filename for sample names instead of parsing paired-end read paths from log content
