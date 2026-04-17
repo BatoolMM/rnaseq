@@ -44,6 +44,7 @@ include { SYLPHTAX_TAXPROF           } from '../../modules/nf-core/sylphtax/taxp
 include { MULTIQC                    } from '../../modules/nf-core/multiqc'
 include { BEDTOOLS_GENOMECOV as BEDTOOLS_GENOMECOV_FW          } from '../../modules/nf-core/bedtools/genomecov'
 include { BEDTOOLS_GENOMECOV as BEDTOOLS_GENOMECOV_REV         } from '../../modules/nf-core/bedtools/genomecov'
+include { BEDTOOLS_GENOMECOV as BEDTOOLS_GENOMECOV_COMBINED    } from '../../modules/nf-core/bedtools/genomecov'
 include { SAMTOOLS_INDEX                                       } from '../../modules/nf-core/samtools/index'
 
 //
@@ -58,6 +59,9 @@ include { BAM_MARKDUPLICATES_PICARD        } from '../../subworkflows/nf-core/ba
 include { BAM_STRINGTIE_MERGE              } from '../../subworkflows/nf-core/bam_stringtie_merge/main'
 include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_FORWARD } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
 include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_REVERSE } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
+include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_FORWARD  } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
+include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_REVERSE  } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
+include { BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG as BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_COMBINED } from '../../subworkflows/nf-core/bedgraph_bedclip_bedgraphtobigwig'
 include { QUANTIFY_PSEUDO_ALIGNMENT as QUANTIFY_BAM_SALMON } from '../../subworkflows/nf-core/quantify_pseudo_alignment'
 include { QUANTIFY_PSEUDO_ALIGNMENT                         } from '../../subworkflows/nf-core/quantify_pseudo_alignment'
 include { FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS              } from '../../subworkflows/nf-core/fastq_qc_trim_filter_setstrandedness'
@@ -635,19 +639,27 @@ workflow RNASEQ {
 
     //
     // MODULE: Genome-wide coverage with BEDTools
-    // Note: Strand parameters are conditional on library strandedness (see nextflow.config)
+    // Stranded libraries get per-strand + combined bigWigs; unstranded libraries get only the combined one.
     //
     if (!params.skip_bigwig) {
 
         ch_genomecov_input = ch_genome_bam.map { meta, bam -> [ meta, bam, 1 ] }
 
+        ch_genomecov_input_stranded = ch_genomecov_input.filter { meta, _bam, _scale -> meta.strandedness in ['forward', 'reverse'] }
+
         BEDTOOLS_GENOMECOV_FW (
-            ch_genomecov_input,
+            ch_genomecov_input_stranded,
             [],
             'bedGraph',
             true
         )
         BEDTOOLS_GENOMECOV_REV (
+            ch_genomecov_input_stranded,
+            [],
+            'bedGraph',
+            true
+        )
+        BEDTOOLS_GENOMECOV_COMBINED (
             ch_genomecov_input,
             [],
             'bedGraph',
@@ -664,6 +676,11 @@ workflow RNASEQ {
 
         BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_REVERSE (
             BEDTOOLS_GENOMECOV_REV.out.genomecov,
+            ch_chrom_sizes
+        )
+
+        BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG_COMBINED (
+            BEDTOOLS_GENOMECOV_COMBINED.out.genomecov,
             ch_chrom_sizes
         )
     }

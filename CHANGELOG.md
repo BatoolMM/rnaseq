@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #1786](https://github.com/nf-core/rnaseq/pull/1786) - Replace local `bam_post_alignment_qc` subworkflow and `multiqc_custom_biotype` module with nf-core `bam_qc_rnaseq` subworkflow and `custom/multiqccustombiotype` module; update `dupradar` to topic-based version reporting
 - [PR #1788](https://github.com/nf-core/rnaseq/pull/1788) - Centralize pipeline-specific module configs in `conf/modules/` following the nf-core/sarek pattern
 - [PR #1790](https://github.com/nf-core/rnaseq/pull/1790) - Add `--use_gpu_ribodetector` parameter for GPU-accelerated rRNA removal with ribodetector; update ribodetector module to dual-container approach (x86 only); generalize GPU CI skip from `SKIP_PARABRICKS` to `SKIP_GPU`
+- [PR #1792](https://github.com/nf-core/rnaseq/pull/1792) - Always emit a strand-agnostic `<sample>.bigWig`. **Breaking**: per-strand bigWigs are no longer emitted for unstranded libraries, where a `-strand +/-` split carries no biological meaning ([#1275](https://github.com/nf-core/rnaseq/issues/1275))
 - [PR #1795](https://github.com/nf-core/rnaseq/pull/1795) - Bump `custom/multiqccustombiotype` to fail loudly when the featureCounts output exceeds `--max_biotypes` (default 100), catching misconfigured `--featurecounts_group_type` values that previously hung MultiQC ([#424](https://github.com/nf-core/rnaseq/issues/424))
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
