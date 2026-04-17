@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## dev - xxxx-xx-xx
+## [[3.25.0](https://github.com/nf-core/rnaseq/releases/tag/3.25.0)] - 2026-04-17
 
 ### Credits
 
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #1793](https://github.com/nf-core/rnaseq/pull/1793) - Dynamically scope MultiQC's `table_sample_merge` config to the paired-end sample IDs from the samplesheet (via per-sample fixed-length lookbehind regex), so samplesheets with sample IDs like `foo_1` / `foo_2` are no longer incorrectly collapsed into a single `foo` row in the General Statistics table while preserving PE Read 1 / Read 2 grouping for actual paired-end samples; factor MultiQC wiring into a new local `MULTIQC_RNASEQ` subworkflow
 - [PR #1795](https://github.com/nf-core/rnaseq/pull/1795) - Bump `custom/multiqccustombiotype` to fail loudly when the featureCounts output exceeds `--max_biotypes` (default 100), catching misconfigured `--featurecounts_group_type` values that previously hung MultiQC ([#424](https://github.com/nf-core/rnaseq/issues/424))
 - [PR #1796](https://github.com/nf-core/rnaseq/pull/1796) - Clarify prokaryotic profile docs: transcripts are extracted from all transcript-like features (CDS, tRNA, rRNA, tmRNA, ncRNA, etc.), not only CDS; CDS is only required for featureCounts biotype QC
+- [PR #1799](https://github.com/nf-core/rnaseq/pull/1799) - Bump version to 3.25.0 ahead of release
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 
