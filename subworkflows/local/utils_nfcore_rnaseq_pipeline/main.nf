@@ -479,6 +479,33 @@ def toolBibliographyText() {
     return reference_text
 }
 
+//
+// MultiQC `--replace-names` file: map each FASTQ simpleName to '<id>_1' /
+// '<id>_2' (or '<id>' for SE), skipping cases where simpleName already
+// equals the sample ID (see #1341 / #1659).
+//
+def multiqcNameReplacements(ch_fastq) {
+    return ch_fastq
+        .map { meta, reads ->
+            def paired   = reads[0][1] as boolean
+            def suffixes = paired ? ['_1', '_2'] : ['']
+            def mappings = []
+
+            def fastq1_simplename = file(reads[0][0]).simpleName
+            if (fastq1_simplename != meta.id) {
+                mappings << [fastq1_simplename, "${meta.id}${suffixes[0]}"]
+                if (paired) {
+                    mappings << [file(reads[0][1]).simpleName, "${meta.id}${suffixes[1]}"]
+                }
+            }
+
+            return mappings.collect { mapping -> mapping.join('\t') }
+        }
+        .flatten()
+        .collectFile(name: 'name_replacement.txt', newLine: true)
+        .ifEmpty([])
+}
+
 def methodsDescriptionText(mqc_methods_yaml) {
     // Convert  to a named map so can be used as with familiar NXF ${workflow} variable syntax in the MultiQC YML file
     def meta = [:]
