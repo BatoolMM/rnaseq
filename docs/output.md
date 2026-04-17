@@ -524,9 +524,11 @@ Unless you are using [UMIs](https://emea.illumina.com/science/sequencing-method-
 <summary>Output files</summary>
 
 - `<ALIGNER>/bigwig/`
-  - `*.bigWig`: Strand-agnostic bigWig coverage file (generated for all libraries).
-  - `*.forward.bigWig`: bigWig coverage file relative to genes on the forward DNA strand (stranded libraries only).
-  - `*.reverse.bigWig`: bigWig coverage file relative to genes on the reverse DNA strand (stranded libraries only).
+  - `*.bigWig`: strand-agnostic coverage track (all libraries).
+  - `*.forward.bigWig`: coverage of reads originating from forward-strand transcripts (stranded libraries only).
+  - `*.reverse.bigWig`: coverage of reads originating from reverse-strand transcripts (stranded libraries only).
+
+Per-strand tracks are not emitted for unstranded libraries because the library prep does not preserve transcript strand, so a `-strand +` / `-strand -` split on the BAM is not biologically meaningful.
 
 </details>
 
