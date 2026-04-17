@@ -4,12 +4,16 @@ nextflow_pipeline {
     script "../main.nf"
     tag "pipeline"
 
-    test("Params: --skip_trimming") {
+    test("Params: --skip_trimming --stringtie_ignore_gtf") {
 
         when {
             params {
                 outdir = "$outputDir"
                 skip_trimming = true
+                // Exercises the BAM_STRINGTIE_MERGE path (per-sample de novo
+                // assembly + cross-sample merge + re-quantification), which
+                // is otherwise uncovered by the test suite.
+                stringtie_ignore_gtf = true
             }
         }
 
