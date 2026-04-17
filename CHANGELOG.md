@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #1786](https://github.com/nf-core/rnaseq/pull/1786) - Replace local `bam_post_alignment_qc` subworkflow and `multiqc_custom_biotype` module with nf-core `bam_qc_rnaseq` subworkflow and `custom/multiqccustombiotype` module; update `dupradar` to topic-based version reporting
 - [PR #1788](https://github.com/nf-core/rnaseq/pull/1788) - Centralize pipeline-specific module configs in `conf/modules/` following the nf-core/sarek pattern
 - [PR #1790](https://github.com/nf-core/rnaseq/pull/1790) - Add `--use_gpu_ribodetector` parameter for GPU-accelerated rRNA removal with ribodetector; update ribodetector module to dual-container approach (x86 only); generalize GPU CI skip from `SKIP_PARABRICKS` to `SKIP_GPU`
+- Dynamically scope MultiQC's `table_sample_merge` config to the paired-end sample IDs from the samplesheet (via per-sample fixed-length lookbehind regex), so samplesheets with sample IDs like `foo_1` / `foo_2` are no longer incorrectly collapsed into a single `foo` row in the General Statistics table while preserving PE Read 1 / Read 2 grouping for actual paired-end samples
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 
