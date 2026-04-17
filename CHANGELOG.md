@@ -17,6 +17,7 @@ Special thanks to the following for their contributions to the release:
 
 ### Enhancements and fixes
 
+- [PR #1755](https://github.com/nf-core/rnaseq/pull/1755) - Restructure `--stringtie_ignore_gtf` to a three-stage assemble → merge → quantify workflow using the nf-core `bam_stringtie_merge` subworkflow, following StringTie's recommended de novo transcript discovery approach; publish the merged annotation as `stringtie_merge.gtf` and per-sample de novo assemblies as `<sample>.denovo.transcripts.gtf`
 - [PR #1781](https://github.com/nf-core/rnaseq/pull/1781) - Bump version to 3.25.0dev after release 3.24.0; fix SortMeRNA `%rRNA` appearing only under "Read 2" in MultiQC General Stats by using log filename for sample names instead of parsing paired-end read paths from log content
 - [PR #1784](https://github.com/nf-core/rnaseq/pull/1784) - Replace local `gtf2bed` module with nf-core `ea-utils/gtf2bed` module
 - [PR #1786](https://github.com/nf-core/rnaseq/pull/1786) - Replace local `bam_post_alignment_qc` subworkflow and `multiqc_custom_biotype` module with nf-core `bam_qc_rnaseq` subworkflow and `custom/multiqccustombiotype` module; update `dupradar` to topic-based version reporting
