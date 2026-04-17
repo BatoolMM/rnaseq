@@ -74,6 +74,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("use_parabricks_star = true - stub") {
@@ -145,6 +152,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 }

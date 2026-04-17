@@ -79,6 +79,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("gencode = false") {
@@ -154,6 +161,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -231,6 +245,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_bbsplit") {
@@ -306,6 +327,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -383,6 +411,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_pseudo_alignment") {
@@ -458,6 +493,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -535,6 +577,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("gff = false") {
@@ -610,6 +659,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -687,6 +743,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("transcriptome = false") {
@@ -762,6 +825,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -839,6 +909,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("rsem_index = false") {
@@ -914,6 +991,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -991,6 +1075,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("hisat2_index = false") {
@@ -1066,6 +1157,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1143,6 +1241,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("gencode = true") {
@@ -1218,6 +1323,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1295,6 +1407,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_gtf_filter = true") {
@@ -1370,6 +1489,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1447,6 +1573,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_alignment = true") {
@@ -1522,6 +1655,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1599,6 +1739,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_gtf_transcript_filter = true") {
@@ -1666,6 +1813,13 @@ nextflow_workflow {
                 { assert filtered_gtf.readLines().size() > default_line_count },
                 { assert snapshot(workflow.out.gtf).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1745,6 +1899,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("gencode = false - stub") {
@@ -1822,6 +1983,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1901,6 +2069,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_bbsplit - stub") {
@@ -1962,6 +2137,13 @@ nextflow_workflow {
                 { assert workflow.success},
                 { assert snapshot(workflow.out).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2041,6 +2223,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_pseudo_alignment - stub") {
@@ -2118,6 +2307,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2197,6 +2393,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("gff = false - stub") {
@@ -2274,6 +2477,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2353,6 +2563,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("transcriptome = false - stub") {
@@ -2430,6 +2647,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2509,6 +2733,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("rsem_index = false - stub") {
@@ -2586,6 +2817,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2665,6 +2903,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("hisat2_index = false - stub") {
@@ -2742,6 +2987,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2821,6 +3073,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("gencode = true - stub") {
@@ -2898,6 +3157,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2977,6 +3243,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_gtf_filter = true - stub") {
@@ -3055,6 +3328,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_bbsplit = true - stub") {
@@ -3116,6 +3396,13 @@ nextflow_workflow {
                 { assert workflow.success},
                 { assert snapshot(workflow.out).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -3195,6 +3482,13 @@ nextflow_workflow {
                 ).match() }
             )
         }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
     }
 
     test("skip_pseudoalignment = true - stub") {
@@ -3272,6 +3566,13 @@ nextflow_workflow {
                     workflow.out.versions
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -f".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 }
