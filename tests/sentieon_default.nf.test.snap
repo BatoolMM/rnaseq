@@ -122,6 +122,9 @@
                 "CUSTOM_GTFFILTER": {
                     "python": "3.9.5"
                 },
+                "CUSTOM_MULTIQCCUSTOMBIOTYPE": {
+                    "python": "3.12.12"
+                },
                 "CUSTOM_TX2GENE": {
                     "python": "3.10.4"
                 },
@@ -162,9 +165,6 @@
                 },
                 "GUNZIP_GTF": {
                     "gunzip": 1.13
-                },
-                "MULTIQC_CUSTOM_BIOTYPE": {
-                    "python": "3.9.5"
                 },
                 "PICARD_MARKDUPLICATES": {
                     "picard": "3.4.0"

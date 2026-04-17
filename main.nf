@@ -41,6 +41,7 @@ include { PREPARE_GENOME          } from './subworkflows/local/prepare_genome'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
 include { checkMaxContigSize      } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
+include { defineQcTools           } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,6 +113,8 @@ workflow NFCORE_RNASEQ {
     // rather than in PREPARE_GENOME, to avoid duplicating the rRNA FASTA preparation logic
     ch_bowtie2_rrna_index = channel.empty()
 
+    def qc_tools = defineQcTools(params)
+
     RNASEQ (
         ch_samplesheet,
         ch_versions,
@@ -132,7 +135,8 @@ workflow NFCORE_RNASEQ {
         PREPARE_GENOME.out.sortmerna_index,
         ch_bowtie2_rrna_index,
         PREPARE_GENOME.out.splicesites,
-        PREPARE_GENOME.out.kraken_db
+        PREPARE_GENOME.out.kraken_db,
+        qc_tools
     )
     ch_versions = ch_versions.mix(RNASEQ.out.versions)
 

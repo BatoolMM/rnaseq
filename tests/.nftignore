@@ -31,7 +31,7 @@ pipeline_info/*.{html,json,txt,yml}
 bowtie2_rrna/*.bowtie2.log
 bowtie2_salmon/*.bowtie2.log
 bowtie2_salmon/log/*.bowtie2.log
-ribodetector/*.ribodetector.log
+ribodetector/*.log
 sortmerna/*.sortmerna.log
 star_rsem/*.stat/*.{cnt,model,theta}
 star_rsem/*.{genes,isoforms}.results

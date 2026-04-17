@@ -330,6 +330,12 @@
                     "help_text": "Choose between 'sortmerna' (default), 'bowtie2', or 'ribodetector' for rRNA removal.\n\n- **sortmerna**: Reference-based filtering (default). Requires `--ribo_database_manifest`. Note: Default databases include SILVA sequences requiring licensing for commercial use.\n- **bowtie2**: Alignment-based filtering. Requires `--ribo_database_manifest`. Recommended for users with SILVA licensing concerns as it supports custom databases.\n- **ribodetector**: \u26a0\ufe0f EXPERIMENTAL - ML-based detection without reference requirement. Known ONNX multiprocessing issues can cause hangs in containerized environments. See https://github.com/hzi-bifo/RiboDetector/pull/61",
                     "enum": ["sortmerna", "ribodetector", "bowtie2"]
                 },
+                "use_gpu_ribodetector": {
+                    "type": "boolean",
+                    "description": "Enable GPU acceleration for ribodetector.",
+                    "help_text": "When enabled, ribodetector runs on GPU instead of CPU. Requires `--ribo_removal_tool ribodetector`. The ribodetector container includes both CPU and GPU binaries; the pipeline selects the GPU binary and requests one GPU accelerator when this option is set. Users needing multiple GPUs can override `accelerator` in their Nextflow config. Requires an NVIDIA GPU and appropriate container runtime flags, which are auto-detected (Docker: `--gpus all`, Singularity/Apptainer: `--nv`) or can be overridden via `--gpu_container_options`.",
+                    "fa_icon": "fas fa-microchip"
+                },
                 "ribo_database_manifest": {
                     "type": "string",
                     "format": "file-path",
