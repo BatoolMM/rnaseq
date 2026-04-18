@@ -44,7 +44,12 @@ workflow MULTIQC_RNASEQ {
     // aggregate; N tracks the header length so editing
     // `sample_status_header.txt` doesn't silently mis-skip.
     def status_header_lines = sample_status_header.readLines().size() + 1  // parent header + one column row
-    ch_sample_anchor_by_id = ch_trim_read_count.map { meta, _n -> [meta.id, meta] }
+    // Anchor per-sample fail_* streams on every fastq-branch sample so
+    // `.join(..., remainder: true)` on the bundle finds a match for every
+    // sample regardless of whether that sample triggered a row. Using
+    // `ch_fastq` rather than `ch_trim_read_count` so the anchor still holds
+    // under `--skip_trimming` (where trim_read_count is empty).
+    ch_sample_anchor_by_id = ch_fastq.map { meta, _r -> [meta.id, meta] }
 
     ch_fail_trimmed_fail_by_id = ch_trim_read_count
         .filter { _meta, n -> n <= min_trimmed_reads.toFloat() }
