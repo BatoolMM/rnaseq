@@ -240,11 +240,10 @@ workflow RNASEQ {
 
     // Seed the bundle with every input sample — fastq branch and pre-aligned
     // BAM branch — so both paths can accumulate per-sample MultiQC
-    // contributions. The same seed is passed to MULTIQC_RNASEQ so it can
-    // anchor its per-sample fail_* streams on the same sample list.
-    ch_mqc_bundle_seed = ch_fastq.map { meta, _r -> [meta.id, meta] }
+    // contributions. MULTIQC_RNASEQ derives its fail_* anchor from the
+    // bundle itself, so no separate seed channel is needed.
+    ch_mqc_per_sample_bundle = ch_fastq.map { meta, _r -> [meta.id, meta] }
         .mix(ch_input_branched.bam.map { meta, _g, _t -> [meta.id, meta] })
-    ch_mqc_per_sample_bundle = ch_mqc_bundle_seed
 
     // Every bundle join uses `remainder: true` so samples with no match on
     // a contributor (feature off, optional upstream output absent, filter-
@@ -839,7 +838,6 @@ workflow RNASEQ {
         MULTIQC_RNASEQ(
             ch_multiqc_files,
             ch_mqc_per_sample_bundle,
-            ch_mqc_bundle_seed,
             ch_trim_read_count,
             ch_genome_bam_bai_mapping.percent_mapped_pass,
             ch_strand_comparison,
