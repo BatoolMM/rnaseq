@@ -70,18 +70,6 @@ def getSalmonInferredStrandedness(json_file, stranded_threshold = 0.8, unstrande
     return calculateStrandedness(forwardFragments, reverseFragments, unstrandedFragments, stranded_threshold, unstranded_threshold)
 }
 
-//
-// Create MultiQC tsv custom content from a list of values
-//
-def multiqcTsvFromList(tsv_data, header) {
-    def tsv_string = ""
-    if (tsv_data.size() > 0) {
-        tsv_string += "${header.join('\t')}\n"
-        tsv_string += tsv_data.join('\n')
-    }
-    return tsv_string
-}
-
 workflow FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS {
     take:
     // Input channels
@@ -258,30 +246,10 @@ workflow FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS {
             .mix(ch_multiqc_files)
     }
 
-    def pass_trimmed_reads = [:]
-
-    //
-    // Get list of samples that failed trimming threshold for MultiQC report
-    //
-
-    ch_trim_read_count
-        .map { meta, num_reads ->
-            pass_trimmed_reads[meta.id] = true
-            if (num_reads <= min_trimmed_reads.toFloat()) {
-                pass_trimmed_reads[meta.id] = false
-                return ["${meta.id}\t${num_reads}"]
-            }
-        }
-        .collect()
-        .map { tsv_data ->
-            def header = ["Sample", "Reads after trimming"]
-            multiqcTsvFromList(tsv_data, header)
-        }
-        .set { ch_fail_trimming_multiqc }
-
-    ch_multiqc_files = ch_multiqc_files.mix(
-        ch_fail_trimming_multiqc.collectFile(name: 'fail_trimmed_samples_mqc.tsv').map { file -> [[:], file] }
-    )
+    // The caller builds the per-sample fail_trimmed MultiQC table from
+    // `trim_read_count` (emitted below) so each sample's fail/pass status
+    // can flow through the per-sample MultiQC bundle without a workflow-
+    // global `.collect()` barrier.
 
     if ((!skip_linting) && (!skip_trimming)) {
         FQ_LINT_AFTER_TRIMMING(
