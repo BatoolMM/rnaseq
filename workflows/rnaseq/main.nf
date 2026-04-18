@@ -113,11 +113,12 @@ workflow RNASEQ {
     ch_percent_mapped = channel.empty()
     ch_unaligned_sequences = channel.empty()
 
-    // Per-sample MultiQC bundle. Grown via `.join(..., remainder: true)`;
-    // MULTIQC_RNASEQ collapses it. `collapseAgg` is the re-key step at the
-    // end of a multi-output subworkflow aggregation: re-key by meta.id,
-    // drop unmatched (null) positions, and flatten any list-valued outputs
-    // into a single bundle position.
+    // Per-sample MultiQC bundle — `.join(..., remainder: true)` chains
+    // fed to MULTIQC_RNASEQ. `collapseAgg` re-keys by meta.id at the end
+    // of each multi-output subworkflow aggregation; sibling outputs are
+    // joined by meta internally on the assumption they carry the same
+    // meta per sample — if a future module mutates meta on one of them,
+    // this aggregation silently emits duplicate rows.
     ch_mqc_per_sample_bundle = channel.empty()
     def collapseAgg = { row -> [row[0].id, row.drop(1).findAll { it != null }.collectMany { e -> (e instanceof List) ? e : [e] }] }
 
@@ -240,8 +241,7 @@ workflow RNASEQ {
 
     // Seed the bundle with every input sample — fastq branch and pre-aligned
     // BAM branch — so both paths can accumulate per-sample MultiQC
-    // contributions. MULTIQC_RNASEQ derives its fail_* anchor from the
-    // bundle itself, so no separate seed channel is needed.
+    // contributions.
     ch_mqc_per_sample_bundle = ch_fastq.map { meta, _r -> [meta.id, meta] }
         .mix(ch_input_branched.bam.map { meta, _g, _t -> [meta.id, meta] })
 
@@ -249,12 +249,8 @@ workflow RNASEQ {
     // a contributor (feature off, optional upstream output absent, filter-
     // excluded, or pre-aligned BAM without FASTQ) still come through.
     // Unmatched samples wait on that contributor's channel to close —
-    // per-contributor, not workflow-global. Within a multi-output
-    // subworkflow, sibling outputs carry the same meta per sample, so
-    // we join them by meta internally and re-key once; if a future
-    // module mutates meta on one of those outputs this aggregation will
-    // silently emit duplicate rows. fail_* rows are appended inside
-    // MULTIQC_RNASEQ.
+    // per-contributor, not workflow-global. fail_* rows are appended
+    // inside MULTIQC_RNASEQ.
     ch_fastq_qc_bundle = FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.fastqc_raw_zip
         .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.fastqc_trim_zip,     remainder: true)
         .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.trim_log,            remainder: true)

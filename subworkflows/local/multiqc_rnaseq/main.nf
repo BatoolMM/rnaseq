@@ -121,13 +121,6 @@ workflow MULTIQC_RNASEQ {
     // --replace-names TSV so MultiQC uses sample IDs rather than FASTQ basenames.
     ch_name_replacements = multiqcNameReplacements(ch_fastq)
 
-    // Merged-mode file set: contributor outputs + run-level context + fail_* aggregates.
-    ch_multiqc_files_merged = ch_multiqc_files
-        .mix(ch_fail_trimmed_merged)
-        .mix(ch_fail_mapped_merged)
-        .mix(ch_fail_strand_merged)
-        .mix(ch_workflow_summary.mix(ch_collated_versions).mix(ch_methods_description).map { f -> [[:], f] })
-
     if (skip_quantification_merge) {
         // One report per sample. Per-sample reports carry the pipeline-
         // identity YAML (name + version + commit SHA + Nextflow version)
@@ -168,6 +161,12 @@ workflow MULTIQC_RNASEQ {
         // Merged mode: `multiqc_report` is a sentinel meta.id used by
         // conf/modules/multiqc.config to pick the merged output path.
         // Wrap files in a 1-tuple so `.combine()` keeps them grouped.
+        ch_multiqc_files_merged = ch_multiqc_files
+            .mix(ch_fail_trimmed_merged)
+            .mix(ch_fail_mapped_merged)
+            .mix(ch_fail_strand_merged)
+            .mix(ch_workflow_summary.mix(ch_collated_versions).mix(ch_methods_description).map { f -> [[:], f] })
+
         ch_multiqc_input = ch_multiqc_files_merged
             .map { _meta, f -> f }
             .collect()
