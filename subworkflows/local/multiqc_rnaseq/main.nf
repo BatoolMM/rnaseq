@@ -15,6 +15,7 @@ workflow MULTIQC_RNASEQ {
     take:
     ch_multiqc_files           // channel: [ val(meta), path(file) ]       - flat, contributor outputs
     ch_per_sample_bundle_raw   // channel: [ id, meta, f1, f2, ... ]       - per-sample, grown by `.join(..., remainder: true)` at each subworkflow aggregation site
+    ch_bundle_seed             // channel: [ id, meta ]                    - every bundle sample (same seed as per_sample_bundle_raw), used as fail_* anchor
     ch_trim_read_count         // channel: [ val(meta), val(num_reads) ]   - for fail_trimmed section
     ch_percent_mapped_pass     // channel: [ id, percent_mapped, pass ]    - for fail_mapped section
     ch_strand_comparison       // channel: [ val(meta), status, lines ]    - for fail_strand section
@@ -44,12 +45,11 @@ workflow MULTIQC_RNASEQ {
     // aggregate; N tracks the header length so editing
     // `sample_status_header.txt` doesn't silently mis-skip.
     def status_header_lines = sample_status_header.readLines().size() + 1  // parent header + one column row
-    // Anchor per-sample fail_* streams on every fastq-branch sample so
-    // `.join(..., remainder: true)` on the bundle finds a match for every
-    // sample regardless of whether that sample triggered a row. Using
-    // `ch_fastq` rather than `ch_trim_read_count` so the anchor still holds
-    // under `--skip_trimming` (where trim_read_count is empty).
-    ch_sample_anchor_by_id = ch_fastq.map { meta, _r -> [meta.id, meta] }
+    // Anchor per-sample fail_* streams on the bundle seed (every bundle
+    // sample, fastq + pre-aligned BAM branches) so `.join(..., remainder: true)`
+    // on the bundle finds a match for every sample regardless of whether
+    // that sample triggered a row or passed through FASTQ_QC at all.
+    ch_sample_anchor_by_id = ch_bundle_seed
 
     ch_fail_trimmed_fail_by_id = ch_trim_read_count
         .filter { _meta, n -> n <= min_trimmed_reads.toFloat() }
