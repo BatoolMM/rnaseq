@@ -422,7 +422,7 @@ When enabled:
 - **tximport** runs per-sample, producing individual gene-level and transcript-level count/TPM TSVs for each sample
 - **SummarizedExperiment** and **RSEM merge counts** are skipped entirely
 - **DESeq2 QC** is skipped (requires multiple samples)
-- **MultiQC** generates one report per sample rather than one merged report
+- **MultiQC** generates one report per sample rather than one merged report. Per-sample reports carry a manifest-only software versions section (pipeline name and Nextflow version); the full collated tool versions YAML is still published unchanged to `pipeline_info/`
 
 This mode works with any aligner or pseudo-aligner. For the fastest possible per-sample quantification, combine it with pseudo-alignment only:
 
