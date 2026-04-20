@@ -540,9 +540,9 @@
                     "type": "integer",
                     "default": 200,
                     "minimum": 1,
-                    "description": "Maximum number of alignments per read to report from Bowtie2 when using --aligner bowtie2_salmon. Passed as `-k <N>` to Bowtie2 so that downstream Salmon alignment-mode EM can distribute reads across overlapping transcripts (common in prokaryotic operons). Set to 1 to disable multimapping and fall back to a single best alignment per read.",
+                    "description": "Maximum number of alignments per read to report from Bowtie2 when using `--aligner bowtie2_salmon`. Passed as `-k <N>` to Bowtie2 so that downstream Salmon alignment-mode EM can distribute reads across overlapping transcripts (common in prokaryotic operons). Set to `1` to disable multimapping and fall back to a single best alignment per read.",
                     "fa_icon": "fas fa-layer-group",
-                    "help_text": "Salmon's alignment-based quantification uses an EM algorithm that needs multiple candidate alignments per read to resolve ambiguous assignments. Bowtie2's default is to report a single best alignment, which eliminates ambiguity before Salmon sees it. The default of 200 matches the Salmon paper's benchmark settings (Patro et al. 2017) and RSEM's `--bowtie2-k` default, which Salmon's own `--mimicStrictBT2` flag mirrors. Set to 1 to restore single-best-alignment behaviour; larger values increase BAM size and runtime."
+                    "help_text": "Salmon's alignment-based quantification uses an EM algorithm that needs multiple candidate alignments per read to resolve ambiguous assignments. Bowtie2's default is to report a single best alignment, which eliminates ambiguity before Salmon sees it. The default of `200` matches the Salmon paper's benchmark settings (Patro et al. 2017) and RSEM's `--bowtie2-k` default, which Salmon's own `--mimicStrictBT2` flag mirrors. Set to `1` to restore single-best-alignment behaviour; larger values increase BAM size and runtime."
                 },
                 "extra_salmon_quant_args": {
                     "type": "string",
