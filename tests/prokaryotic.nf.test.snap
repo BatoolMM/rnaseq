@@ -1,7 +1,7 @@
 {
     "Params: --aligner star_salmon --prokaryotic": {
         "content": [
-            46,
+            44,
             {
                 "CUSTOM_GTFFILTER": {
                     "python": "3.9.5"
@@ -66,9 +66,6 @@
                     "gawk": "5.1.0",
                     "samtools": 1.21,
                     "star": "2.7.11b"
-                },
-                "STRINGTIE_STRINGTIE": {
-                    "stringtie": "2.2.3"
                 },
                 "TRIMGALORE": {
                     "trimgalore": "0.6.10"
@@ -371,25 +368,6 @@
                 "star_salmon/samtools_stats/SALM_REP2.sorted.bam.flagstat",
                 "star_salmon/samtools_stats/SALM_REP2.sorted.bam.idxstats",
                 "star_salmon/samtools_stats/SALM_REP2.sorted.bam.stats",
-                "star_salmon/stringtie",
-                "star_salmon/stringtie/SALM_REP1.ballgown",
-                "star_salmon/stringtie/SALM_REP1.ballgown/e2t.ctab",
-                "star_salmon/stringtie/SALM_REP1.ballgown/e_data.ctab",
-                "star_salmon/stringtie/SALM_REP1.ballgown/i2t.ctab",
-                "star_salmon/stringtie/SALM_REP1.ballgown/i_data.ctab",
-                "star_salmon/stringtie/SALM_REP1.ballgown/t_data.ctab",
-                "star_salmon/stringtie/SALM_REP1.coverage.gtf",
-                "star_salmon/stringtie/SALM_REP1.gene.abundance.txt",
-                "star_salmon/stringtie/SALM_REP1.transcripts.gtf",
-                "star_salmon/stringtie/SALM_REP2.ballgown",
-                "star_salmon/stringtie/SALM_REP2.ballgown/e2t.ctab",
-                "star_salmon/stringtie/SALM_REP2.ballgown/e_data.ctab",
-                "star_salmon/stringtie/SALM_REP2.ballgown/i2t.ctab",
-                "star_salmon/stringtie/SALM_REP2.ballgown/i_data.ctab",
-                "star_salmon/stringtie/SALM_REP2.ballgown/t_data.ctab",
-                "star_salmon/stringtie/SALM_REP2.coverage.gtf",
-                "star_salmon/stringtie/SALM_REP2.gene.abundance.txt",
-                "star_salmon/stringtie/SALM_REP2.transcripts.gtf",
                 "trimgalore",
                 "trimgalore/SALM_REP1_trimmed_1.fastq.gz_trimming_report.txt",
                 "trimgalore/SALM_REP1_trimmed_2.fastq.gz_trimming_report.txt",
@@ -440,15 +418,7 @@
                 "cmd_info.json:md5,bc01c390eb88fee1a6fa19dfc7c0f6b7",
                 "SALM_REP1.SJ.out.tab:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SALM_REP2.SJ.out.tab:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "salmon.merged.tx2gene.tsv:md5,02c8aa14dbbbd6c4e45cf0a1b916b1ab",
-                "e2t.ctab:md5,18eaeb363605980a232768e91e2e67bc",
-                "e_data.ctab:md5,d184b862d9c9e07683edd01c56f6400c",
-                "i2t.ctab:md5,8df3306abca08ac33f4473c7ed0446dd",
-                "i_data.ctab:md5,db3a5f082fe2231d4b7e68cf3996b62d",
-                "e2t.ctab:md5,18eaeb363605980a232768e91e2e67bc",
-                "e_data.ctab:md5,261b2228f585d869612e9cc7a6497bc2",
-                "i2t.ctab:md5,8df3306abca08ac33f4473c7ed0446dd",
-                "i_data.ctab:md5,db3a5f082fe2231d4b7e68cf3996b62d"
+                "salmon.merged.tx2gene.tsv:md5,02c8aa14dbbbd6c4e45cf0a1b916b1ab"
             ]
         ],
         "timestamp": "2026-02-26T14:16:24.358893576",
@@ -457,9 +427,9 @@
             "nextflow": "25.10.2"
         }
     },
-    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta": {
+    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta (-k 200 multimapping)": {
         "content": [
-            46,
+            44,
             {
                 "BOWTIE2_ALIGN": {
                     "bowtie2": "2.5.4",
@@ -522,9 +492,6 @@
                 },
                 "SE_TRANSCRIPT_UNIFIED": {
                     "bioconductor-summarizedexperiment": "1.32.0"
-                },
-                "STRINGTIE_STRINGTIE": {
-                    "stringtie": "2.2.3"
                 },
                 "TRIMGALORE": {
                     "trimgalore": "0.6.10"
@@ -602,25 +569,6 @@
                 "bowtie2_salmon/samtools_stats/SALM_REP2.sorted.bam.flagstat",
                 "bowtie2_salmon/samtools_stats/SALM_REP2.sorted.bam.idxstats",
                 "bowtie2_salmon/samtools_stats/SALM_REP2.sorted.bam.stats",
-                "bowtie2_salmon/stringtie",
-                "bowtie2_salmon/stringtie/SALM_REP1.ballgown",
-                "bowtie2_salmon/stringtie/SALM_REP1.ballgown/e2t.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP1.ballgown/e_data.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP1.ballgown/i2t.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP1.ballgown/i_data.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP1.ballgown/t_data.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP1.coverage.gtf",
-                "bowtie2_salmon/stringtie/SALM_REP1.gene.abundance.txt",
-                "bowtie2_salmon/stringtie/SALM_REP1.transcripts.gtf",
-                "bowtie2_salmon/stringtie/SALM_REP2.ballgown",
-                "bowtie2_salmon/stringtie/SALM_REP2.ballgown/e2t.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP2.ballgown/e_data.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP2.ballgown/i2t.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP2.ballgown/i_data.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP2.ballgown/t_data.ctab",
-                "bowtie2_salmon/stringtie/SALM_REP2.coverage.gtf",
-                "bowtie2_salmon/stringtie/SALM_REP2.gene.abundance.txt",
-                "bowtie2_salmon/stringtie/SALM_REP2.transcripts.gtf",
                 "fastqc",
                 "fastqc/raw",
                 "fastqc/raw/SALM_REP1_raw_1_fastqc.html",
@@ -854,14 +802,6 @@
                 "observed_bias_3p.gz:md5,92bcd0592d22a6a58d0360fc76103e56",
                 "cmd_info.json:md5,a864d77f7a6becef8f2a3f4cc1c2c84b",
                 "salmon.merged.tx2gene.tsv:md5,02c8aa14dbbbd6c4e45cf0a1b916b1ab",
-                "e2t.ctab:md5,18eaeb363605980a232768e91e2e67bc",
-                "e_data.ctab:md5,e49d57ddf8348d23291aa7aea7b3e81f",
-                "i2t.ctab:md5,8df3306abca08ac33f4473c7ed0446dd",
-                "i_data.ctab:md5,db3a5f082fe2231d4b7e68cf3996b62d",
-                "e2t.ctab:md5,18eaeb363605980a232768e91e2e67bc",
-                "e_data.ctab:md5,e49d57ddf8348d23291aa7aea7b3e81f",
-                "i2t.ctab:md5,8df3306abca08ac33f4473c7ed0446dd",
-                "i_data.ctab:md5,db3a5f082fe2231d4b7e68cf3996b62d",
                 "cutadapt_filtered_reads_plot.txt:md5,b82a9c2120e7c0bb06e3841ab52193c5",
                 "cutadapt_trimmed_sequences_plot_3_Counts.txt:md5,3ffd158758886bc8670a0e691aedadda",
                 "cutadapt_trimmed_sequences_plot_3_Obs_Exp.txt:md5,570d5968b148e3759e31bfe80a6efcfb",
@@ -902,7 +842,7 @@
             "nextflow": "25.10.2"
         }
     },
-    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta - stub": {
+    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta (-k 200 multimapping) - stub": {
         "content": [
             34,
             {

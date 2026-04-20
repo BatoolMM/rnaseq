@@ -821,6 +821,35 @@ def getInferexperimentStrandedness(inferexperiment_file, stranded_threshold = 0.
 }
 
 //
+// Compare a sample's declared / Salmon-inferred strandedness against its RSeQC
+// infer_experiment result. Returns [meta, status, multiqc_lines] where status
+// is 'pass' / 'fail' and multiqc_lines are one or two pre-formatted rows for
+// the fail_strand_check MultiQC table.
+//
+def compareStrand(meta, strand_log, stranded_threshold, unstranded_threshold) {
+    def rseqc = getInferexperimentStrandedness(strand_log, stranded_threshold, unstranded_threshold)
+    def rseqc_strandedness = rseqc.inferred_strandedness
+    def status = 'fail'
+    def lines = []
+    if (meta.salmon_strand_analysis) {
+        def salmon_strandedness = meta.salmon_strand_analysis.inferred_strandedness
+        if (salmon_strandedness == rseqc_strandedness && rseqc_strandedness != 'undetermined') {
+            status = 'pass'
+        }
+        lines = [
+            "$meta.id \tSalmon\t$status\tauto\t${meta.salmon_strand_analysis.values().join('\t')}",
+            "$meta.id\tRSeQC\t$status\tauto\t${rseqc.values().join('\t')}"
+        ]
+    } else {
+        if (meta.strandedness == rseqc_strandedness) {
+            status = 'pass'
+        }
+        lines = [ "$meta.id\tRSeQC\t$status\t$meta.strandedness\t${rseqc.values().join('\t')}" ]
+    }
+    return [ meta, status, lines ]
+}
+
+//
 // Function to map work directory BAM paths to published paths
 //
 def mapBamToPublishedPath(bam_path, sample_id, aligner, outdir) {
