@@ -196,10 +196,9 @@ Ribosomal RNA (rRNA) removal can be enabled with the `--remove_ribo_rna` paramet
 nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool sortmerna ...
 ```
 
-By default, [rRNA databases](https://github.com/biocore/sortmerna/tree/master/data/rRNA_databases) defined in the SortMeRNA GitHub repo are used. You can see an example in the pipeline GitHub repository in `assets/rrna-db-defaults.txt` which is used by default via the `--ribo_database_manifest` parameter.
+By default, the pipeline uses SortMeRNA's recommended [`smr_v4.3_default_db`](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7) database, a SILVA 138 and Rfam build covering archaeal, bacterial and eukaryotic 16S/18S/23S/28S rRNAs plus 5S/5.8S. The URL is listed in `assets/rrna-db-defaults.txt` and wired in via the `--ribo_database_manifest` parameter. To use a different variant (`fast`, `sensitive`, or `sensitive_rfam`) or custom references, supply your own manifest file listing one FASTA URL or path per line.
 
-> [!NOTE]
-> The default databases are based on SILVA 119, which requires [licensing for commercial use](https://www.arb-silva.de/silva-license-information). SILVA 138+ uses CC-BY 4.0 licensing that freely permits commercial use with attribution. If you have licensing concerns, consider using Bowtie2 with custom rRNA reference sequences via `--ribo_removal_tool bowtie2`.
+SILVA 138+ is distributed under [CC-BY 4.0](https://www.arb-silva.de/silva-license-information), which permits commercial use with attribution.
 
 ### Bowtie2
 

@@ -8,6 +8,7 @@ include { GUNZIP as GUNZIP_GFF              } from '../../../modules/nf-core/gun
 include { GUNZIP as GUNZIP_GENE_BED         } from '../../../modules/nf-core/gunzip'
 include { GUNZIP as GUNZIP_TRANSCRIPT_FASTA } from '../../../modules/nf-core/gunzip'
 include { GUNZIP as GUNZIP_ADDITIONAL_FASTA } from '../../../modules/nf-core/gunzip'
+include { GUNZIP as GUNZIP_RRNA_FASTAS      } from '../../../modules/nf-core/gunzip'
 
 include { UNTAR as UNTAR_BBSPLIT_INDEX      } from '../../../modules/nf-core/untar'
 include { UNTAR as UNTAR_SORTMERNA_INDEX    } from '../../../modules/nf-core/untar'
@@ -267,11 +268,22 @@ workflow PREPARE_GENOME {
     ch_sortmerna_index = channel.empty()
     ch_rrna_fastas     = channel.empty()
 
-    // Load rRNA FASTAs when using sortmerna or bowtie2 for rRNA removal
+    // Load rRNA FASTAs when using sortmerna or bowtie2 for rRNA removal.
+    // SortMeRNA's --ref option rejects gzipped FASTAs, so any .gz entries in the
+    // manifest are decompressed first (the SortMeRNA v4.3 databases ship as .fasta.gz).
     if (ribo_removal_tool in ['sortmerna', 'bowtie2']) {
         def ribo_db = file(sortmerna_fasta_list)
-        ch_rrna_fastas = channel.from(ribo_db.readLines())
+        def ch_rrna_inputs = channel.from(ribo_db.readLines())
             .map { row -> file(row) }
+            .branch { fasta ->
+                gz:    fasta.name.endsWith('.gz')
+                plain: true
+            }
+
+        ch_rrna_fastas = GUNZIP_RRNA_FASTAS(ch_rrna_inputs.gz.map { fasta -> [ [:], fasta ] })
+            .gunzip
+            .map { tuple -> tuple[1] }
+            .mix(ch_rrna_inputs.plain)
     }
 
     // Build SortMeRNA index only when using sortmerna
