@@ -48,9 +48,11 @@ workflow MULTIQC_RNASEQ {
              "Sample\tReads after trimming\n${meta.id}\t${n}\n"]
         }
         .map { f -> [f.baseName.replace('_fail_trimmed_samples_mqc', ''), f] }
+
     ch_fail_trimmed_all = ch_sample_anchor_by_id
         .join(ch_fail_trimmed_fail_by_id, remainder: true)
         .map { _id, meta, f -> [meta, f ?: []] }
+
     ch_fail_trimmed_merged = ch_fail_trimmed_all
         .map { _meta, f -> f }
         .flatten()
@@ -65,9 +67,11 @@ workflow MULTIQC_RNASEQ {
              "Sample\tSTAR uniquely mapped reads (%)\n${id}\t${percent_mapped}\n"]
         }
         .map { f -> [f.baseName.replace('_fail_mapped_samples_mqc', ''), f] }
+
     ch_fail_mapped_all = ch_sample_anchor_by_id
         .join(ch_fail_mapped_fail_by_id, remainder: true)
         .map { _id, meta, f -> [meta, f ?: []] }
+
     ch_fail_mapped_merged = ch_fail_mapped_all
         .map { _meta, f -> f }
         .flatten()
@@ -84,9 +88,11 @@ workflow MULTIQC_RNASEQ {
              sample_status_header.text + strand_header + lines.join('\n') + '\n']
         }
         .map { f -> [f.baseName.replace('_fail_strand_check_mqc', ''), f] }
+
     ch_fail_strand_all = ch_sample_anchor_by_id
         .join(ch_fail_strand_by_id, remainder: true)
         .map { _id, meta, f -> [meta, f ?: []] }
+
     ch_fail_strand_merged = ch_fail_strand_all
         .map { _meta, f -> f }
         .flatten()
