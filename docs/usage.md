@@ -200,12 +200,12 @@ By default, the pipeline uses SortMeRNA's recommended [`smr_v4.3_default_db`](ht
 
 SortMeRNA publishes four pre-built databases on its [v4.3.7 release](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7) — each is a single gzipped FASTA that the pipeline decompresses before use:
 
-| Variant                         | Clustering                 | Notes                                                              |
-| ------------------------------- | -------------------------- | ------------------------------------------------------------------ |
-| `smr_v4.3_fast_db`              | SILVA 85/90 %, Rfam 90 %   | Fastest, lowest sensitivity                                        |
-| `smr_v4.3_default_db`           | SILVA 90/95 %, Rfam 95 %   | Pipeline default; balanced speed vs. sensitivity                   |
-| `smr_v4.3_sensitive_db`         | SILVA 97 %, Rfam 97 %      | Higher sensitivity, slower                                         |
-| `smr_v4.3_sensitive_db_rfam_seeds` | SILVA 97 % + Rfam seeds  | Most sensitive; includes the full Rfam seed set                    |
+| Variant                            | Clustering               | Notes                                            |
+| ---------------------------------- | ------------------------ | ------------------------------------------------ |
+| `smr_v4.3_fast_db`                 | SILVA 85/90 %, Rfam 90 % | Fastest, lowest sensitivity                      |
+| `smr_v4.3_default_db`              | SILVA 90/95 %, Rfam 95 % | Pipeline default; balanced speed vs. sensitivity |
+| `smr_v4.3_sensitive_db`            | SILVA 97 %, Rfam 97 %    | Higher sensitivity, slower                       |
+| `smr_v4.3_sensitive_db_rfam_seeds` | SILVA 97 % + Rfam seeds  | Most sensitive; includes the full Rfam seed set  |
 
 To use a non-default variant or your own references, write a manifest file listing one FASTA URL or local path per line and pass it via `--ribo_database_manifest my_manifest.txt`. Both plain `.fasta` and `.fasta.gz` entries are accepted; gzipped files are decompressed automatically before being handed to SortMeRNA.
 

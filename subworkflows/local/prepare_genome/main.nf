@@ -275,12 +275,12 @@ workflow PREPARE_GENOME {
         def ribo_db = file(sortmerna_fasta_list)
         def ch_rrna_inputs = channel.from(ribo_db.readLines())
             .map { row -> file(row) }
-            .branch { fasta ->
-                gz:    fasta.name.endsWith('.gz')
+            .branch { rrna_fasta ->
+                gz:    rrna_fasta.name.endsWith('.gz')
                 plain: true
             }
 
-        ch_rrna_fastas = GUNZIP_RRNA_FASTAS(ch_rrna_inputs.gz.map { fasta -> [ [:], fasta ] })
+        ch_rrna_fastas = GUNZIP_RRNA_FASTAS(ch_rrna_inputs.gz.map { rrna_fasta -> [ [:], rrna_fasta ] })
             .gunzip
             .map { tuple -> tuple[1] }
             .mix(ch_rrna_inputs.plain)
