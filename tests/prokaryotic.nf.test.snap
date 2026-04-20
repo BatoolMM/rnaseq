@@ -427,7 +427,7 @@
             "nextflow": "25.10.2"
         }
     },
-    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta": {
+    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta (-k 200 multimapping)": {
         "content": [
             44,
             {
@@ -842,7 +842,7 @@
             "nextflow": "25.10.2"
         }
     },
-    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta - stub": {
+    "Params: --aligner bowtie2_salmon --gffread_transcript_fasta (-k 200 multimapping) - stub": {
         "content": [
             34,
             {

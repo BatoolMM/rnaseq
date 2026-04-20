@@ -118,7 +118,7 @@ nextflow_pipeline {
         }
     }
 
-    test("Params: --aligner bowtie2_salmon --gffread_transcript_fasta - stub") {
+    test("Params: --aligner bowtie2_salmon --gffread_transcript_fasta (-k 200 multimapping) - stub") {
 
         options "-stub"
 
@@ -172,7 +172,7 @@ nextflow_pipeline {
         }
     }
 
-    test("Params: --aligner bowtie2_salmon --gffread_transcript_fasta") {
+    test("Params: --aligner bowtie2_salmon --gffread_transcript_fasta (-k 200 multimapping)") {
 
         when {
             params {
