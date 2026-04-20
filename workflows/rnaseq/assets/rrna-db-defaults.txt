@@ -1,1 +1,1 @@
-https://github.com/sortmerna/sortmerna/releases/download/v4.3.7/smr_v4.3_default_db.fasta.gz
+https://github.com/sortmerna/sortmerna/releases/download/v4.3.7/smr_v4.3_fast_db.fasta.gz
