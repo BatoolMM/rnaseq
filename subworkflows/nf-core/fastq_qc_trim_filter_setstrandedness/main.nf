@@ -70,6 +70,18 @@ def getSalmonInferredStrandedness(json_file, stranded_threshold = 0.8, unstrande
     return calculateStrandedness(forwardFragments, reverseFragments, unstrandedFragments, stranded_threshold, unstranded_threshold)
 }
 
+//
+// Create MultiQC tsv custom content from a list of values
+//
+def multiqcTsvFromList(tsv_data, header) {
+    def tsv_string = ""
+    if (tsv_data.size() > 0) {
+        tsv_string += "${header.join('\t')}\n"
+        tsv_string += tsv_data.join('\n')
+    }
+    return tsv_string
+}
+
 workflow FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS {
     take:
     // Input channels
@@ -246,10 +258,30 @@ workflow FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS {
             .mix(ch_multiqc_files)
     }
 
-    // The caller builds the per-sample fail_trimmed MultiQC table from
-    // `trim_read_count` (emitted below) so each sample's fail/pass status
-    // can flow through the per-sample MultiQC bundle without a workflow-
-    // global `.collect()` barrier.
+    def pass_trimmed_reads = [:]
+
+    //
+    // Get list of samples that failed trimming threshold for MultiQC report
+    //
+
+    ch_trim_read_count
+        .map { meta, num_reads ->
+            pass_trimmed_reads[meta.id] = true
+            if (num_reads <= min_trimmed_reads.toFloat()) {
+                pass_trimmed_reads[meta.id] = false
+                return ["${meta.id}\t${num_reads}"]
+            }
+        }
+        .collect()
+        .map { tsv_data ->
+            def header = ["Sample", "Reads after trimming"]
+            multiqcTsvFromList(tsv_data, header)
+        }
+        .set { ch_fail_trimming_multiqc }
+
+    ch_multiqc_files = ch_multiqc_files.mix(
+        ch_fail_trimming_multiqc.collectFile(name: 'fail_trimmed_samples_mqc.tsv').map { file -> [[:], file] }
+    )
 
     if ((!skip_linting) && (!skip_trimming)) {
         FQ_LINT_AFTER_TRIMMING(
@@ -378,6 +410,21 @@ workflow FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS {
         .mix(ch_strand_fastq.known_strand)
         .set { ch_strand_inferred_fastq }
 
+    // `remainder: true` needed because every contributor is gated behind
+    // a `skip_*` / `filter_*` option.
+    ch_per_sample_mqc_bundle = ch_fastqc_raw_zip
+        .join(ch_fastqc_trim_zip,      remainder: true)
+        .join(ch_trim_log,             remainder: true)
+        .join(ch_trim_json,            remainder: true)
+        .join(ch_umi_log,              remainder: true)
+        .join(ch_bbsplit_stats,        remainder: true)
+        .join(ch_sortmerna_log,        remainder: true)
+        .join(ch_ribodetector_log,     remainder: true)
+        .join(ch_seqkit_stats,         remainder: true)
+        .join(ch_bowtie2_log,          remainder: true)
+        .join(ch_fastqc_filtered_zip,  remainder: true)
+        .map { row -> [row[0], row.drop(1).findAll { it != null }.collectMany { e -> (e instanceof List) ? e : [e] }] }
+
     emit:
     reads            = ch_strand_inferred_fastq
     trim_read_count  = ch_trim_read_count
@@ -409,4 +456,5 @@ workflow FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS {
     fastqc_filtered_zip  = ch_fastqc_filtered_zip
     seqkit_prefixed  = ch_seqkit_prefixed
     seqkit_converted = ch_seqkit_converted
+    per_sample_mqc_bundle = ch_per_sample_mqc_bundle // channel: [ val(meta), list(files) ]
 }

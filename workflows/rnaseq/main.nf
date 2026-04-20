@@ -251,18 +251,8 @@ workflow RNASEQ {
     // Unmatched samples wait on that contributor's channel to close —
     // per-contributor, not workflow-global. fail_* rows are appended
     // inside MULTIQC_RNASEQ.
-    ch_fastq_qc_bundle = FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.fastqc_raw_zip
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.fastqc_trim_zip,     remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.trim_log,            remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.trim_json,           remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.umi_log,             remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.bbsplit_stats,       remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.sortmerna_log,       remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.ribodetector_log,    remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.seqkit_stats,        remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.bowtie2_log,         remainder: true)
-        .join(FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.fastqc_filtered_zip, remainder: true)
-        .map(collapseAgg)
+    ch_fastq_qc_bundle = FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS.out.per_sample_mqc_bundle
+        .map { meta, files -> [meta.id, files] }
     ch_mqc_per_sample_bundle = ch_mqc_per_sample_bundle
         .join(ch_fastq_qc_bundle, remainder: true)
 
@@ -415,11 +405,8 @@ workflow RNASEQ {
 
         ch_multiqc_files = ch_multiqc_files
             .mix(BAM_DEDUP_UMI.out.multiqc_files)
-        ch_bam_dedup_umi_bundle = BAM_DEDUP_UMI.out.genomic_dedup_log
-            .join(BAM_DEDUP_UMI.out.genome_stats)
-            .join(BAM_DEDUP_UMI.out.genome_flagstat)
-            .join(BAM_DEDUP_UMI.out.genome_idxstats)
-            .map(collapseAgg)
+        ch_bam_dedup_umi_bundle = BAM_DEDUP_UMI.out.per_sample_mqc_bundle
+            .map { meta, files -> [meta.id, files] }
         ch_mqc_per_sample_bundle = ch_mqc_per_sample_bundle
             .join(ch_bam_dedup_umi_bundle, remainder: true)
     }
@@ -540,11 +527,8 @@ workflow RNASEQ {
         ch_multiqc_files = ch_multiqc_files.mix(BAM_MARKDUPLICATES_PICARD.out.flagstat)
         ch_multiqc_files = ch_multiqc_files.mix(BAM_MARKDUPLICATES_PICARD.out.idxstats)
         ch_multiqc_files = ch_multiqc_files.mix(BAM_MARKDUPLICATES_PICARD.out.metrics)
-        ch_markdup_bundle = BAM_MARKDUPLICATES_PICARD.out.stats
-            .join(BAM_MARKDUPLICATES_PICARD.out.flagstat)
-            .join(BAM_MARKDUPLICATES_PICARD.out.idxstats)
-            .join(BAM_MARKDUPLICATES_PICARD.out.metrics)
-            .map(collapseAgg)
+        ch_markdup_bundle = BAM_MARKDUPLICATES_PICARD.out.per_sample_mqc_bundle
+            .map { meta, files -> [meta.id, files] }
         ch_mqc_per_sample_bundle = ch_mqc_per_sample_bundle
             .join(ch_markdup_bundle, remainder: true)
     }
@@ -642,23 +626,8 @@ workflow RNASEQ {
             ch_multiqc_files = ch_multiqc_files.mix(BAM_QC_RNASEQ.out.multiqc_files)
             ch_inferexperiment_txt = BAM_QC_RNASEQ.out.inferexperiment_txt
 
-            // Aggregate BAM_QC_RNASEQ's per-sample outputs on meta (all
-            // twelve carry the same meta per sample), then re-key once.
-            // Tools gated off by qc_tools / rseqc_modules are empty and
-            // drop in via `remainder: true`.
-            ch_bam_qc_rnaseq_bundle = BAM_QC_RNASEQ.out.preseq_lc_extrap
-                .join(BAM_QC_RNASEQ.out.biotype_tsv,                remainder: true)
-                .join(BAM_QC_RNASEQ.out.qualimap_results,           remainder: true)
-                .join(BAM_QC_RNASEQ.out.dupradar_multiqc,           remainder: true)
-                .join(BAM_QC_RNASEQ.out.bamstat_txt,                remainder: true)
-                .join(BAM_QC_RNASEQ.out.inferexperiment_txt,        remainder: true)
-                .join(BAM_QC_RNASEQ.out.innerdistance_freq,         remainder: true)
-                .join(BAM_QC_RNASEQ.out.junctionannotation_log,     remainder: true)
-                .join(BAM_QC_RNASEQ.out.junctionsaturation_rscript, remainder: true)
-                .join(BAM_QC_RNASEQ.out.readdistribution_txt,       remainder: true)
-                .join(BAM_QC_RNASEQ.out.readduplication_pos_xls,    remainder: true)
-                .join(BAM_QC_RNASEQ.out.tin_txt,                    remainder: true)
-                .map(collapseAgg)
+            ch_bam_qc_rnaseq_bundle = BAM_QC_RNASEQ.out.per_sample_mqc_bundle
+                .map { meta, files -> [meta.id, files] }
             ch_mqc_per_sample_bundle = ch_mqc_per_sample_bundle
                 .join(ch_bam_qc_rnaseq_bundle, remainder: true)
         }
