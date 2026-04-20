@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #1796](https://github.com/nf-core/rnaseq/pull/1796) - Clarify prokaryotic profile docs: transcripts are extracted from all transcript-like features (CDS, tRNA, rRNA, tmRNA, ncRNA, etc.), not only CDS; CDS is only required for featureCounts biotype QC
 - [PR #1755](https://github.com/nf-core/rnaseq/pull/1755) - When `--stringtie_ignore_gtf` is set, switch to StringTie's recommended de novo workflow: per-sample assembly into `<sample>.denovo.transcripts.gtf`, cross-sample merge into `stringtie_merge.gtf`, then re-quantification against the merged annotation. Previously this path ran transcript discovery and quantification in a single pass per sample, producing outputs that were not comparable across samples
 - Skip StringTie by default in the `prokaryotic` profile. StringTie is a splice-aware transcript assembler and does not apply to prokaryotes; for the `bowtie2_salmon` aligner the "genome" BAM is actually transcriptome-aligned, so StringTie output would be meaningless regardless. Users can still opt back in with `--skip_stringtie false`
+- Narrow the pipeline-level test matrix by adding `--skip_pseudo_alignment` to aligner-focused tests (HISAT2, STAR-RSEM, UMI, Parabricks, Sentieon) and merging `skip_quantification_merge` into the Salmon test file, removing duplicate Salmon pseudoalignment runs that `default.nf.test` already covers
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 

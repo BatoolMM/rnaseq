@@ -21,6 +21,8 @@ nextflow_pipeline {
                 // Keep QC as deduplicated BAMs have different characteristics worth integration testing
                 skip_stringtie = true
                 skip_bigwig = true
+                // Pseudo-alignment is aligner-invariant and fully covered by tests/default.nf.test
+                skip_pseudo_alignment = true
             }
         }
 
@@ -67,6 +69,8 @@ nextflow_pipeline {
                 // Keep QC as deduplicated BAMs have different characteristics worth integration testing
                 skip_stringtie = true
                 skip_bigwig = true
+                // Pseudo-alignment is aligner-invariant and fully covered by tests/default.nf.test
+                skip_pseudo_alignment = true
             }
         }
 
@@ -114,6 +118,8 @@ nextflow_pipeline {
                 // Keep QC as deduplicated BAMs have different characteristics worth integration testing
                 skip_stringtie = true
                 skip_bigwig = true
+                // Pseudo-alignment is aligner-invariant and fully covered by tests/default.nf.test
+                skip_pseudo_alignment = true
             }
         }
 
@@ -160,6 +166,8 @@ nextflow_pipeline {
                 // Keep QC as deduplicated BAMs have different characteristics worth integration testing
                 skip_stringtie = true
                 skip_bigwig = true
+                // Pseudo-alignment is aligner-invariant and fully covered by tests/default.nf.test
+                skip_pseudo_alignment = true
             }
         }
 

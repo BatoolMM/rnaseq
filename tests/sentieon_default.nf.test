@@ -12,6 +12,8 @@ nextflow_pipeline {
             params {
                 outdir = "$outputDir"
                 use_sentieon_star = true
+                // Pseudo-alignment is aligner-invariant and fully covered by tests/default.nf.test
+                skip_pseudo_alignment = true
             }
         }
 
@@ -51,6 +53,8 @@ nextflow_pipeline {
             params {
                 outdir = "$outputDir"
                 use_sentieon_star = true
+                // Pseudo-alignment is aligner-invariant and fully covered by tests/default.nf.test
+                skip_pseudo_alignment = true
             }
         }
 
