@@ -196,9 +196,18 @@ Ribosomal RNA (rRNA) removal can be enabled with the `--remove_ribo_rna` paramet
 nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool sortmerna ...
 ```
 
-By default, the pipeline uses SortMeRNA's recommended [`smr_v4.3_default_db`](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7) database, a SILVA 138 and Rfam build covering archaeal, bacterial and eukaryotic 16S/18S/23S/28S rRNAs plus 5S/5.8S. The URL is listed in `assets/rrna-db-defaults.txt` and wired in via the `--ribo_database_manifest` parameter. To use a different variant (`fast`, `sensitive`, or `sensitive_rfam`) or custom references, supply your own manifest file listing one FASTA URL or path per line.
+By default, the pipeline uses SortMeRNA's recommended [`smr_v4.3_default_db`](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7) database, a SILVA 138 and Rfam build covering archaeal, bacterial and eukaryotic 16S/18S/23S/28S rRNAs plus 5S/5.8S. The URL is listed in `assets/rrna-db-defaults.txt` and wired in via the `--ribo_database_manifest` parameter. SILVA 138+ is distributed under [CC-BY 4.0](https://www.arb-silva.de/silva-license-information), which permits commercial use with attribution.
 
-SILVA 138+ is distributed under [CC-BY 4.0](https://www.arb-silva.de/silva-license-information), which permits commercial use with attribution.
+SortMeRNA publishes four pre-built databases on its [v4.3.7 release](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7) — each is a single gzipped FASTA that the pipeline decompresses before use:
+
+| Variant                         | Clustering                 | Notes                                                              |
+| ------------------------------- | -------------------------- | ------------------------------------------------------------------ |
+| `smr_v4.3_fast_db`              | SILVA 85/90 %, Rfam 90 %   | Fastest, lowest sensitivity                                        |
+| `smr_v4.3_default_db`           | SILVA 90/95 %, Rfam 95 %   | Pipeline default; balanced speed vs. sensitivity                   |
+| `smr_v4.3_sensitive_db`         | SILVA 97 %, Rfam 97 %      | Higher sensitivity, slower                                         |
+| `smr_v4.3_sensitive_db_rfam_seeds` | SILVA 97 % + Rfam seeds  | Most sensitive; includes the full Rfam seed set                    |
+
+To use a non-default variant or your own references, write a manifest file listing one FASTA URL or local path per line and pass it via `--ribo_database_manifest my_manifest.txt`. Both plain `.fasta` and `.fasta.gz` entries are accepted; gzipped files are decompressed automatically before being handed to SortMeRNA.
 
 ### Bowtie2
 
