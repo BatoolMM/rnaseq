@@ -196,7 +196,7 @@ Ribosomal RNA (rRNA) removal can be enabled with the `--remove_ribo_rna` paramet
 nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool sortmerna ...
 ```
 
-By default, the pipeline uses [`smr_v4.3_fast_db`](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7), a SILVA 138 and Rfam build clustered at 85/90 % (SILVA) and 90 % (Rfam). It covers archaeal, bacterial and eukaryotic 16S/18S/23S/28S rRNAs plus 5S/5.8S. The URL is listed in `assets/rrna-db-defaults.txt` and wired in via the `--ribo_database_manifest` parameter. SILVA 138+ is distributed under [CC-BY 4.0](https://www.arb-silva.de/silva-license-information), which permits commercial use with attribution.
+By default, the pipeline uses [`smr_v4.3_fast_db`](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7), a SILVA 138 and Rfam build clustered at 85/90 % (SILVA) and 90 % (Rfam). It covers archaeal, bacterial and eukaryotic 16S/18S/23S/28S rRNAs plus 5S/5.8S. The URL is listed in `assets/rrna-db-defaults.txt`, which is the default value of the `--ribo_database_manifest` parameter. SILVA 138+ is distributed under [CC-BY 4.0](https://www.arb-silva.de/silva-license-information), which permits commercial use with attribution.
 
 SortMeRNA publishes four pre-built databases on its [v4.3.7 release](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7). They are the same underlying SILVA 138 + Rfam sequences progressively clustered: coarser clustering means a smaller reference, a smaller index and a faster run, at the cost of some sensitivity. The pipeline decompresses the gzipped FASTA before use.
 
@@ -209,11 +209,7 @@ SortMeRNA publishes four pre-built databases on its [v4.3.7 release](https://git
 
 Picking a variant: `fast` keeps the index footprint close to what earlier pipeline versions used (~1-2 GB); `sensitive` and `sensitive_rfam_seeds` roughly triple that. Index size is a one-off cost per work directory (results are cached), but per-sample SortMeRNA memory and runtime also scale with the reference.
 
-To switch variant or use your own references, write a manifest file listing one FASTA URL or local path per line and pass it via `--ribo_database_manifest my_manifest.txt`. Example (`default` variant):
-
-```
-https://github.com/sortmerna/sortmerna/releases/download/v4.3.7/smr_v4.3_default_db.fasta.gz
-```
+To switch variant or use your own references, write a manifest file listing one FASTA URL or local path per line and pass it via `--ribo_database_manifest my_manifest.txt`. For example, a one-line manifest selecting the `default` variant would contain `https://github.com/sortmerna/sortmerna/releases/download/v4.3.7/smr_v4.3_default_db.fasta.gz`.
 
 Both plain `.fasta` and `.fasta.gz` entries are accepted; gzipped files are decompressed automatically before being handed to SortMeRNA.
 
