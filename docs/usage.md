@@ -69,11 +69,20 @@ You can control the stringency of this behavior with `--stranded_threshold` and 
 
 #### Errors and Reporting
 
-The results of strandedness inference are displayed in the MultiQC report under 'Strandedness Checks'. This shows any provided strandedness and the results inferred by both Salmon (when strandedness is set to 'auto') and RSeQC. Mismatches between input strandedness (explicitly provided by the user or inferred by Salmon) and output strandedness from RSeQC are marked as fails. For example, if a user specifies 'forward' as strandedness for a library that is actually reverse stranded, this is marked as a fail.
+The results of strandedness inference are displayed in the MultiQC report under the top-level 'Strandedness checks' section, which contains two sub-reports:
+
+- **Strandedness: inference summary** - one row per sample with the strandedness declared in the samplesheet, the values inferred by Salmon and RSeQC (where active), and a per-method certainty percentage (the fragment proportion attributable to the inferred strand). A pass/fail status is shown when both methods ran so their calls can be cross-checked; when only one method ran, the status shows '-'. Per-component sense / antisense / unstranded percentages for each method are available as additional columns hidden by default - enable them via the **Configure columns** button above the table if you want to see the underlying composition.
+- **Strandedness: read composition** - stacked percentage bars of sense / antisense / unstranded fragments per sample. When both Salmon and RSeQC produced an inference, a dataset switcher above the plot lets you flip between the two methods' views.
+
+If Salmon and RSeQC disagree on a sample's strandedness, or RSeQC returns 'undetermined' (which can indicate gDNA contamination), the summary row is marked as a fail. When only one method is active (e.g. the samplesheet sets an explicit strandedness so Salmon inference is skipped, or `--skip_rseqc` is used), the available inference is still surfaced in both sub-reports so the user always sees what the pipeline determined.
 
 ![MultiQC - Strand check table](images/mqc_strand_check.png)
 
-Be sure to check the strandedness report when reviewing the QC for your samples.
+The **Configure columns** dialog above the summary table lets you toggle the hidden per-component percentages on:
+
+![MultiQC - Strandedness Configure columns modal](images/mqc_strand_check_columns.png)
+
+Be sure to check the strandedness section when reviewing the QC for your samples.
 
 ### Full samplesheet
 

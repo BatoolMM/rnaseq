@@ -23,7 +23,7 @@ include { QUANTIFY_RSEM                         } from '../../subworkflows/nf-co
 include { BAM_DEDUP_UMI                         } from '../../subworkflows/nf-core/bam_dedup_umi'
 
 include { checkSamplesAfterGrouping      } from '../../subworkflows/local/utils_nfcore_rnaseq_pipeline'
-include { compareStrand                  } from '../../subworkflows/local/utils_nfcore_rnaseq_pipeline'
+include { classifyStrand                 } from '../../subworkflows/local/utils_nfcore_rnaseq_pipeline'
 include { mapBamToPublishedPath          } from '../../subworkflows/local/utils_nfcore_rnaseq_pipeline'
 
 /*
@@ -109,7 +109,6 @@ workflow RNASEQ {
     ch_trim_status = channel.empty()
     ch_map_status = channel.empty()
     ch_strand_status = channel.empty()
-    ch_strand_comparison = channel.empty()
     ch_percent_mapped = channel.empty()
     ch_unaligned_sequences = channel.empty()
 
@@ -631,17 +630,28 @@ workflow RNASEQ {
             ch_mqc_per_sample_bundle = ch_mqc_per_sample_bundle
                 .join(ch_bam_qc_rnaseq_bundle, remainder: true)
         }
+    }
 
-        // Strand check: compare declared / Salmon strand vs RSeQC infer_experiment.
-        // RustQC always emits infer_experiment regardless of rseqc_modules.
-        def run_infer_experiment = params.use_rustqc || rseqc_modules.contains('infer_experiment')
-        if (run_infer_experiment) {
-            ch_strand_comparison = ch_inferexperiment_txt.map { meta, strand_log ->
-                compareStrand(meta, strand_log, params.stranded_threshold, params.unstranded_threshold)
-            }
-            ch_strand_status = ch_strand_comparison.map { meta, status, _l -> [meta.id, status == 'pass'] }
+    //
+    // Build the per-sample strand-classification tuple consumed by the
+    // MultiQC Strandedness checks section. When RSeQC / RustQC ran we
+    // classify via `classifyStrand`; otherwise we surface Salmon's
+    // auto-inference so --skip_rseqc / --skip_qc users still see the
+    // available signal. RustQC always emits infer_experiment regardless
+    // of rseqc_modules.
+    //
+    def run_infer_experiment = !params.skip_qc && (params.use_rustqc || rseqc_modules.contains('infer_experiment'))
+    ch_strand_data = channel.empty()
+    if (run_infer_experiment) {
+        ch_strand_data = ch_inferexperiment_txt.map { meta, strand_log ->
+            classifyStrand(meta, strand_log, params.stranded_threshold, params.unstranded_threshold)
         }
-
+        ch_strand_status = ch_strand_data.map { meta, _p, status, _s, _r -> [meta.id, status == 'pass'] }
+    }
+    else {
+        ch_strand_data = ch_strand_inferred_filtered_fastq
+            .filter { meta, _reads -> meta.salmon_strand_analysis }
+            .map { meta, _reads -> [meta, 'auto', '-', meta.salmon_strand_analysis, null] }
     }
 
     //
@@ -803,9 +813,9 @@ workflow RNASEQ {
         MULTIQC_RNASEQ(
             ch_multiqc_files,
             ch_mqc_per_sample_bundle,
+            ch_strand_data,
             ch_trim_read_count,
             ch_genome_bam_bai_mapping.percent_mapped_pass,
-            ch_strand_comparison,
             ch_fastq,
             ch_collated_versions,
             params.input,
@@ -816,6 +826,8 @@ workflow RNASEQ {
             params.multiqc_methods_description
                 ? file(params.multiqc_methods_description)
                 : file("$projectDir/workflows/rnaseq/assets/multiqc/methods_description_template.yml", checkIfExists: true),
+            file("$projectDir/workflows/rnaseq/assets/multiqc/strand_check_summary.yaml",     checkIfExists: true),
+            file("$projectDir/workflows/rnaseq/assets/multiqc/strand_check_composition.yaml", checkIfExists: true),
             sample_status_header_multiqc,
             params.min_trimmed_reads,
             params.skip_quantification_merge
