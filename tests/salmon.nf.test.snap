@@ -140,6 +140,8 @@
                 "multiqc/multiqc_report_data/multiqc_salmon.txt",
                 "multiqc/multiqc_report_data/multiqc_software_versions.txt",
                 "multiqc/multiqc_report_data/multiqc_sources.txt",
+                "multiqc/multiqc_report_data/multiqc_strand_check_composition_bargraph.txt",
+                "multiqc/multiqc_report_data/multiqc_strand_check_summary_table.txt",
                 "multiqc/multiqc_report_data/salmon_plot.txt",
                 "multiqc/multiqc_report_plots",
                 "multiqc/multiqc_report_plots/pdf",
@@ -163,6 +165,8 @@
                 "multiqc/multiqc_report_plots/pdf/fastqc_trimmed_sequence_duplication_levels_plot.pdf",
                 "multiqc/multiqc_report_plots/pdf/fastqc_trimmed_top_overrepresented_sequences_table.pdf",
                 "multiqc/multiqc_report_plots/pdf/salmon_plot.pdf",
+                "multiqc/multiqc_report_plots/pdf/strand_check_composition_bargraph.pdf",
+                "multiqc/multiqc_report_plots/pdf/strand_check_summary_table.pdf",
                 "multiqc/multiqc_report_plots/png",
                 "multiqc/multiqc_report_plots/png/bbmap-bbsplit_plot-cnt.png",
                 "multiqc/multiqc_report_plots/png/bbmap-bbsplit_plot-pct.png",
@@ -184,6 +188,8 @@
                 "multiqc/multiqc_report_plots/png/fastqc_trimmed_sequence_duplication_levels_plot.png",
                 "multiqc/multiqc_report_plots/png/fastqc_trimmed_top_overrepresented_sequences_table.png",
                 "multiqc/multiqc_report_plots/png/salmon_plot.png",
+                "multiqc/multiqc_report_plots/png/strand_check_composition_bargraph.png",
+                "multiqc/multiqc_report_plots/png/strand_check_summary_table.png",
                 "multiqc/multiqc_report_plots/svg",
                 "multiqc/multiqc_report_plots/svg/bbmap-bbsplit_plot-cnt.svg",
                 "multiqc/multiqc_report_plots/svg/bbmap-bbsplit_plot-pct.svg",
@@ -205,6 +211,8 @@
                 "multiqc/multiqc_report_plots/svg/fastqc_trimmed_sequence_duplication_levels_plot.svg",
                 "multiqc/multiqc_report_plots/svg/fastqc_trimmed_top_overrepresented_sequences_table.svg",
                 "multiqc/multiqc_report_plots/svg/salmon_plot.svg",
+                "multiqc/multiqc_report_plots/svg/strand_check_composition_bargraph.svg",
+                "multiqc/multiqc_report_plots/svg/strand_check_summary_table.svg",
                 "pipeline_info",
                 "pipeline_info/nf_core_rnaseq_software_mqc_versions.yml",
                 "salmon",
@@ -326,6 +334,8 @@
                 "fastqc_trimmed_sequence_duplication_levels_plot.txt:md5,0758257b497283b1ef28171e694db6db",
                 "multiqc_citations.txt:md5,f789abe663d4b4214f0ddeb413a7f150",
                 "multiqc_fastqc_fastqc_trimmed.txt:md5,54743154d0e8858980acffeb5b6f6a97",
+                "multiqc_strand_check_composition_bargraph.txt:md5,6aa97fcc3863afb9b8e9fbe8a02b5cd1",
+                "multiqc_strand_check_summary_table.txt:md5,7825c502243e9901873965fd870cd789",
                 "ambig_info.tsv:md5,de973a4b22a4457217ae3dc04caf9401",
                 "expected_bias.gz:md5,3407f87245d0003e0ffbfdf6d8c04f20",
                 "observed_bias.gz:md5,92bcd0592d22a6a58d0360fc76103e56",
@@ -359,11 +369,11 @@
                 "salmon.merged.tx2gene.tsv:md5,0e2418a69d2eba45097ebffc2f700bfe"
             ]
         ],
+        "timestamp": "2026-04-21T20:25:38.348734681",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-26T14:33:45.910282768"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     },
     "Params: --pseudo_aligner salmon --skip_qc --skip_alignment - stub": {
         "content": [
@@ -440,10 +450,10 @@
                 "genome_transcriptome.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
+        "timestamp": "2026-02-04T17:31:37.170058949",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-04T17:31:37.170058949"
+        }
     }
 }
