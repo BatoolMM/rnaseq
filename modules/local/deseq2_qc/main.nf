@@ -22,7 +22,8 @@ process DESEQ2_QC {
     path "*sample.dists_mqc.tsv", optional:true, emit: dists_multiqc
     path "*.log"                , optional:true, emit: log
     path "size_factors"         , optional:true, emit: size_factors
-    path "versions.yml"         , emit: versions
+    tuple val("${task.process}"), val('r-base'), eval("Rscript -e 'cat(as.character(getRversion()))'"), topic: versions
+    tuple val("${task.process}"), val('bioconductor-deseq2'), eval("Rscript -e \"library(DESeq2); cat(as.character(packageVersion('DESeq2')))\""), topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -54,12 +55,6 @@ process DESEQ2_QC {
         cat clustering_header.tmp *.sample.dists.txt > ${label_lower}.sample.dists_mqc.tsv
         rm clustering_header.tmp
     fi
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        r-base: \$(echo \$(R --version 2>&1) | sed 's/^.*R version //; s/ .*\$//')
-        bioconductor-deseq2: \$(Rscript -e "library(DESeq2); cat(as.character(packageVersion('DESeq2')))")
-    END_VERSIONS
     """
 
     stub:
@@ -81,11 +76,5 @@ process DESEQ2_QC {
     do
         touch size_factors/\${i}.size_factors.RData
     done
-
-    cat <<-END_VERSIONS >versions.yml
-    "${task.process}":
-        r-base: \$(echo \$(R --version 2>&1) | sed 's/^.*R version //; s/ .*\$//')
-        bioconductor-deseq2: \$(Rscript -e "library(DESeq2); cat(as.character(packageVersion('DESeq2')))")
-    END_VERSIONS
     """
 }
