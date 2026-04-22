@@ -78,9 +78,6 @@ workflow PREPARE_GENOME {
     contaminant_screening    // string: contaminant screening tool ('kraken2', 'kraken2_bracken', 'sylph', or null)
 
     main:
-    // Versions collector
-    ch_versions = channel.empty()
-
     //---------------------------
     // 1) Uncompress GTF or GFF -> GTF
     //---------------------------
@@ -153,7 +150,6 @@ workflow PREPARE_GENOME {
         )
         ch_fasta    = CUSTOM_CATADDITIONALFASTA.out.fasta.map { tuple -> tuple[1] }.first()
         ch_gtf      = CUSTOM_CATADDITIONALFASTA.out.gtf.map { tuple -> tuple[1] }.first()
-        ch_versions = ch_versions.mix(CUSTOM_CATADDITIONALFASTA.out.versions)
     }
 
     //------------------------------------------------------
@@ -477,5 +473,4 @@ workflow PREPARE_GENOME {
     salmon_index     = ch_salmon_index           // channel: path(salmon/index/)
     kallisto_index   = ch_kallisto_index         // channel: [ meta, path(kallisto/index/) ]
     kraken_db        = ch_kraken_db              // channel: path(kraken2/db/)
-    versions         = ch_versions               // channel: [ versions.yml ]
 }
