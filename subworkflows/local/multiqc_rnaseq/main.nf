@@ -88,68 +88,15 @@ workflow MULTIQC_RNASEQ {
         .map { f -> [[:], f] }
 
     //
-    // Strandedness checks custom-content section. Two MultiQC subsections
-    // (summary table + stacked composition bargraph) are rendered from
-    // the same per-sample tuple, with header / pconfig / colour config
-    // in the bundled YAML templates. The composition section inherits
-    // `parent_*` from the summary section so the description lives in
-    // one place.
+    // Strandedness checks custom-content section. Two MultiQC
+    // subsections (summary table + stacked composition bargraph) are
+    // rendered from the same per-sample tuple, with header / pconfig
+    // / colour config in the bundled YAML templates. The composition
+    // section inherits `parent_*` from the summary section so the
+    // description lives in one place.
     //
     def strand_summary_static     = loadMultiqcAsset(strand_summary_asset)
     def strand_composition_static = loadMultiqcAsset(strand_composition_asset) + strand_summary_static.subMap(['parent_id', 'parent_name', 'parent_description'])
-
-    // `.collect(flat: false)` is silent on an empty channel, so zero
-    // strand rows -> no *_mqc.json emission -> MultiQC drops the section
-    // cleanly.
-    ch_strand_rows = ch_strand_data.collect(flat: false)
-
-    ch_strand_summary_merged = ch_strand_rows
-        .map { rows -> strandCheckSummaryYaml(strand_summary_static, rows) }
-        .collectFile(name: 'strand_check_summary_mqc.json')
-        .map { f -> [[:], f] }
-
-    ch_strand_summary_by_id = ch_strand_data
-        .collectFile { row ->
-            [
-                "${row[0].id}_strand_check_summary_mqc.json",
-                strandCheckSummaryYaml(strand_summary_static, [row]),
-            ]
-        }
-        .map { f -> [f.baseName.replace('_strand_check_summary_mqc', ''), f] }
-
-    ch_strand_composition_merged = ch_strand_rows
-        .map { rows -> strandCheckCompositionYaml(strand_composition_static, rows) }
-        .collectFile(name: 'strand_check_composition_mqc.json')
-        .map { f -> [[:], f] }
-
-    ch_strand_composition_by_id = ch_strand_data
-        .collectFile { row ->
-            [
-                "${row[0].id}_strand_check_composition_mqc.json",
-                strandCheckCompositionYaml(strand_composition_static, [row]),
-            ]
-        }
-        .map { f -> [f.baseName.replace('_strand_check_composition_mqc', ''), f] }
-
-    //
-    // Collapse the raw bundle with every per-sample contributor, one
-    // `.join(remainder: true)` per stream. Each sample becomes
-    // `[meta, [files]]`; missing streams show up as null entries that
-    // are filtered out before MULTIQC sees them.
-    //
-    ch_per_sample_bundle = ch_per_sample_bundle_raw
-        .join(ch_fail_trimmed_all.map { meta, f -> [meta.id, f] }, remainder: true)
-        .join(ch_fail_mapped_all.map  { meta, f -> [meta.id, f] }, remainder: true)
-        .join(ch_strand_summary_by_id,     remainder: true)
-        .join(ch_strand_composition_by_id, remainder: true)
-        .map { row ->
-            [
-                row[1],
-                row.drop(2)
-                    .findAll { it != null }
-                    .collectMany { entry -> (entry instanceof List) ? entry : [entry] },
-            ]
-        }
 
     // Per-run table_sample_merge config: only PE samples from the
     // samplesheet get their _1 / _2 rows grouped in the General Stats
@@ -166,20 +113,18 @@ workflow MULTIQC_RNASEQ {
         .value(methodsDescriptionText(methods_description_yml))
         .collectFile(name: 'methods_description_mqc.yaml')
 
-    // --replace-names TSV so MultiQC uses sample IDs rather than FASTQ basenames.
-    ch_name_replacements = multiqcNameReplacements(ch_fastq)
-
     //
     // Two execution modes for MULTIQC:
     //   - merged (default): one report covers the whole run.
     //   - per-sample (--skip_quantification_merge): one report per
     //     sample; workflow-level versions are replaced with a
-    //     pipeline-identity manifest so the report doesn't wait on the
-    //     global versions topic.
+    //     pipeline-identity manifest so the report doesn't wait on
+    //     the global versions topic.
     //
-    // Each branch ends with a tuple matching the MULTIQC input contract
-    // (id, files, configs, logo, replace_names, extra); the closure
-    // below builds it so the branches stay focused on file assembly.
+    // Each branch ends with a tuple matching the MULTIQC input
+    // contract (id, files, configs, logo, replace_names, extra); the
+    // closure below builds it so the branches stay focused on file
+    // assembly.
     //
     def buildMultiqcInputTuple = { id, files, dynamic_config, replace_names = [] ->
         [
@@ -193,6 +138,42 @@ workflow MULTIQC_RNASEQ {
     }
 
     if (skip_quantification_merge) {
+        ch_strand_summary_by_id = ch_strand_data
+            .collectFile { row ->
+                [
+                    "${row[0].id}_strand_check_summary_mqc.json",
+                    strandCheckSummaryYaml(strand_summary_static, [row]),
+                ]
+            }
+            .map { f -> [f.baseName.replace('_strand_check_summary_mqc', ''), f] }
+
+        ch_strand_composition_by_id = ch_strand_data
+            .collectFile { row ->
+                [
+                    "${row[0].id}_strand_check_composition_mqc.json",
+                    strandCheckCompositionYaml(strand_composition_static, [row]),
+                ]
+            }
+            .map { f -> [f.baseName.replace('_strand_check_composition_mqc', ''), f] }
+
+        // Collapse the raw bundle with every per-sample contributor,
+        // one `.join(remainder: true)` per stream. Each sample becomes
+        // `[meta, [files]]`; missing streams show up as null entries
+        // that are filtered out before MULTIQC sees them.
+        ch_per_sample_bundle = ch_per_sample_bundle_raw
+            .join(ch_fail_trimmed_all.map { meta, f -> [meta.id, f] }, remainder: true)
+            .join(ch_fail_mapped_all.map  { meta, f -> [meta.id, f] }, remainder: true)
+            .join(ch_strand_summary_by_id,     remainder: true)
+            .join(ch_strand_composition_by_id, remainder: true)
+            .map { row ->
+                [
+                    row[1],
+                    row.drop(2)
+                        .findAll { it != null }
+                        .collectMany { entry -> (entry instanceof List) ? entry : [entry] },
+                ]
+            }
+
         ch_manifest_versions = channel.value(workflowVersionToYAML())
             .collectFile(name: 'nf_core_rnaseq_software_mqc_versions.yml')
 
@@ -220,6 +201,24 @@ workflow MULTIQC_RNASEQ {
                 )
             }
     } else {
+        // `.collect(flat: false)` is silent on an empty channel, so
+        // zero strand rows -> no *_mqc.json emission -> MultiQC drops
+        // the section cleanly.
+        ch_strand_rows = ch_strand_data.collect(flat: false)
+
+        ch_strand_summary_merged = ch_strand_rows
+            .map { rows -> strandCheckSummaryYaml(strand_summary_static, rows) }
+            .collectFile(name: 'strand_check_summary_mqc.json')
+            .map { f -> [[:], f] }
+
+        ch_strand_composition_merged = ch_strand_rows
+            .map { rows -> strandCheckCompositionYaml(strand_composition_static, rows) }
+            .collectFile(name: 'strand_check_composition_mqc.json')
+            .map { f -> [[:], f] }
+
+        // --replace-names TSV so MultiQC uses sample IDs rather than FASTQ basenames.
+        ch_name_replacements = multiqcNameReplacements(ch_fastq)
+
         // `multiqc_report` is a sentinel meta.id used by
         // conf/modules/multiqc.config to pick the merged output path.
         ch_multiqc_files_merged = ch_multiqc_files
