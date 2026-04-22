@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #1805](https://github.com/nf-core/rnaseq/pull/1805) - Surface Salmon-inferred strandedness in MultiQC under a dedicated "Strandedness checks" section (inference summary table + read-composition bargraph); narrow the `prokaryotic` profile's RSeQC skip to `rseqc_modules = 'bam_stat,infer_experiment,read_duplication'`
 - [PR #1806](https://github.com/nf-core/rnaseq/pull/1806) - Pass `-k 200` to Bowtie2 by default when using `--aligner bowtie2_salmon` so downstream Salmon EM can redistribute multimapping reads; override via `--extra_bowtie2_align_args "-k N"`
 - [PR #1811](https://github.com/nf-core/rnaseq/pull/1811) - Default `--ribo_database_manifest` moves to SortMeRNA's SILVA 138 `smr_v4.3_fast_db`; other variants documented as opt-in. Closes [#1354](https://github.com/nf-core/rnaseq/issues/1354), enabled by [sortmerna/sortmerna#458](https://github.com/sortmerna/sortmerna/issues/458)
+- [PR #1812](https://github.com/nf-core/rnaseq/pull/1812) - Narrow the pipeline-level test matrix by adding `--skip_pseudo_alignment` to aligner-focused tests (HISAT2, STAR-RSEM, UMI, Parabricks, Sentieon), merging `skip_quantification_merge` into the Salmon test file, and folding `min_mapped_reads` into `skip_qc` as a single `--skip_qc --min_mapped_reads 90` case so both filters are exercised in one run
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 
