@@ -69,11 +69,20 @@ You can control the stringency of this behavior with `--stranded_threshold` and 
 
 #### Errors and Reporting
 
-The results of strandedness inference are displayed in the MultiQC report under 'Strandedness Checks'. This shows any provided strandedness and the results inferred by both Salmon (when strandedness is set to 'auto') and RSeQC. Mismatches between input strandedness (explicitly provided by the user or inferred by Salmon) and output strandedness from RSeQC are marked as fails. For example, if a user specifies 'forward' as strandedness for a library that is actually reverse stranded, this is marked as a fail.
+The results of strandedness inference are displayed in the MultiQC report under the top-level 'Strandedness checks' section, which contains two sub-reports:
+
+- **Strandedness: inference summary** - one row per sample with the strandedness declared in the samplesheet, the values inferred by Salmon and RSeQC (where active), and a per-method certainty percentage (the fragment proportion attributable to the inferred strand). A pass/fail status is shown whenever RSeQC `infer_experiment` runs: RSeQC's call is compared against Salmon's auto-inference for `auto` samples and against the samplesheet value otherwise. The status column shows '-' when RSeQC didn't run and only the Salmon call is available. Per-component sense / antisense / unstranded percentages for each method are available as additional columns hidden by default - enable them via the **Configure columns** button above the table if you want to see the underlying composition.
+- **Strandedness: read composition** - stacked percentage bars of sense / antisense / unstranded fragments per sample. When both Salmon and RSeQC produced an inference, a dataset switcher above the plot lets you flip between the two methods' views.
+
+If RSeQC disagrees with the expected strandedness, or returns 'undetermined' (which can indicate gDNA contamination), the summary row is marked as a fail. When RSeQC isn't active (e.g. `--skip_rseqc`, `--skip_qc`), Salmon's auto-inference is still surfaced so the user always sees what the pipeline determined - just without a cross-check status.
 
 ![MultiQC - Strand check table](images/mqc_strand_check.png)
 
-Be sure to check the strandedness report when reviewing the QC for your samples.
+The **Configure columns** dialog above the summary table lets you toggle the hidden per-component percentages on:
+
+![MultiQC - Strandedness Configure columns modal](images/mqc_strand_check_columns.png)
+
+Be sure to check the strandedness section when reviewing the QC for your samples.
 
 ### Full samplesheet
 

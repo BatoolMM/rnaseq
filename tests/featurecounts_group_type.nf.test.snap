@@ -80,11 +80,11 @@
                 "genome_transcriptome.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
+        "timestamp": "2026-02-04T16:59:46.520896834",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-04T16:59:46.520896834"
+        }
     },
     "Params: --featurecounts_group_type false": {
         "content": [
@@ -261,6 +261,8 @@
                 "multiqc/star_salmon/multiqc_report_data/multiqc_software_versions.txt",
                 "multiqc/star_salmon/multiqc_report_data/multiqc_sources.txt",
                 "multiqc/star_salmon/multiqc_report_data/multiqc_star.txt",
+                "multiqc/star_salmon/multiqc_report_data/multiqc_strand_check_composition_bargraph.txt",
+                "multiqc/star_salmon/multiqc_report_data/multiqc_strand_check_summary_table.txt",
                 "multiqc/star_salmon/multiqc_report_data/picard_MarkIlluminaAdapters_histogram.txt",
                 "multiqc/star_salmon/multiqc_report_data/picard_MeanQualityByCycle_histogram.txt",
                 "multiqc/star_salmon/multiqc_report_data/picard_MeanQualityByCycle_histogram_1.txt",
@@ -314,6 +316,8 @@
                 "multiqc/star_salmon/multiqc_report_plots/pdf/star_alignment_plot-cnt.pdf",
                 "multiqc/star_salmon/multiqc_report_plots/pdf/star_alignment_plot-pct.pdf",
                 "multiqc/star_salmon/multiqc_report_plots/pdf/star_summary_table.pdf",
+                "multiqc/star_salmon/multiqc_report_plots/pdf/strand_check_composition_bargraph.pdf",
+                "multiqc/star_salmon/multiqc_report_plots/pdf/strand_check_summary_table.pdf",
                 "multiqc/star_salmon/multiqc_report_plots/png",
                 "multiqc/star_salmon/multiqc_report_plots/png/bbmap-bbsplit_plot-cnt.png",
                 "multiqc/star_salmon/multiqc_report_plots/png/bbmap-bbsplit_plot-pct.png",
@@ -351,6 +355,8 @@
                 "multiqc/star_salmon/multiqc_report_plots/png/star_alignment_plot-cnt.png",
                 "multiqc/star_salmon/multiqc_report_plots/png/star_alignment_plot-pct.png",
                 "multiqc/star_salmon/multiqc_report_plots/png/star_summary_table.png",
+                "multiqc/star_salmon/multiqc_report_plots/png/strand_check_composition_bargraph.png",
+                "multiqc/star_salmon/multiqc_report_plots/png/strand_check_summary_table.png",
                 "multiqc/star_salmon/multiqc_report_plots/svg",
                 "multiqc/star_salmon/multiqc_report_plots/svg/bbmap-bbsplit_plot-cnt.svg",
                 "multiqc/star_salmon/multiqc_report_plots/svg/bbmap-bbsplit_plot-pct.svg",
@@ -388,6 +394,8 @@
                 "multiqc/star_salmon/multiqc_report_plots/svg/star_alignment_plot-cnt.svg",
                 "multiqc/star_salmon/multiqc_report_plots/svg/star_alignment_plot-pct.svg",
                 "multiqc/star_salmon/multiqc_report_plots/svg/star_summary_table.svg",
+                "multiqc/star_salmon/multiqc_report_plots/svg/strand_check_composition_bargraph.svg",
+                "multiqc/star_salmon/multiqc_report_plots/svg/strand_check_summary_table.svg",
                 "pipeline_info",
                 "pipeline_info/nf_core_rnaseq_software_mqc_versions.yml",
                 "salmon",
@@ -665,6 +673,8 @@
                 "multiqc_citations.txt:md5,ef51c78faebdd32bad296ba14406b41e",
                 "multiqc_fastqc_fastqc_trimmed.txt:md5,54743154d0e8858980acffeb5b6f6a97",
                 "multiqc_samtools_idxstats.txt:md5,8b8f6cb092004918c18319a8cd64eb4c",
+                "multiqc_strand_check_composition_bargraph.txt:md5,6aa97fcc3863afb9b8e9fbe8a02b5cd1",
+                "multiqc_strand_check_summary_table.txt:md5,7825c502243e9901873965fd870cd789",
                 "picard_MarkIlluminaAdapters_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_MeanQualityByCycle_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_QualityScoreDistribution_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
@@ -735,10 +745,10 @@
                 "salmon.merged.tx2gene.tsv:md5,0e2418a69d2eba45097ebffc2f700bfe"
             ]
         ],
+        "timestamp": "2026-04-21T20:11:17.952866791",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-26T13:59:39.142726629"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     }
 }

@@ -15,16 +15,6 @@
             "nextflow": "23.10.1"
         }
     },
-    "Test Function multiqcSampleMergeYamlPattern escapes regex and YAML metacharacters": {
-        "content": [
-            "    - type: regex\n      pattern: '(?<=^foo\\.1\\$bar''baz)_2$'"
-        ],
-        "timestamp": "2026-04-17T10:45:38.631512343",
-        "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "25.10.4"
-        }
-    },
     "Test Function biotypeInGtf success": {
         "content": [
             true
@@ -33,16 +23,6 @@
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "23.10.1"
-        }
-    },
-    "Test Function multiqcSampleMergeYaml PE samples with tricky IDs": {
-        "content": [
-            "table_sample_merge:\n  \"Read 1\":\n    - type: regex\n      pattern: '(?<=^foo\\.1)_1$'\n    - type: regex\n      pattern: '(?<=^sample_1)_1$'\n  \"Read 2\":\n    - type: regex\n      pattern: '(?<=^foo\\.1)_2$'\n    - type: regex\n      pattern: '(?<=^sample_1)_2$'\n"
-        ],
-        "timestamp": "2026-04-17T10:51:12.088745573",
-        "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "25.10.4"
         }
     },
     "Test Function checkSamplesAfterGrouping success": {
@@ -115,16 +95,6 @@
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "23.10.1"
-        }
-    },
-    "Test Function multiqcSampleMergeYaml empty PE set": {
-        "content": [
-            "table_sample_merge: {}\n"
-        ],
-        "timestamp": "2026-04-17T10:51:01.026004112",
-        "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "25.10.4"
         }
     },
     "Test Function biotypeInGtf failed": {
@@ -222,16 +192,6 @@
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "23.10.1"
-        }
-    },
-    "Test Function multiqcSampleMergeYamlPattern plain id": {
-        "content": [
-            "    - type: regex\n      pattern: '(?<=^sample_1)_1$'"
-        ],
-        "timestamp": "2026-04-17T10:45:28.037289808",
-        "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "25.10.4"
         }
     }
 }

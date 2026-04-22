@@ -10,7 +10,6 @@
 
 include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
 include { paramsSummaryMap          } from 'plugin/nf-schema'
-include { samplesheetToList         } from 'plugin/nf-schema'
 include { paramsHelp                } from 'plugin/nf-schema'
 include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
@@ -479,60 +478,6 @@ def toolBibliographyText() {
     return reference_text
 }
 
-//
-// MultiQC `--replace-names` file: map each FASTQ simpleName to '<id>_1' /
-// '<id>_2' (or '<id>' for SE), skipping cases where simpleName already
-// equals the sample ID (see #1341 / #1659).
-//
-def multiqcNameReplacements(ch_fastq) {
-    return ch_fastq
-        .map { meta, reads ->
-            def paired   = reads[0][1] as boolean
-            def suffixes = paired ? ['_1', '_2'] : ['']
-            def mappings = []
-
-            def fastq1_simplename = file(reads[0][0]).simpleName
-            if (fastq1_simplename != meta.id) {
-                mappings << [fastq1_simplename, "${meta.id}${suffixes[0]}"]
-                if (paired) {
-                    mappings << [file(reads[0][1]).simpleName, "${meta.id}${suffixes[1]}"]
-                }
-            }
-
-            return mappings.collect { mapping -> mapping.join('\t') }
-        }
-        .flatten()
-        .collectFile(name: 'name_replacement.txt', newLine: true)
-        .ifEmpty([])
-}
-
-// Escape Python-regex metacharacters and YAML single-quote a sample ID for
-// use in a multiqcSampleMergeYaml lookbehind pattern.
-def multiqcSampleMergeYamlPattern(id, read) {
-    def esc = id.replaceAll(/[\\^$.|?*+()\[\]{}\/]/) { m -> "\\${m[0]}" }
-                .replace("'", "''")
-    return "    - type: regex\n      pattern: '(?<=^${esc})_${read}\$'"
-}
-
-//
-// MultiQC table_sample_merge YAML scoped to PE sample IDs via fixed-length
-// lookbehind, so sample IDs ending in `_1` / `_2` aren't wrongly collapsed.
-//
-def multiqcSampleMergeYaml(samplesheet_path, schema_path) {
-    // row order comes from assets/schema_input.json: [0]=meta, [1]=fastq_1,
-    // [2]=fastq_2 (truthy => paired-end).
-    def pe_sample_ids = samplesheetToList(samplesheet_path, schema_path)
-        .findAll { row -> row[2] as boolean }
-        .collect { row -> row[0].id as String }
-        .unique()
-        .sort()
-    if (!pe_sample_ids) return 'table_sample_merge: {}\n'
-
-    def r1 = pe_sample_ids.collect { id -> multiqcSampleMergeYamlPattern(id, 1) }.join('\n')
-    def r2 = pe_sample_ids.collect { id -> multiqcSampleMergeYamlPattern(id, 2) }.join('\n')
-    return "table_sample_merge:\n  \"Read 1\":\n${r1}\n  \"Read 2\":\n${r2}\n"
-}
-
 def methodsDescriptionText(mqc_methods_yaml) {
     // Convert  to a named map so can be used as with familiar NXF ${workflow} variable syntax in the MultiQC YML file
     def meta = [:]
@@ -821,33 +766,38 @@ def getInferexperimentStrandedness(inferexperiment_file, stranded_threshold = 0.
 }
 
 //
-// Compare a sample's declared / Salmon-inferred strandedness against its RSeQC
-// infer_experiment result. Returns [meta, status, multiqc_lines] where status
-// is 'pass' / 'fail' and multiqc_lines are one or two pre-formatted rows for
-// the fail_strand_check MultiQC table.
+// Compare a sample's declared / Salmon-inferred strandedness against its
+// RSeQC infer_experiment result. Returns a per-sample tuple:
+//   [ meta, provided, status, salmon, rseqc ]
+// where
+//   - provided = 'auto' when Salmon inferred the strand, else meta.strandedness
+//   - status   = 'pass' / 'fail' from comparing the two methods
+//   - salmon   = Salmon's calculateStrandedness map (or null if no auto-inference)
+//   - rseqc    = RSeQC's getInferexperimentStrandedness map
+// Both the summary table and the composition bargraph sections of the
+// MultiQC report are derived from this tuple.
 //
-def compareStrand(meta, strand_log, stranded_threshold, unstranded_threshold) {
+def classifyStrand(meta, strand_log, stranded_threshold, unstranded_threshold) {
     def rseqc = getInferexperimentStrandedness(strand_log, stranded_threshold, unstranded_threshold)
     def rseqc_strandedness = rseqc.inferred_strandedness
+    def salmon = meta.salmon_strand_analysis
+    def provided
     def status = 'fail'
-    def lines = []
-    if (meta.salmon_strand_analysis) {
-        def salmon_strandedness = meta.salmon_strand_analysis.inferred_strandedness
-        if (salmon_strandedness == rseqc_strandedness && rseqc_strandedness != 'undetermined') {
+    if (salmon) {
+        provided = 'auto'
+        if (salmon.inferred_strandedness == rseqc_strandedness && rseqc_strandedness != 'undetermined') {
             status = 'pass'
         }
-        lines = [
-            "$meta.id \tSalmon\t$status\tauto\t${meta.salmon_strand_analysis.values().join('\t')}",
-            "$meta.id\tRSeQC\t$status\tauto\t${rseqc.values().join('\t')}"
-        ]
-    } else {
+    }
+    else {
+        provided = meta.strandedness
         if (meta.strandedness == rseqc_strandedness) {
             status = 'pass'
         }
-        lines = [ "$meta.id\tRSeQC\t$status\t$meta.strandedness\t${rseqc.values().join('\t')}" ]
     }
-    return [ meta, status, lines ]
+    return [ meta, provided, status, salmon, rseqc ]
 }
+
 
 //
 // Function to map work directory BAM paths to published paths
