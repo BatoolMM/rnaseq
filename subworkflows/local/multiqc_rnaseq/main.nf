@@ -2,11 +2,12 @@
 // MultiQC report assembly for nf-core/rnaseq.
 //
 
-include { MULTIQC               } from '../../../modules/nf-core/multiqc'
-include { paramsSummaryMap      } from 'plugin/nf-schema'
-include { samplesheetToList     } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc  } from '../../nf-core/utils_nfcore_pipeline'
-include { workflowVersionToYAML } from '../../nf-core/utils_nfcore_pipeline'
+include { MULTIQC                } from '../../../modules/nf-core/multiqc'
+include { paramsSummaryMap       } from 'plugin/nf-schema'
+include { samplesheetToList      } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc   } from '../../nf-core/utils_nfcore_pipeline'
+include { workflowVersionToYAML  } from '../../nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText } from '../utils_nfcore_rnaseq_pipeline'
 
 
 workflow MULTIQC_RNASEQ {
@@ -305,41 +306,6 @@ def multiqcSampleMergeYaml(samplesheet_path, schema_path) {
     def r1 = pe_sample_ids.collect { id -> multiqcSampleMergeYamlPattern(id, 1) }.join('\n')
     def r2 = pe_sample_ids.collect { id -> multiqcSampleMergeYamlPattern(id, 2) }.join('\n')
     return "table_sample_merge:\n  \"Read 1\":\n${r1}\n  \"Read 2\":\n${r2}\n"
-}
-
-def methodsDescriptionText(mqc_methods_yaml) {
-    // Convert  to a named map so can be used as with familiar NXF ${workflow} variable syntax in the MultiQC YML file
-    def meta = [:]
-    meta.workflow = workflow.toMap()
-    meta["manifest_map"] = workflow.manifest.toMap()
-
-    // Pipeline DOI
-    if (meta.manifest_map.doi) {
-        // Using a loop to handle multiple DOIs
-        // Removing `https://doi.org/` to handle pipelines using DOIs vs DOI resolvers
-        // Removing ` ` since the manifest.doi is a string and not a proper list
-        def temp_doi_ref = ""
-        def manifest_doi = meta.manifest_map.doi.tokenize(",")
-        manifest_doi.each { doi_ref ->
-            temp_doi_ref += "(doi: <a href=\'https://doi.org/${doi_ref.replace("https://doi.org/", "").replace(" ", "")}\'>${doi_ref.replace("https://doi.org/", "").replace(" ", "")}</a>), "
-        }
-        meta["doi_text"] = temp_doi_ref.substring(0, temp_doi_ref.length() - 2)
-    } else meta["doi_text"] = ""
-    meta["nodoi_text"] = meta.manifest_map.doi ? "" : "<li>If available, make sure to update the text to include the Zenodo DOI of version of the pipeline used. </li>"
-
-    // Tool references
-    meta["tool_citations"] = ""
-    meta["tool_bibliography"] = ""
-
-    // TODO nf-core: Only uncomment below if logic in toolCitationText/toolBibliographyText has been filled!
-    // meta["tool_citations"] = toolCitationText().replaceAll(", \\.", ".").replaceAll("\\. \\.", ".").replaceAll(", \\.", ".")
-    // meta["tool_bibliography"] = toolBibliographyText()
-    def methods_text = mqc_methods_yaml.text
-
-    def engine =  new groovy.text.SimpleTemplateEngine()
-    def description_html = engine.createTemplate(methods_text).make(meta)
-
-    return description_html.toString()
 }
 
 //
