@@ -4,12 +4,13 @@ nextflow_pipeline {
     script "../main.nf"
     tag "pipeline"
 
-    test("Params: --skip_qc") {
+    test("Params: --skip_qc --min_mapped_reads 90") {
 
         when {
             params {
                 outdir = "$outputDir"
                 skip_qc = true
+                min_mapped_reads = 90
             }
         }
 
@@ -41,7 +42,7 @@ nextflow_pipeline {
         }
     }
 
-    test("Params: --skip_qc - stub") {
+    test("Params: --skip_qc --min_mapped_reads 90 - stub") {
 
         options "-stub"
 
@@ -49,6 +50,7 @@ nextflow_pipeline {
             params {
                 outdir = "$outputDir"
                 skip_qc = true
+                min_mapped_reads = 90
             }
         }
 
