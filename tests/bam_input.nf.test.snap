@@ -117,10 +117,6 @@
                 }
             },
             [
-                "custom",
-                "custom/out",
-                "custom/out/genome_gfp.fasta",
-                "custom/out/genome_gfp.gtf",
                 "multiqc",
                 "multiqc/multiqc_report.html",
                 "multiqc/multiqc_report_data",
@@ -862,8 +858,6 @@
                 "star_salmon/stringtie/WT_REP2.transcripts.gtf"
             ],
             [
-                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
-                "genome_gfp.gtf:md5,c98b12c302f15731bfc36bcf297cfe28",
                 "multiqc_citations.txt:md5,564145971ac42922310b2f992a6dcb70",
                 "multiqc_featurecounts_biotype_plot.txt:md5,b633d12b9d6c5993350f45177b103243",
                 "multiqc_samtools_idxstats.txt:md5,14838fa75205d1b87bb387784e7a56ab",
@@ -949,11 +943,11 @@
                 "i_data.ctab:md5,041edee3193df311f621c09f4991892b"
             ]
         ],
+        "timestamp": "2026-04-22T17:10:55.214026301",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-26T13:51:27.63099365"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     },
     "BAM input for RSEM": {
         "content": [
@@ -1084,10 +1078,6 @@
                 }
             },
             [
-                "custom",
-                "custom/out",
-                "custom/out/genome_gfp.fasta",
-                "custom/out/genome_gfp.gtf",
                 "multiqc",
                 "multiqc/multiqc_report.html",
                 "multiqc/multiqc_report_data",
@@ -1804,8 +1794,6 @@
                 "star_rsem/stringtie/WT_REP2.transcripts.gtf"
             ],
             [
-                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
-                "genome_gfp.gtf:md5,c98b12c302f15731bfc36bcf297cfe28",
                 "multiqc_citations.txt:md5,210a3666a96ac8e0460b87f91deb9476",
                 "multiqc_featurecounts_biotype_plot.txt:md5,62b0407251d2f4778005401bc7256098",
                 "multiqc_samtools_idxstats.txt:md5,347afbde271047e89ccfafe8c81f299d",
@@ -1880,10 +1868,10 @@
                 "i_data.ctab:md5,7e81ace0a68bfe42482420b7275de195"
             ]
         ],
+        "timestamp": "2026-04-22T17:11:00.247700127",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-13T14:58:30.502549129"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     }
 }
