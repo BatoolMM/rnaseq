@@ -77,10 +77,24 @@
                         "WT_REP2.size_factors.RData:md5,d41d8cd98f00b204e9800998ecf8427e",
                         "deseq2.size_factors.RData:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
+                ],
+                "versions_deseq2": [
+                    [
+                        "DESEQ2_QC",
+                        "bioconductor-deseq2",
+                        "1.46.0"
+                    ]
+                ],
+                "versions_r_base": [
+                    [
+                        "DESEQ2_QC",
+                        "r-base",
+                        "4.4.2"
+                    ]
                 ]
             }
         ],
-        "timestamp": "2026-04-22T19:16:49.535920219",
+        "timestamp": "2026-04-23T08:21:07.295093921",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.10.4"
@@ -93,12 +107,26 @@
             ],
             [
                 
+            ],
+            [
+                [
+                    "DESEQ2_QC",
+                    "r-base",
+                    "4.4.2"
+                ]
+            ],
+            [
+                [
+                    "DESEQ2_QC",
+                    "bioconductor-deseq2",
+                    "1.46.0"
+                ]
             ]
         ],
-        "timestamp": "2025-11-27T13:28:49.884314",
+        "timestamp": "2026-04-23T08:20:49.843146053",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.10.0"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
         }
     }
 }
