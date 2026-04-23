@@ -9,11 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Special thanks to the following for their contributions to the release:
 
+- [Alexander Noskov](https://github.com/peachgabba22)
+- [Edmund Miller](https://github.com/edmundmiller)
+- [Friederike Hanssen](https://github.com/FriederikeHanssen)
+- [James A. Fellows Yates](https://github.com/jfy133)
 - [Justin Payeur](https://github.com/Odulhin)
 - [Matthias Hörtenhuber](https://github.com/mashehu)
+- [Matthias Zepper](https://github.com/MatthiasZepper)
 - [Maxime U Garcia](https://github.com/maxulysse)
 - [Muhammad Imran](https://github.com/drimran87)
+- [Nathan Ribeiro](https://github.com/nvribeiro)
 - [Phil Ewels](https://github.com/ewels)
+- [@sebinheo](https://github.com/sebinheo)
+- [Stephen Kelly](https://github.com/stevekm)
+- Weisheng Wu
+- [@wzheng0520](https://github.com/wzheng0520)
 
 ### Enhancements and fixes
 
@@ -28,6 +38,14 @@ Special thanks to the following for their contributions to the release:
 - [PR #1795](https://github.com/nf-core/rnaseq/pull/1795) - Bump `custom/multiqccustombiotype` to fail loudly when the featureCounts output exceeds `--max_biotypes` (default 100), catching misconfigured `--featurecounts_group_type` values that previously hung MultiQC ([#424](https://github.com/nf-core/rnaseq/issues/424))
 - [PR #1796](https://github.com/nf-core/rnaseq/pull/1796) - Clarify prokaryotic profile docs: transcripts are extracted from all transcript-like features (CDS, tRNA, rRNA, tmRNA, ncRNA, etc.), not only CDS; CDS is only required for featureCounts biotype QC
 - [PR #1799](https://github.com/nf-core/rnaseq/pull/1799) - Bump version to 3.25.0 ahead of release
+- [PR #1803](https://github.com/nf-core/rnaseq/pull/1803) - Fix per-sample MultiQC hanging under `--skip_quantification_merge` by switching the MultiQC input from a mixed queue to a per-sample `[id, meta, files...]` bundle built with `.join(remainder: true)`, so each sample's report fires as soon as its own contributors arrive ([#1797](https://github.com/nf-core/rnaseq/issues/1797))
+- [PR #1804](https://github.com/nf-core/rnaseq/pull/1804) - Skip StringTie by default in the `prokaryotic` profile, where reference-guided transcript assembly is not informative for bacterial/archaeal annotations
+- [PR #1805](https://github.com/nf-core/rnaseq/pull/1805) - Add a new MultiQC "Strandedness checks" section whose table rows reflect which strandedness analyses actually ran for each sample; narrow the prokaryotic RSeQC skip to prokaryote-unsafe modules only
+- [PR #1806](https://github.com/nf-core/rnaseq/pull/1806) - Raise Bowtie2 default `-k` from 1 to 200 for `--aligner bowtie2_salmon` so Salmon's EM has enough multi-mapping evidence to quantify small transcriptomes correctly
+- [PR #1811](https://github.com/nf-core/rnaseq/pull/1811) - Update the default SortMeRNA rRNA database to `smr_v4.3_default_db` (SILVA 138) ([#1354](https://github.com/nf-core/rnaseq/issues/1354))
+- [PR #1812](https://github.com/nf-core/rnaseq/pull/1812) - Dedupe redundant pipeline-level nf-test cases (fold `min_mapped_reads` into `skip_qc`; prune duplicate pseudo-alignment cases) without losing coverage
+- [PR #1814](https://github.com/nf-core/rnaseq/pull/1814) - Sync nf-core components to the latest versions, migrate the remaining local `deseq2_qc` module to topic-based version reporting, and retire `ch_versions` plumbing now that all modules emit versions via topic
+- [PR #1815](https://github.com/nf-core/rnaseq/pull/1815) - Gate the nf-test `cleanup` directive on `$CI` so pipeline-test work directories are retained on local reruns and only pruned in CI ([#1813](https://github.com/nf-core/rnaseq/issues/1813))
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 
