@@ -47,10 +47,6 @@
                 }
             },
             [
-                "custom",
-                "custom/out",
-                "custom/out/genome_transcriptome.fasta",
-                "custom/out/genome_transcriptome.gtf",
                 "fastqc",
                 "fastqc/raw",
                 "fastqc/raw/RAP1_IAA_30M_REP1_raw.html",
@@ -91,14 +87,13 @@
                 "trimgalore/WT_REP2_trimmed_2.fastq.gz_trimming_report.txt"
             ],
             [
-                "genome_transcriptome.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "genome_transcriptome.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                
             ]
         ],
-        "timestamp": "2026-02-04T17:02:38.159554469",
+        "timestamp": "2026-04-22T17:11:20.845830751",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
         }
     },
     "Params: --aligner hisat2": {
@@ -231,10 +226,6 @@
                 "bbsplit/RAP1_UNINDUCED_REP2.stats.txt",
                 "bbsplit/WT_REP1.stats.txt",
                 "bbsplit/WT_REP2.stats.txt",
-                "custom",
-                "custom/out",
-                "custom/out/genome_gfp.fasta",
-                "custom/out/genome_gfp.gtf",
                 "fastqc",
                 "fastqc/filtered",
                 "fastqc/filtered/RAP1_IAA_30M_REP1_filtered_1_fastqc.html",
@@ -1136,8 +1127,6 @@
                 "trimgalore/WT_REP2_trimmed_2.fastq.gz_trimming_report.txt"
             ],
             [
-                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
-                "genome_gfp.gtf:md5,c98b12c302f15731bfc36bcf297cfe28",
                 "RAP1_IAA_30M_REP1.biotype_counts_mqc.tsv:md5,cd7494b3bb12295a287f36506638f3c6",
                 "RAP1_IAA_30M_REP1.biotype_counts_rrna_mqc.tsv:md5,dde2de0cb90e10d0195c726f768e9941",
                 "RAP1_IAA_30M_REP1.featureCounts.tsv:md5,289e47b060051eb33c17e52aa0ce52cc",
@@ -1217,7 +1206,7 @@
                 "samtools-idxstats-mapped-reads-plot_Raw_Counts.txt:md5,6c323b383a6506d124506405b9463d93"
             ]
         ],
-        "timestamp": "2026-04-20T15:53:44.307291807",
+        "timestamp": "2026-04-22T17:17:55.017730677",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.10.4"

@@ -56,8 +56,6 @@ workflow NFCORE_RNASEQ {
 
     main:
 
-    ch_versions = channel.empty()
-
     //
     // SUBWORKFLOW: Prepare reference genome files
     //
@@ -94,7 +92,6 @@ workflow NFCORE_RNASEQ {
         params.use_parabricks_star,
         params.contaminant_screening
     )
-    ch_versions = ch_versions.mix(PREPARE_GENOME.out.versions)
 
     // Check if contigs in genome fasta file > 512 Mbp
     if (!params.skip_alignment && !params.bam_csi_index) {
@@ -117,7 +114,6 @@ workflow NFCORE_RNASEQ {
 
     RNASEQ (
         ch_samplesheet,
-        ch_versions,
         PREPARE_GENOME.out.fasta,
         PREPARE_GENOME.out.gtf,
         PREPARE_GENOME.out.fai,
@@ -138,14 +134,12 @@ workflow NFCORE_RNASEQ {
         PREPARE_GENOME.out.kraken_db,
         qc_tools
     )
-    ch_versions = ch_versions.mix(RNASEQ.out.versions)
 
     emit:
     trim_status    = RNASEQ.out.trim_status    // channel: [id, boolean]
     map_status     = RNASEQ.out.map_status     // channel: [id, boolean]
     strand_status  = RNASEQ.out.strand_status  // channel: [id, boolean]
     multiqc_report = RNASEQ.out.multiqc_report // channel: /path/to/multiqc_report.html
-    versions       = ch_versions               // channel: [version1, version2, ...]
 }
 
 /*

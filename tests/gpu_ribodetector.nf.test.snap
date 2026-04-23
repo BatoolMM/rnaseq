@@ -31,6 +31,7 @@
                     "gunzip": 1.13
                 },
                 "RIBODETECTOR": {
+                    "cuda": 11.2,
                     "ribodetector": "0.3.3"
                 },
                 "SALMON_QUANT": {
@@ -50,10 +51,6 @@
                 }
             },
             [
-                "custom",
-                "custom/out",
-                "custom/out/genome_gfp.fasta",
-                "custom/out/genome_gfp.gtf",
                 "fastqc",
                 "fastqc/trim",
                 "fastqc/trim/RAP1_IAA_30M_REP1_trimmed_1_val_1_fastqc.html",
@@ -115,8 +112,6 @@
                 "trimgalore/WT_REP2_trimmed_2.fastq.gz_trimming_report.txt"
             ],
             [
-                "genome_gfp.fasta:md5,e23e302af63736a199985a169fdac055",
-                "genome_gfp.gtf:md5,5e63cda3dcafc0d6ad0a738133af9d54",
                 "RAP1_IAA_30M_REP1.rrna_removal_stats.tsv:md5,47edd6f22fb2f741c983ae93470b9299",
                 "RAP1_UNINDUCED_REP1.rrna_removal_stats.tsv:md5,244a43575c0c7e8c8f1c3e521b895224",
                 "RAP1_UNINDUCED_REP2.rrna_removal_stats.tsv:md5,10423aa5ad8557645f4b0c6a4942c62c",
@@ -163,10 +158,6 @@
                 }
             },
             [
-                "custom",
-                "custom/out",
-                "custom/out/genome_transcriptome.fasta",
-                "custom/out/genome_transcriptome.gtf",
                 "fastqc",
                 "fastqc/trim",
                 "fq_lint",
@@ -189,8 +180,7 @@
                 "trimgalore/WT_REP2_trimmed_2.fastq.gz_trimming_report.txt"
             ],
             [
-                "genome_transcriptome.fasta:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "genome_transcriptome.gtf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                
             ]
         ],
         "meta": {

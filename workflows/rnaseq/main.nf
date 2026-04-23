@@ -70,7 +70,6 @@ workflow RNASEQ {
 
     take:
     ch_samplesheet          // channel: path(sample_sheet.csv)
-    ch_versions             // channel: [ path(versions.yml) ]
     ch_fasta                // channel: path(genome.fasta)
     ch_gtf                  // channel: path(genome.gtf)
     ch_fai                  // channel: path(genome.fai)
@@ -122,7 +121,9 @@ workflow RNASEQ {
     def collapseAgg = { row -> [row[0].id, row.drop(1).findAll { it != null }.collectMany { e -> (e instanceof List) ? e : [e] }] }
 
     //
-    // Collect versions from topic channel (for modules that emit versions via topics)
+    // Collect versions from the topic channel. Entries are either
+    // `path(versions.yml)` (legacy file-emit style) or
+    // `(task.process, tool, version)` tuples (inline `eval` style).
     //
     def topic_versions = channel.topic('versions')
         .distinct()
@@ -437,7 +438,6 @@ workflow RNASEQ {
             )
             ch_multiqc_files = ch_multiqc_files.mix(DESEQ2_QC_RSEM.out.pca_multiqc.collect().map { file -> [[:], file] })
             ch_multiqc_files = ch_multiqc_files.mix(DESEQ2_QC_RSEM.out.dists_multiqc.collect().map { file -> [[:], file] })
-            ch_versions = ch_versions.mix(DESEQ2_QC_RSEM.out.versions)
         }
 
     } else if (params.aligner in ['star_salmon', 'bowtie2_salmon']) {
@@ -468,7 +468,6 @@ workflow RNASEQ {
             )
             ch_multiqc_files = ch_multiqc_files.mix(DESEQ2_QC_BAM_SALMON.out.pca_multiqc.collect().map { file -> [[:], file] })
             ch_multiqc_files = ch_multiqc_files.mix(DESEQ2_QC_BAM_SALMON.out.dists_multiqc.collect().map { file -> [[:], file] })
-            ch_versions = ch_versions.mix(DESEQ2_QC_BAM_SALMON.out.versions)
         }
     }
 
@@ -792,15 +791,13 @@ workflow RNASEQ {
             )
             ch_multiqc_files = ch_multiqc_files.mix(DESEQ2_QC_PSEUDO.out.pca_multiqc.collect().map { file -> [[:], file] })
             ch_multiqc_files = ch_multiqc_files.mix(DESEQ2_QC_PSEUDO.out.dists_multiqc.collect().map { file -> [[:], file] })
-            ch_versions = ch_versions.mix(DESEQ2_QC_PSEUDO.out.versions)
         }
     }
 
     //
-    // Collate and save software versions
-    // Combines traditional versions.yml files with versions emitted via topic channels
+    // Collate and save software versions from the `versions` topic
     //
-    ch_collated_versions = softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+    ch_collated_versions = softwareVersionsToYAML(topic_versions.versions_file)
         .mix(topic_versions_string)
         .collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'nf_core_rnaseq_software_mqc_versions.yml', sort: true, newLine: true)
 
@@ -878,7 +875,6 @@ workflow RNASEQ {
     map_status     = ch_map_status     // channel: [id, boolean]
     strand_status  = ch_strand_status  // channel: [id, boolean]
     multiqc_report = ch_multiqc_report // channel: /path/to/multiqc_report.html
-    versions       = ch_versions       // channel: [ path(versions.yml) ]
 }
 
 /*

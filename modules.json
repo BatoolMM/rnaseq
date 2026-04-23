@@ -37,7 +37,7 @@
                     },
                     "custom/catadditionalfasta": {
                         "branch": "master",
-                        "git_sha": "96c57dfd98a0641886a67bd449fe33ee2ec0e374",
+                        "git_sha": "21e4662ae927fdbc5fc04eec9bde38b0689d4954",
                         "installed_by": ["modules"]
                     },
                     "custom/gtffilter": {
@@ -86,7 +86,7 @@
                     },
                     "fq/lint": {
                         "branch": "master",
-                        "git_sha": "14b8e6cceb84242e16094fe979762e05bc8de526",
+                        "git_sha": "21e4662ae927fdbc5fc04eec9bde38b0689d4954",
                         "installed_by": ["fastq_qc_trim_filter_setstrandedness", "modules"]
                     },
                     "fq/subsample": {
@@ -161,7 +161,7 @@
                     },
                     "ribodetector": {
                         "branch": "master",
-                        "git_sha": "20423f58f6ff54c4bc851dfd143d75f9b9f86f41",
+                        "git_sha": "fbfb84479283933dae1ba16df948ac04c0a49549",
                         "installed_by": ["fastq_remove_rrna"]
                     },
                     "rsem/calculateexpression": {
@@ -354,7 +354,7 @@
                     },
                     "tximeta/tximport": {
                         "branch": "master",
-                        "git_sha": "a6c47e72998bd959036602ccd15171103c89111f",
+                        "git_sha": "21e4662ae927fdbc5fc04eec9bde38b0689d4954",
                         "installed_by": ["quant_tximport_summarizedexperiment", "quantify_pseudo_alignment"]
                     },
                     "ucsc/bedclip": {
@@ -463,7 +463,7 @@
                     },
                     "fastq_fastqc_umitools_trimgalore": {
                         "branch": "master",
-                        "git_sha": "8f2ec534d0418bf724cfd5f053176a9c500fae78",
+                        "git_sha": "e5777ea46cc591b519b9bb931e952e4a149cb47d",
                         "installed_by": ["fastq_qc_trim_filter_setstrandedness", "subworkflows"]
                     },
                     "fastq_qc_trim_filter_setstrandedness": {
