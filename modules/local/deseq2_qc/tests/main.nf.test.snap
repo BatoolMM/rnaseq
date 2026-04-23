@@ -108,22 +108,24 @@
             [
                 
             ],
-            [
-                [
-                    "DESEQ2_QC",
-                    "r-base",
-                    "4.4.2"
+            {
+                "versions_deseq2": [
+                    [
+                        "DESEQ2_QC",
+                        "bioconductor-deseq2",
+                        "1.46.0"
+                    ]
+                ],
+                "versions_r_base": [
+                    [
+                        "DESEQ2_QC",
+                        "r-base",
+                        "4.4.2"
+                    ]
                 ]
-            ],
-            [
-                [
-                    "DESEQ2_QC",
-                    "bioconductor-deseq2",
-                    "1.46.0"
-                ]
-            ]
+            }
         ],
-        "timestamp": "2026-04-23T08:20:49.843146053",
+        "timestamp": "2026-04-23T09:13:11.078697274",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.10.4"
