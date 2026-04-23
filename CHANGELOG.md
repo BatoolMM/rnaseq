@@ -9,19 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Special thanks to the following for their contributions to the release:
 
-- [Alexander Noskov](https://github.com/peachgabba22)
-- [Edmund Miller](https://github.com/edmundmiller)
 - [Friederike Hanssen](https://github.com/FriederikeHanssen)
 - [James A. Fellows Yates](https://github.com/jfy133)
 - [Justin Payeur](https://github.com/Odulhin)
 - [Matthias Hörtenhuber](https://github.com/mashehu)
-- [Matthias Zepper](https://github.com/MatthiasZepper)
 - [Maxime U Garcia](https://github.com/maxulysse)
 - [Muhammad Imran](https://github.com/drimran87)
-- [Nathan Ribeiro](https://github.com/nvribeiro)
 - [Phil Ewels](https://github.com/ewels)
-- [@sebinheo](https://github.com/sebinheo)
-- [Stephen Kelly](https://github.com/stevekm)
 - Weisheng Wu
 - [@wzheng0520](https://github.com/wzheng0520)
 
