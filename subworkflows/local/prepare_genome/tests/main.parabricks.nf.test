@@ -69,8 +69,7 @@ nextflow_workflow {
                     workflow.out.fai,
                     workflow.out.gene_bed,
                     workflow.out.chrom_sizes,
-                    workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
         }
@@ -148,8 +147,7 @@ nextflow_workflow {
                     workflow.out.gene_bed,
                     workflow.out.gtf,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
         }

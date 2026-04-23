@@ -21,9 +21,6 @@
             ],
             [
                 "[Genome, SA, SAindex, chrLength.txt, chrName.txt, chrNameLength.txt, chrStart.txt, exonGeTrInfo.tab, exonInfo.tab, geneInfo.tab, genomeParameters.txt, sjdbInfo.txt, sjdbList.fromGTF.out.tab, sjdbList.out.tab, transcriptInfo.tab]"
-            ],
-            [
-                
             ]
         ],
         "meta": {
@@ -54,9 +51,6 @@
             ],
             [
                 "genome.transcripts.fa:md5,d41d8cd98f00b204e9800998ecf8427e"
-            ],
-            [
-                
             ]
         ],
         "meta": {
