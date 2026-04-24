@@ -90,7 +90,8 @@ workflow NFCORE_RNASEQ {
         params.skip_pseudo_alignment,
         params.use_sentieon_star,
         params.use_parabricks_star,
-        params.contaminant_screening
+        params.contaminant_screening,
+        params.prokaryotic ?: false
     )
 
     // Check if contigs in genome fasta file > 512 Mbp
