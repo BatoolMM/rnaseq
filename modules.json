@@ -96,7 +96,7 @@
                     },
                     "gffread": {
                         "branch": "master",
-                        "git_sha": "51f2b493a7ff28b40a9f99faca64245521f2bb24",
+                        "git_sha": "c9ad4d691aa339e478a77847e3ef854ccd21778b",
                         "installed_by": ["modules"]
                     },
                     "gunzip": {
