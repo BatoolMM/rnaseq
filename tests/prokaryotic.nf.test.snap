@@ -485,7 +485,7 @@
     },
     "Params: --aligner bowtie2_salmon --gffread_transcript_fasta (-k 200 multimapping)": {
         "content": [
-            50,
+            48,
             {
                 "BOWTIE2_ALIGN": {
                     "bowtie2": "2.5.4",
@@ -523,9 +523,6 @@
                     "picard": "3.4.0"
                 },
                 "RSEQC_BAMSTAT": {
-                    "rseqc": "5.0.4"
-                },
-                "RSEQC_INFEREXPERIMENT": {
                     "rseqc": "5.0.4"
                 },
                 "RSEQC_READDUPLICATION": {
@@ -614,9 +611,6 @@
                 "bowtie2_salmon/rseqc/bam_stat",
                 "bowtie2_salmon/rseqc/bam_stat/SALM_REP1.bam_stat.txt",
                 "bowtie2_salmon/rseqc/bam_stat/SALM_REP2.bam_stat.txt",
-                "bowtie2_salmon/rseqc/infer_experiment",
-                "bowtie2_salmon/rseqc/infer_experiment/SALM_REP1.infer_experiment.txt",
-                "bowtie2_salmon/rseqc/infer_experiment/SALM_REP2.infer_experiment.txt",
                 "bowtie2_salmon/rseqc/read_duplication",
                 "bowtie2_salmon/rseqc/read_duplication/pdf",
                 "bowtie2_salmon/rseqc/read_duplication/pdf/SALM_REP1.DupRate_plot.pdf",
@@ -725,7 +719,6 @@
                 "multiqc/bowtie2_salmon/multiqc_report_data/multiqc_samtools_stats.txt",
                 "multiqc/bowtie2_salmon/multiqc_report_data/multiqc_software_versions.txt",
                 "multiqc/bowtie2_salmon/multiqc_report_data/multiqc_sources.txt",
-                "multiqc/bowtie2_salmon/multiqc_report_data/multiqc_strand_check_summary_table.txt",
                 "multiqc/bowtie2_salmon/multiqc_report_data/picard_MarkIlluminaAdapters_histogram.txt",
                 "multiqc/bowtie2_salmon/multiqc_report_data/picard_MeanQualityByCycle_histogram.txt",
                 "multiqc/bowtie2_salmon/multiqc_report_data/picard_MeanQualityByCycle_histogram_1.txt",
@@ -896,8 +889,6 @@
                 "observed_bias.gz:md5,92bcd0592d22a6a58d0360fc76103e56",
                 "observed_bias_3p.gz:md5,92bcd0592d22a6a58d0360fc76103e56",
                 "cmd_info.json:md5,a864d77f7a6becef8f2a3f4cc1c2c84b",
-                "SALM_REP1.infer_experiment.txt:md5,a2dbe9bd86e7f172f4cf6a242499aa64",
-                "SALM_REP2.infer_experiment.txt:md5,a2dbe9bd86e7f172f4cf6a242499aa64",
                 "salmon.merged.tx2gene.tsv:md5,02c8aa14dbbbd6c4e45cf0a1b916b1ab",
                 "cutadapt_filtered_reads_plot.txt:md5,b82a9c2120e7c0bb06e3841ab52193c5",
                 "cutadapt_trimmed_sequences_plot_3_Counts.txt:md5,3ffd158758886bc8670a0e691aedadda",
@@ -925,7 +916,6 @@
                 "multiqc_fastqc_fastqc_raw.txt:md5,42c1cc19c4b9104eb499ce499f335951",
                 "multiqc_fastqc_fastqc_trimmed.txt:md5,8be94d69e0c458017cf5064fa1fa86a0",
                 "multiqc_samtools_idxstats.txt:md5,3c5601429d85e11395c354db24a1a8ac",
-                "multiqc_strand_check_summary_table.txt:md5,426ad803e606b5fefd5ef33e5658db20",
                 "picard_MarkIlluminaAdapters_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_MeanQualityByCycle_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "picard_QualityScoreDistribution_histogram.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
@@ -934,7 +924,7 @@
                 "samtools-idxstats-mapped-reads-plot_Raw_Counts.txt:md5,a8d7ee5c80619606f2a6a4b92c8bec5f"
             ]
         ],
-        "timestamp": "2026-04-24T10:11:15.542669241",
+        "timestamp": "2026-04-24T14:15:38.453121457",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.3"

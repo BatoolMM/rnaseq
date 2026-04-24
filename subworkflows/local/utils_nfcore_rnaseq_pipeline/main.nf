@@ -708,6 +708,15 @@ def defineQcTools(params) {
             if (params.bam_csi_index) {
                 rseqc_modules.removeAll(['read_distribution', 'inner_distance', 'tin'])
             }
+            // bowtie2_salmon aligns directly to the transcriptome, so the BAM
+            // carries transcript IDs rather than chromosomes. infer_experiment
+            // samples reads against a genomic BED, finds 0 overlap, and
+            // reports "Unknown Data type" — Salmon's lib_format_counts
+            // inference (already surfaced in the MultiQC strand check
+            // section) is the correct signal for transcriptome alignments.
+            if (params.aligner == 'bowtie2_salmon') {
+                rseqc_modules.remove('infer_experiment')
+            }
             rseqc_modules.each { mod -> tools << "rseqc_${mod}" }
         }
     }
