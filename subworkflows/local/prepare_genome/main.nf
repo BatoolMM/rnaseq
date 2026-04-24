@@ -24,6 +24,7 @@ include { CUSTOM_CATADDITIONALFASTA         } from '../../../modules/nf-core/cus
 include { SAMTOOLS_FAIDX                    } from '../../../modules/nf-core/samtools/faidx'
 include { GFFREAD                           } from '../../../modules/nf-core/gffread'
 include { GFFREAD as GFFREAD_TRANSCRIPTS    } from '../../../modules/nf-core/gffread'
+include { GFFREAD as GFFREAD_GENE_BED       } from '../../../modules/nf-core/gffread'
 include { BOWTIE2_BUILD                     } from '../../../modules/nf-core/bowtie2/build'
 include { BBMAP_BBSPLIT                     } from '../../../modules/nf-core/bbmap/bbsplit'
 include { SORTMERNA as SORTMERNA_INDEX      } from '../../../modules/nf-core/sortmerna'
@@ -76,6 +77,7 @@ workflow PREPARE_GENOME {
     use_sentieon_star        // boolean: whether to use sentieon STAR version
     use_parabricks_star      // boolean: whether to use parabricks STAR version
     contaminant_screening    // string: contaminant screening tool ('kraken2', 'kraken2_bracken', 'sylph', or null)
+    prokaryotic              // boolean: whether the genome is prokaryotic (CDS-only annotation - use gffread --bed for gene BED since ea-utils/gtf2bed only handles exon features)
 
     main:
     //---------------------------
@@ -162,6 +164,14 @@ workflow PREPARE_GENOME {
         } else {
             ch_gene_bed = channel.value(file(gene_bed, checkIfExists: true))
         }
+    } else if (prokaryotic) {
+        // Prokaryotic annotations describe genes as CDS features, not exons, so
+        // ea-utils/gtf2bed (which only reads `exon` rows) emits an empty BED.
+        // gffread --bed derives intervals from any feature type.
+        ch_gene_bed = GFFREAD_GENE_BED(
+            ch_gtf.map { item -> [ [id: item.baseName], item ] },
+            []
+        ).bed.map { _meta, bed -> bed }
     } else {
         ch_gene_bed = EAUTILS_GTF2BED(ch_gtf.map { item -> [ [id: item.baseName], item ] }).bed.map { _meta, bed -> bed }
     }
