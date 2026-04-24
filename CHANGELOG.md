@@ -42,7 +42,7 @@ Special thanks to the following for their contributions to the release:
 - [PR #1815](https://github.com/nf-core/rnaseq/pull/1815) - Gate the nf-test `cleanup` directive on `$CI` so pipeline-test work directories are retained on local reruns and only pruned in CI ([#1813](https://github.com/nf-core/rnaseq/issues/1813))
 - [PR #1817](https://github.com/nf-core/rnaseq/pull/1817) - Derive the gene BED via `gffread --bed` on the prokaryotic path so RSeQC `infer_experiment` gets a usable reference; `ea-utils/gtf2bed` only emits BED rows for `exon` features and produced an empty BED from CDS-only prokaryotic annotations
 - [PR #1818](https://github.com/nf-core/rnaseq/pull/1818) - Drop redundant `versions.yml` clauses from `saveAs` closures on processes that now emit versions via the `versions` topic; name closure parameters instead of implicit `it` in local workflow / subworkflow files
-- [PR #TBC](https://github.com/nf-core/rnaseq/pull/TBC) - Drop RSeQC `infer_experiment` from the aligner's RSeQC module list when `aligner == 'bowtie2_salmon'` (transcriptome-aligned BAMs can't be inferred against a genomic BED); also skip sentieon tests on the conda profile since its license-server-driven output drifts across conda solves
+- [PR #1819](https://github.com/nf-core/rnaseq/pull/1819) - Drop RSeQC `infer_experiment` from the aligner's RSeQC module list when `aligner == 'bowtie2_salmon'` (transcriptome-aligned BAMs can't be inferred against a genomic BED); also skip sentieon tests on the conda profile since its license-server-driven output drifts across conda solves
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 
