@@ -3,6 +3,47 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[3.25.0](https://github.com/nf-core/rnaseq/releases/tag/3.25.0)] - 2026-04-24
+
+### Credits
+
+Special thanks to the following for their contributions to the release:
+
+- [Friederike Hanssen](https://github.com/FriederikeHanssen)
+- [James A. Fellows Yates](https://github.com/jfy133)
+- [Justin Payeur](https://github.com/Odulhin)
+- [Matthias Hörtenhuber](https://github.com/mashehu)
+- [Maxime U Garcia](https://github.com/maxulysse)
+- [Muhammad Imran](https://github.com/drimran87)
+- [Phil Ewels](https://github.com/ewels)
+- Weisheng Wu
+- [@wzheng0520](https://github.com/wzheng0520)
+
+### Enhancements and fixes
+
+- [PR #1755](https://github.com/nf-core/rnaseq/pull/1755) - Restructure `--stringtie_ignore_gtf` into a three-stage assemble → merge → quantify workflow via the nf-core `bam_stringtie_merge` subworkflow, publishing `stringtie_merge.gtf` and per-sample `<sample>.denovo.transcripts.gtf`
+- [PR #1781](https://github.com/nf-core/rnaseq/pull/1781) - Bump version to 3.25.0dev after release 3.24.0; fix SortMeRNA `%rRNA` appearing only under "Read 2" in MultiQC General Stats by using log filename for sample names instead of parsing paired-end read paths from log content
+- [PR #1784](https://github.com/nf-core/rnaseq/pull/1784) - Replace local `gtf2bed` module with nf-core `ea-utils/gtf2bed` module
+- [PR #1786](https://github.com/nf-core/rnaseq/pull/1786) - Replace local `bam_post_alignment_qc` subworkflow and `multiqc_custom_biotype` module with nf-core `bam_qc_rnaseq` subworkflow and `custom/multiqccustombiotype` module; update `dupradar` to topic-based version reporting
+- [PR #1788](https://github.com/nf-core/rnaseq/pull/1788) - Centralize pipeline-specific module configs in `conf/modules/` following the nf-core/sarek pattern
+- [PR #1790](https://github.com/nf-core/rnaseq/pull/1790) - Add `--use_gpu_ribodetector` parameter for GPU-accelerated rRNA removal with ribodetector; update ribodetector module to dual-container approach (x86 only); generalize GPU CI skip from `SKIP_PARABRICKS` to `SKIP_GPU`
+- [PR #1792](https://github.com/nf-core/rnaseq/pull/1792) - Always emit a strand-agnostic `<sample>.bigWig`. **Breaking**: per-strand bigWigs are no longer emitted for unstranded libraries, where a `-strand +/-` split carries no biological meaning ([#1275](https://github.com/nf-core/rnaseq/issues/1275))
+- [PR #1793](https://github.com/nf-core/rnaseq/pull/1793) - Scope MultiQC's `table_sample_merge` config to samplesheet paired-end IDs so samples with `_1`/`_2` suffixes (e.g. `foo_1`, `foo_2`) are no longer collapsed into a single `foo` row in General Statistics; factor MultiQC wiring into a new local `MULTIQC_RNASEQ` subworkflow
+- [PR #1795](https://github.com/nf-core/rnaseq/pull/1795) - Bump `custom/multiqccustombiotype` to fail loudly when the featureCounts output exceeds `--max_biotypes` (default 100), catching misconfigured `--featurecounts_group_type` values that previously hung MultiQC ([#424](https://github.com/nf-core/rnaseq/issues/424))
+- [PR #1796](https://github.com/nf-core/rnaseq/pull/1796) - Clarify prokaryotic profile docs: transcripts are extracted from all transcript-like features (CDS, tRNA, rRNA, tmRNA, ncRNA, etc.), not only CDS; CDS is only required for featureCounts biotype QC
+- [PR #1799](https://github.com/nf-core/rnaseq/pull/1799) - Bump version to 3.25.0 ahead of release
+- [PR #1803](https://github.com/nf-core/rnaseq/pull/1803) - Fix per-sample MultiQC hanging under `--skip_quantification_merge` by building the MultiQC input as a per-sample bundle, so each sample's report fires as soon as its own contributors arrive ([#1797](https://github.com/nf-core/rnaseq/issues/1797))
+- [PR #1804](https://github.com/nf-core/rnaseq/pull/1804) - Skip StringTie by default in the `prokaryotic` profile, where reference-guided transcript assembly is not informative for bacterial/archaeal annotations
+- [PR #1805](https://github.com/nf-core/rnaseq/pull/1805) - Add a new MultiQC "Strandedness checks" section whose table rows reflect which strandedness analyses actually ran for each sample; narrow the prokaryotic RSeQC skip to prokaryote-unsafe modules only
+- [PR #1806](https://github.com/nf-core/rnaseq/pull/1806) - Raise Bowtie2 default `-k` from 1 to 200 for `--aligner bowtie2_salmon` so Salmon's EM has enough multi-mapping evidence to quantify small transcriptomes correctly
+- [PR #1811](https://github.com/nf-core/rnaseq/pull/1811) - Update the default SortMeRNA rRNA database to `smr_v4.3_default_db` (SILVA 138) ([#1354](https://github.com/nf-core/rnaseq/issues/1354))
+- [PR #1812](https://github.com/nf-core/rnaseq/pull/1812) - Dedupe redundant pipeline-level nf-test cases (fold `min_mapped_reads` into `skip_qc`; prune duplicate pseudo-alignment cases) without losing coverage
+- [PR #1814](https://github.com/nf-core/rnaseq/pull/1814) - Sync nf-core components to the latest versions, migrate the remaining local `deseq2_qc` module to topic-based version reporting, and retire `ch_versions` plumbing now that all modules emit versions via topic
+- [PR #1815](https://github.com/nf-core/rnaseq/pull/1815) - Gate the nf-test `cleanup` directive on `$CI` so pipeline-test work directories are retained on local reruns and only pruned in CI ([#1813](https://github.com/nf-core/rnaseq/issues/1813))
+- [PR #1817](https://github.com/nf-core/rnaseq/pull/1817) - Derive the gene BED via `gffread --bed` on the prokaryotic path so RSeQC `infer_experiment` gets a usable reference; `ea-utils/gtf2bed` only emits BED rows for `exon` features and produced an empty BED from CDS-only prokaryotic annotations
+- [PR #1818](https://github.com/nf-core/rnaseq/pull/1818) - Drop redundant `versions.yml` clauses from `saveAs` closures on processes that now emit versions via the `versions` topic; name closure parameters instead of implicit `it` in local workflow / subworkflow files
+- [PR #1819](https://github.com/nf-core/rnaseq/pull/1819) - Drop RSeQC `infer_experiment` from the aligner's RSeQC module list when `aligner == 'bowtie2_salmon'` (transcriptome-aligned BAMs can't be inferred against a genomic BED); also skip sentieon tests on the conda profile since its license-server-driven output drifts across conda solves
+
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 
 ### Credits

@@ -8,6 +8,7 @@ include { GUNZIP as GUNZIP_GFF              } from '../../../modules/nf-core/gun
 include { GUNZIP as GUNZIP_GENE_BED         } from '../../../modules/nf-core/gunzip'
 include { GUNZIP as GUNZIP_TRANSCRIPT_FASTA } from '../../../modules/nf-core/gunzip'
 include { GUNZIP as GUNZIP_ADDITIONAL_FASTA } from '../../../modules/nf-core/gunzip'
+include { GUNZIP as GUNZIP_RRNA_FASTAS      } from '../../../modules/nf-core/gunzip'
 
 include { UNTAR as UNTAR_BBSPLIT_INDEX      } from '../../../modules/nf-core/untar'
 include { UNTAR as UNTAR_SORTMERNA_INDEX    } from '../../../modules/nf-core/untar'
@@ -23,6 +24,7 @@ include { CUSTOM_CATADDITIONALFASTA         } from '../../../modules/nf-core/cus
 include { SAMTOOLS_FAIDX                    } from '../../../modules/nf-core/samtools/faidx'
 include { GFFREAD                           } from '../../../modules/nf-core/gffread'
 include { GFFREAD as GFFREAD_TRANSCRIPTS    } from '../../../modules/nf-core/gffread'
+include { GFFREAD as GFFREAD_GENE_BED       } from '../../../modules/nf-core/gffread'
 include { BOWTIE2_BUILD                     } from '../../../modules/nf-core/bowtie2/build'
 include { BBMAP_BBSPLIT                     } from '../../../modules/nf-core/bbmap/bbsplit'
 include { SORTMERNA as SORTMERNA_INDEX      } from '../../../modules/nf-core/sortmerna'
@@ -38,8 +40,8 @@ include { SENTIEON_RSEMPREPAREREFERENCE as SENTIEON_RSEM_PREPAREREFERENCE_GENOME
 include { SENTIEON_RSEMPREPAREREFERENCE as SENTIEON_MAKE_TRANSCRIPTS_FASTA       } from '../../../modules/nf-core/sentieon/rsempreparereference'
 
 include { PREPROCESS_TRANSCRIPTS_FASTA_GENCODE } from '../../../modules/local/preprocess_transcripts_fasta_gencode'
-include { GTF2BED                              } from '../../../modules/local/gtf2bed'
-include { GTF_FILTER                           } from '../../../modules/local/gtf_filter'
+include { EAUTILS_GTF2BED                      } from '../../../modules/nf-core/ea-utils/gtf2bed'
+include { CUSTOM_GTFFILTER                     } from '../../../modules/nf-core/custom/gtffilter'
 
 workflow PREPARE_GENOME {
 
@@ -75,11 +77,9 @@ workflow PREPARE_GENOME {
     use_sentieon_star        // boolean: whether to use sentieon STAR version
     use_parabricks_star      // boolean: whether to use parabricks STAR version
     contaminant_screening    // string: contaminant screening tool ('kraken2', 'kraken2_bracken', 'sylph', or null)
+    prokaryotic              // boolean: whether the genome is prokaryotic (CDS-only annotation - use gffread --bed for gene BED since ea-utils/gtf2bed only handles exon features)
 
     main:
-    // Versions collector
-    ch_versions = channel.empty()
-
     //---------------------------
     // 1) Uncompress GTF or GFF -> GTF
     //---------------------------
@@ -125,8 +125,13 @@ workflow PREPARE_GENOME {
     ) && !skip_gtf_filter
 
     if (filter_gtf_needed) {
-        GTF_FILTER(ch_fasta, ch_gtf)
-        ch_gtf      = GTF_FILTER.out.genome_gtf.first()
+        CUSTOM_GTFFILTER(
+            ch_gtf.map { item -> [ [id: item.baseName + '.filtered'], item ] },
+            fasta_provided
+                ? ch_fasta.map { item -> [ [id: 'genome'], item ] }
+                : channel.value([ [id: 'no_fasta'], [] ])
+        )
+        ch_gtf      = CUSTOM_GTFFILTER.out.gtf.map { _meta, filtered_gtf -> filtered_gtf }.first()
     }
 
     //---------------------------------------------------
@@ -147,7 +152,6 @@ workflow PREPARE_GENOME {
         )
         ch_fasta    = CUSTOM_CATADDITIONALFASTA.out.fasta.map { tuple -> tuple[1] }.first()
         ch_gtf      = CUSTOM_CATADDITIONALFASTA.out.gtf.map { tuple -> tuple[1] }.first()
-        ch_versions = ch_versions.mix(CUSTOM_CATADDITIONALFASTA.out.versions)
     }
 
     //------------------------------------------------------
@@ -160,8 +164,16 @@ workflow PREPARE_GENOME {
         } else {
             ch_gene_bed = channel.value(file(gene_bed, checkIfExists: true))
         }
+    } else if (prokaryotic) {
+        // Prokaryotic annotations describe genes as CDS features, not exons, so
+        // ea-utils/gtf2bed (which only reads `exon` rows) emits an empty BED.
+        // gffread --bed derives intervals from any feature type.
+        ch_gene_bed = GFFREAD_GENE_BED(
+            ch_gtf.map { item -> [ [id: item.baseName], item ] },
+            []
+        ).bed.map { _meta, bed -> bed }
     } else {
-        ch_gene_bed = GTF2BED(ch_gtf).bed
+        ch_gene_bed = EAUTILS_GTF2BED(ch_gtf.map { item -> [ [id: item.baseName], item ] }).bed.map { _meta, bed -> bed }
     }
 
     //----------------------------------------------------------------------
@@ -262,11 +274,22 @@ workflow PREPARE_GENOME {
     ch_sortmerna_index = channel.empty()
     ch_rrna_fastas     = channel.empty()
 
-    // Load rRNA FASTAs when using sortmerna or bowtie2 for rRNA removal
+    // Load rRNA FASTAs when using sortmerna or bowtie2 for rRNA removal.
+    // SortMeRNA's --ref option rejects gzipped FASTAs, so any .gz entries in the
+    // manifest are decompressed first (the SortMeRNA v4.3 databases ship as .fasta.gz).
     if (ribo_removal_tool in ['sortmerna', 'bowtie2']) {
         def ribo_db = file(sortmerna_fasta_list)
-        ch_rrna_fastas = channel.from(ribo_db.readLines())
+        def ch_rrna_inputs = channel.from(ribo_db.readLines())
             .map { row -> file(row) }
+            .branch { rrna_fasta ->
+                gz:    rrna_fasta.name.endsWith('.gz')
+                plain: true
+            }
+
+        ch_rrna_fastas = GUNZIP_RRNA_FASTAS(ch_rrna_inputs.gz.map { rrna_fasta -> [ [:], rrna_fasta ] })
+            .gunzip
+            .map { tuple -> tuple[1] }
+            .mix(ch_rrna_inputs.plain)
     }
 
     // Build SortMeRNA index only when using sortmerna
@@ -460,5 +483,4 @@ workflow PREPARE_GENOME {
     salmon_index     = ch_salmon_index           // channel: path(salmon/index/)
     kallisto_index   = ch_kallisto_index         // channel: [ meta, path(kallisto/index/) ]
     kraken_db        = ch_kraken_db              // channel: path(kraken2/db/)
-    versions         = ch_versions               // channel: [ versions.yml ]
 }

@@ -53,6 +53,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -74,10 +75,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -129,6 +136,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -150,10 +158,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -205,6 +219,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -226,10 +241,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -281,6 +302,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -302,10 +324,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -357,6 +385,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -378,10 +407,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -433,6 +468,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -454,10 +490,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -509,6 +551,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -530,10 +573,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -585,6 +634,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -606,10 +656,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -661,6 +717,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -682,10 +739,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -737,6 +800,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -758,10 +822,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -813,6 +883,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -834,10 +905,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -889,6 +966,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -910,10 +988,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -965,6 +1049,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -986,10 +1071,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1041,6 +1132,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1062,10 +1154,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1117,6 +1215,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1138,10 +1237,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1193,6 +1298,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1214,10 +1320,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1269,6 +1381,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1290,10 +1403,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1345,6 +1464,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1366,10 +1486,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1421,6 +1547,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1442,10 +1569,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1497,6 +1630,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1518,10 +1652,16 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1573,6 +1713,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1594,10 +1735,92 @@ nextflow_workflow {
                     workflow.out.rsem_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.hisat2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
                     workflow.out.bowtie2_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.versions
+                    workflow.out.kallisto_index.collect { meta, path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() }
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
+        }
+    }
+
+    test("skip_gtf_transcript_filter = true") {
+
+        config './skip_transcript_filter.config'
+
+        when {
+            workflow {
+                """
+                gencode                  = false
+                featurecounts_group_type = 'gene_biotype'
+                aligner                  = 'star_salmon'
+                pseudo_aligner           = 'salmon'
+                skip_gtf_filter          = false
+                skip_bbsplit             = true
+                ribo_removal_tool        = null
+                skip_alignment           = false
+                skip_pseudo_alignment    = false
+                use_sentieon_star        = false
+                use_parabricks_star      = false
+
+                input[0]  = file(params.pipelines_testdata_base_path + 'reference/genome.fasta', checkIfExists: true)
+                input[1]  = file(params.pipelines_testdata_base_path + 'reference/genes_with_empty_tid.gtf', checkIfExists: true)
+                input[2]  = file(params.pipelines_testdata_base_path + 'reference/genes.gff', checkIfExists: true)
+                input[3]  = file(params.pipelines_testdata_base_path + 'reference/gfp.fa', checkIfExists: true)
+                input[4]  = file(params.pipelines_testdata_base_path + 'reference/transcriptome.fasta', checkIfExists: true)
+                input[5]  = null
+                input[6]  = null
+                input[7]  = file(params.pipelines_testdata_base_path + 'reference/bbsplit_fasta_list.txt', checkIfExists: true)
+                input[8]  = null
+                input[9]  = null
+                input[10] = file(params.pipelines_testdata_base_path + 'reference/rsem.tar.gz', checkIfExists: true)
+                input[11] = file(params.pipelines_testdata_base_path + 'reference/salmon.tar.gz', checkIfExists: true)
+                input[12] = null
+                input[13] = file(params.pipelines_testdata_base_path + 'reference/hisat2.tar.gz', checkIfExists: true)
+                input[14] = null
+                input[15] = null
+                input[16] = null
+                input[17] = null  // kraken_db
+                input[18] = gencode
+                input[19] = false
+                input[20] = featurecounts_group_type
+                input[21] = aligner
+                input[22] = pseudo_aligner
+                input[23] = skip_gtf_filter
+                input[24] = skip_bbsplit
+                input[25] = ribo_removal_tool
+                input[26] = skip_alignment
+                input[27] = skip_pseudo_alignment
+                input[28] = use_sentieon_star
+                input[29] = use_parabricks_star
+                input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
+                """
+            }
+        }
+
+        then {
+            // The test GTF has 1 line with transcript_id "" (empty).
+            // With skip_gtf_transcript_filter=true, that line is preserved,
+            // so the filtered GTF should differ from the default test.
+            def filtered_gtf = file(workflow.out.gtf[0])
+            def default_line_count = 600  // lines with valid transcript_id in genes_with_empty_tid.gtf
+            assertAll(
+                { assert workflow.success },
+                { assert filtered_gtf.readLines().size() > default_line_count },
+                { assert snapshot(workflow.out.gtf).match() }
+            )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1651,6 +1874,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1672,10 +1896,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1729,6 +1959,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1750,10 +1981,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1807,6 +2044,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1828,10 +2066,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1885,6 +2129,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1894,6 +2139,13 @@ nextflow_workflow {
                 { assert workflow.success},
                 { assert snapshot(workflow.out).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -1947,6 +2199,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -1968,10 +2221,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2025,6 +2284,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2046,10 +2306,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2103,6 +2369,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2124,10 +2391,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2181,6 +2454,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2202,10 +2476,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2259,6 +2539,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2280,10 +2561,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2337,6 +2624,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2358,10 +2646,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2415,6 +2709,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2436,10 +2731,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2493,6 +2794,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2514,10 +2816,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2571,6 +2879,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2592,10 +2901,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2649,6 +2964,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2670,10 +2986,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2727,6 +3049,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2748,10 +3071,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2805,6 +3134,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2826,10 +3156,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2883,6 +3219,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2904,10 +3241,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -2961,6 +3304,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -2982,10 +3326,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -3039,6 +3389,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -3048,6 +3399,13 @@ nextflow_workflow {
                 { assert workflow.success},
                 { assert snapshot(workflow.out).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -3101,6 +3459,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -3122,10 +3481,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 
@@ -3179,6 +3544,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -3200,10 +3566,16 @@ nextflow_workflow {
                     workflow.out.sortmerna_index,
                     workflow.out.splicesites,
                     workflow.out.star_index.collect { path -> file(path).listFiles().collect { f -> f.getName() }.sort().toString() },
-                    workflow.out.transcript_fasta,
-                    workflow.out.versions
+                    workflow.out.transcript_fasta
                 ).match() }
             )
+        }
+
+        cleanup {
+            if (System.getenv("NFT_PROFILE")?.contains("docker")) {
+                "docker system prune -a -f --volumes".execute()
+            }
+            new File("${launchDir}").deleteDir()
         }
     }
 }

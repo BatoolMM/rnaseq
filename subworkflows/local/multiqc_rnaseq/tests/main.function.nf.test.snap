@@ -1,0 +1,175 @@
+{
+    "Test Function multiqcSampleMergeYamlPattern escapes regex and YAML metacharacters": {
+        "content": [
+            "    - type: regex\n      pattern: '(?<=^foo\\.1\\$bar''baz)_2$'"
+        ],
+        "timestamp": "2026-04-21T21:10:25.78440301",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function strandCheckSummaryYaml emits JSON keyed by sample id": {
+        "content": [
+            "{\n    \"id\": \"demo\",\n    \"headers\": {\n        \"provided\": {\n            \"title\": \"Provided\"\n        },\n        \"salmon_inferred\": {\n            \"title\": \"Salmon inferred\"\n        },\n        \"salmon_pct\": {\n            \"title\": \"Salmon %\"\n        },\n        \"salmon_s\": {\n            \"title\": \"Salmon Sense %\"\n        },\n        \"salmon_a\": {\n            \"title\": \"Salmon Antisense %\"\n        },\n        \"salmon_u\": {\n            \"title\": \"Salmon Unstranded %\"\n        },\n        \"rseqc_inferred\": {\n            \"title\": \"RSeQC inferred\"\n        },\n        \"rseqc_pct\": {\n            \"title\": \"RSeQC %\"\n        },\n        \"rseqc_s\": {\n            \"title\": \"RSeQC Sense %\"\n        },\n        \"rseqc_a\": {\n            \"title\": \"RSeQC Antisense %\"\n        },\n        \"rseqc_u\": {\n            \"title\": \"RSeQC Unstranded %\"\n        },\n        \"status\": {\n            \"title\": \"Status\"\n        }\n    },\n    \"data\": {\n        \"WT_REP1\": {\n            \"provided\": \"auto\",\n            \"salmon_inferred\": \"reverse\",\n            \"salmon_pct\": 89.5,\n            \"salmon_s\": 10.0,\n            \"salmon_a\": 85.0,\n            \"salmon_u\": 5.0,\n            \"rseqc_inferred\": \"reverse\",\n            \"rseqc_pct\": 90.5,\n            \"rseqc_s\": 9.1,\n            \"rseqc_a\": 86.3,\n            \"rseqc_u\": 4.6,\n            \"status\": \"pass\"\n        }\n    }\n}"
+        ],
+        "timestamp": "2026-04-21T21:12:18.348730267",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function strandCompositionMap rounds fragment percentages": {
+        "content": [
+            {
+                "Sense": 9.1,
+                "Antisense": 86.3,
+                "Unstranded": 4.6
+            }
+        ],
+        "timestamp": "2026-04-21T21:12:42.08282356",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function multiqcSampleMergeYaml PE samples with tricky IDs": {
+        "content": [
+            "table_sample_merge:\n  \"Read 1\":\n    - type: regex\n      pattern: '(?<=^foo\\.1)_1$'\n    - type: regex\n      pattern: '(?<=^sample_1)_1$'\n  \"Read 2\":\n    - type: regex\n      pattern: '(?<=^foo\\.1)_2$'\n    - type: regex\n      pattern: '(?<=^sample_1)_2$'\n"
+        ],
+        "timestamp": "2026-04-21T21:10:42.744534162",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function multiqcSampleMergeYaml empty PE set": {
+        "content": [
+            "table_sample_merge: {}\n"
+        ],
+        "timestamp": "2026-04-21T21:10:34.248267907",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function inferenceCertainty forward call": {
+        "content": [
+            80.0
+        ],
+        "timestamp": "2026-04-21T21:11:06.583089511",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function loadMultiqcAsset drops underscore-prefixed anchor keys and resolves merge keys": {
+        "content": [
+            {
+                "id": "demo",
+                "headers": {
+                    "col_a": {
+                        "suffix": "%",
+                        "min": 0,
+                        "max": 100,
+                        "title": "A"
+                    },
+                    "col_b": {
+                        "title": "B"
+                    }
+                }
+            }
+        ],
+        "timestamp": "2026-04-21T21:10:50.625239839",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function strandCheckCompositionYaml dual-method adds a data_labels switcher": {
+        "content": [
+            "{\n    \"id\": \"demo\",\n    \"pconfig\": {\n        \"id\": \"demo_bar\",\n        \"title\": \"Demo\",\n        \"ylab\": \"% of fragments\",\n        \"data_labels\": [\n            {\n                \"name\": \"RSeQC\",\n                \"ylab\": \"% of fragments\"\n            },\n            {\n                \"name\": \"Salmon\",\n                \"ylab\": \"% of fragments\"\n            }\n        ]\n    },\n    \"data\": [\n        {\n            \"WT_REP1\": {\n                \"Sense\": 9.1,\n                \"Antisense\": 86.3,\n                \"Unstranded\": 4.6\n            }\n        },\n        {\n            \"WT_REP1\": {\n                \"Sense\": 10.0,\n                \"Antisense\": 85.0,\n                \"Unstranded\": 5.0\n            }\n        }\n    ]\n}"
+        ],
+        "timestamp": "2026-04-21T21:12:57.903164158",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function strandSummaryCells salmon-only falls back to dashes for rseqc": {
+        "content": [
+            {
+                "provided": "auto",
+                "salmon_inferred": "forward",
+                "salmon_pct": 86.3,
+                "salmon_s": 82.0,
+                "salmon_a": 13.0,
+                "salmon_u": 5.0,
+                "rseqc_inferred": "-",
+                "rseqc_pct": null,
+                "rseqc_s": null,
+                "rseqc_a": null,
+                "rseqc_u": null,
+                "status": "-"
+            }
+        ],
+        "timestamp": "2026-04-21T21:12:10.345816874",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function strandCheckCompositionYaml single-method emits flat dataset without switcher": {
+        "content": [
+            "{\n    \"id\": \"demo\",\n    \"pconfig\": {\n        \"id\": \"demo_bar\",\n        \"title\": \"Demo\",\n        \"ylab\": \"% of fragments\"\n    },\n    \"data\": {\n        \"WT_REP1\": {\n            \"Sense\": 82.0,\n            \"Antisense\": 13.0,\n            \"Unstranded\": 5.0\n        }\n    }\n}"
+        ],
+        "timestamp": "2026-04-21T21:12:50.007164466",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function multiqcSampleMergeYamlPattern plain id": {
+        "content": [
+            "    - type: regex\n      pattern: '(?<=^sample_1)_1$'"
+        ],
+        "timestamp": "2026-04-21T21:10:17.791275146",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function inferenceCertainty reverse call": {
+        "content": [
+            90.0
+        ],
+        "timestamp": "2026-04-21T21:11:14.620184437",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "Test Function strandSummaryCells with both salmon and rseqc": {
+        "content": [
+            {
+                "provided": "auto",
+                "salmon_inferred": "reverse",
+                "salmon_pct": 89.5,
+                "salmon_s": 10.0,
+                "salmon_a": 85.0,
+                "salmon_u": 5.0,
+                "rseqc_inferred": "reverse",
+                "rseqc_pct": 90.5,
+                "rseqc_s": 9.1,
+                "rseqc_a": 86.3,
+                "rseqc_u": 4.6,
+                "status": "pass"
+            }
+        ],
+        "timestamp": "2026-04-21T21:12:02.439431715",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    }
+}

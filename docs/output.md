@@ -512,11 +512,15 @@ Unless you are using [UMIs](https://emea.illumina.com/science/sequencing-method-
   - `*.coverage.gtf`: GTF file containing transcripts that are fully covered by reads.
   - `*.transcripts.gtf`: GTF file containing all of the assembled transcipts from StringTie.
   - `*.gene_abundance.txt`: Text file containing gene aboundances and FPKM values.
+  - `*.denovo.transcripts.gtf`: per-sample de novo transcript assemblies (only when `--stringtie_ignore_gtf` is set).
+  - `stringtie_merge.gtf`: cross-sample merged transcript annotation (only when `--stringtie_ignore_gtf` is set).
 - `<ALIGNER>/stringtie/<SAMPLE>.ballgown/`: Ballgown output directory.
 
 </details>
 
 [StringTie](https://ccb.jhu.edu/software/stringtie/) is a fast and highly efficient assembler of RNA-Seq alignments into potential transcripts. It uses a novel network flow algorithm as well as an optional de novo assembly step to assemble and quantitate full-length transcripts representing multiple splice variants for each gene locus. In order to identify differentially expressed genes between experiments, StringTie's output can be processed by specialized software like [Ballgown](https://github.com/alyssafrazee/ballgown), [Cuffdiff](http://cole-trapnell-lab.github.io/cufflinks/cuffdiff/index.html) or other programs ([DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), etc.).
+
+When `--stringtie_ignore_gtf` is set, the pipeline follows StringTie's recommended de novo workflow in three stages: per-sample assembly produces `<SAMPLE>.denovo.transcripts.gtf`; those per-sample assemblies are merged into a single unified annotation `stringtie_merge.gtf`; each sample is then re-quantified against the merged annotation to produce the final `<SAMPLE>.transcripts.gtf`, abundance, coverage and ballgown outputs. This ensures expression values are directly comparable across samples, avoiding the false-positive risk of combining transcript discovery and quantification into a single pass. When `--stringtie_ignore_gtf` is not set (the default), StringTie runs a single reference-guided quantification against the provided GTF.
 
 ### BEDTools and bedGraphToBigWig
 
@@ -524,8 +528,11 @@ Unless you are using [UMIs](https://emea.illumina.com/science/sequencing-method-
 <summary>Output files</summary>
 
 - `<ALIGNER>/bigwig/`
-  - `*.forward.bigWig`: bigWig coverage file relative to genes on the forward DNA strand.
-  - `*.reverse.bigWig`: bigWig coverage file relative to genes on the reverse DNA strand.
+  - `*.bigWig`: strand-agnostic coverage track (all libraries).
+  - `*.forward.bigWig`: coverage of reads from transcripts on the forward genome strand (stranded libraries only).
+  - `*.reverse.bigWig`: coverage of reads from transcripts on the reverse genome strand (stranded libraries only).
+
+Per-strand tracks are not emitted for unstranded libraries because the library prep does not preserve transcript strand, so a `-strand +` / `-strand -` split on the BAM is not biologically meaningful.
 
 </details>
 
@@ -614,7 +621,7 @@ The majority of RSeQC scripts generate output files which can be plotted and sum
 
 </details>
 
-This script predicts the "strandedness" of the protocol (i.e. unstranded, sense or antisense) that was used to prepare the sample for sequencing by assessing the orientation in which aligned reads overlay gene features in the reference genome. The strandedness of each sample has to be provided to the pipeline in the input samplesheet (see [usage docs](https://nf-co.re/rnaseq/usage#samplesheet-input)). However, this information is not always available, especially for public datasets. As a result, additional features have been incorporated into this pipeline to auto-detect whether you have provided the correct information in the samplesheet, and if this is not the case then the affected libraries will be flagged in the table under 'Strandedness Checks' elsewhere in the report. If required, this will allow you to correct the input samplesheet and rerun the pipeline with the accurate strand information. Note, it is important to get this information right because it can affect the final results.
+This script predicts the "strandedness" of the protocol (i.e. unstranded, sense or antisense) that was used to prepare the sample for sequencing by assessing the orientation in which aligned reads overlay gene features in the reference genome. The strandedness of each sample has to be provided to the pipeline in the input samplesheet (see [usage docs](https://nf-co.re/rnaseq/usage#samplesheet-input)). However, this information is not always available, especially for public datasets. As a result, additional features have been incorporated into this pipeline to auto-detect whether you have provided the correct information in the samplesheet, and if this is not the case then the affected libraries will be flagged in the top-level 'Strandedness checks' section of the MultiQC report. That section contains a summary table (with optional hidden columns showing the per-method sense / antisense / unstranded composition, accessible via **Configure columns**) and a stacked bargraph of the read composition. If required, this will allow you to correct the input samplesheet and rerun the pipeline with the accurate strand information. Note, it is important to get this information right because it can affect the final results.
 
 RSeQC documentation: [infer_experiment.py](http://rseqc.sourceforge.net/#infer-experiment-py)
 
@@ -970,6 +977,8 @@ When `--skip_quantification_merge` is enabled, MultiQC generates one report per 
   - `<SAMPLE>_multiqc_report_data/`: directory containing parsed statistics for this sample.
 
 </details>
+
+Per-sample reports carry a manifest-only software versions section (pipeline name and Nextflow version) rather than the full collated tool versions. The full `software_versions.yml` is still published unchanged to `pipeline_info/`.
 
 [MultiQC](http://multiqc.info) is a visualization tool that generates a single HTML report summarising all samples in your project. Most of the pipeline QC results are visualised in the report and further statistics are available in the report data directory.
 

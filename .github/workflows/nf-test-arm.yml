@@ -18,7 +18,7 @@ concurrency:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NFT_VER: "0.9.3"
+  NFT_VER: "0.9.5"
   NFT_WORKDIR: "~"
   NXF_ANSI_LOG: false
   NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/.singularity
@@ -51,8 +51,8 @@ jobs:
           NFT_VER: ${{ env.NFT_VER }}
           # Skip sentieon tests - no ARM containers available
           SKIP_SENTIEON: true
-          # Skip parabricks tests - requires NVIDIA GPU
-          SKIP_PARABRICKS: true
+          # Skip GPU tests - requires NVIDIA GPU
+          SKIP_GPU: true
         with:
           max_shards: 14
 
@@ -103,8 +103,8 @@ jobs:
           NXF_VERSION: ${{ matrix.NXF_VER }}
           # Skip sentieon tests - no ARM containers available
           SKIP_SENTIEON: true
-          # Skip parabricks tests - requires NVIDIA GPU
-          SKIP_PARABRICKS: true
+          # Skip GPU tests - requires NVIDIA GPU
+          SKIP_GPU: true
         with:
           profile: test,${{ matrix.profile }},${{ matrix.archProfile }}
           shard: ${{ matrix.shard }}

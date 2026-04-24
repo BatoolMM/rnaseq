@@ -41,6 +41,7 @@ include { PREPARE_GENOME          } from './subworkflows/local/prepare_genome'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
 include { checkMaxContigSize      } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
+include { defineQcTools           } from './subworkflows/local/utils_nfcore_rnaseq_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,8 +55,6 @@ include { checkMaxContigSize      } from './subworkflows/local/utils_nfcore_rnas
 workflow NFCORE_RNASEQ {
 
     main:
-
-    ch_versions = channel.empty()
 
     //
     // SUBWORKFLOW: Prepare reference genome files
@@ -91,9 +90,9 @@ workflow NFCORE_RNASEQ {
         params.skip_pseudo_alignment,
         params.use_sentieon_star,
         params.use_parabricks_star,
-        params.contaminant_screening
+        params.contaminant_screening,
+        params.prokaryotic ?: false
     )
-    ch_versions = ch_versions.mix(PREPARE_GENOME.out.versions)
 
     // Check if contigs in genome fasta file > 512 Mbp
     if (!params.skip_alignment && !params.bam_csi_index) {
@@ -112,9 +111,10 @@ workflow NFCORE_RNASEQ {
     // rather than in PREPARE_GENOME, to avoid duplicating the rRNA FASTA preparation logic
     ch_bowtie2_rrna_index = channel.empty()
 
+    def qc_tools = defineQcTools(params)
+
     RNASEQ (
         ch_samplesheet,
-        ch_versions,
         PREPARE_GENOME.out.fasta,
         PREPARE_GENOME.out.gtf,
         PREPARE_GENOME.out.fai,
@@ -132,16 +132,15 @@ workflow NFCORE_RNASEQ {
         PREPARE_GENOME.out.sortmerna_index,
         ch_bowtie2_rrna_index,
         PREPARE_GENOME.out.splicesites,
-        PREPARE_GENOME.out.kraken_db
+        PREPARE_GENOME.out.kraken_db,
+        qc_tools
     )
-    ch_versions = ch_versions.mix(RNASEQ.out.versions)
 
     emit:
     trim_status    = RNASEQ.out.trim_status    // channel: [id, boolean]
     map_status     = RNASEQ.out.map_status     // channel: [id, boolean]
     strand_status  = RNASEQ.out.strand_status  // channel: [id, boolean]
     multiqc_report = RNASEQ.out.multiqc_report // channel: /path/to/multiqc_report.html
-    versions       = ch_versions               // channel: [version1, version2, ...]
 }
 
 /*

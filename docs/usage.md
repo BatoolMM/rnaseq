@@ -69,11 +69,20 @@ You can control the stringency of this behavior with `--stranded_threshold` and 
 
 #### Errors and Reporting
 
-The results of strandedness inference are displayed in the MultiQC report under 'Strandedness Checks'. This shows any provided strandedness and the results inferred by both Salmon (when strandedness is set to 'auto') and RSeQC. Mismatches between input strandedness (explicitly provided by the user or inferred by Salmon) and output strandedness from RSeQC are marked as fails. For example, if a user specifies 'forward' as strandedness for a library that is actually reverse stranded, this is marked as a fail.
+The results of strandedness inference are displayed in the MultiQC report under the top-level 'Strandedness checks' section, which contains two sub-reports:
+
+- **Strandedness: inference summary** - one row per sample with the strandedness declared in the samplesheet, the values inferred by Salmon and RSeQC (where active), and a per-method certainty percentage (the fragment proportion attributable to the inferred strand). A pass/fail status is shown whenever RSeQC `infer_experiment` runs: RSeQC's call is compared against Salmon's auto-inference for `auto` samples and against the samplesheet value otherwise. The status column shows '-' when RSeQC didn't run and only the Salmon call is available. Per-component sense / antisense / unstranded percentages for each method are available as additional columns hidden by default - enable them via the **Configure columns** button above the table if you want to see the underlying composition.
+- **Strandedness: read composition** - stacked percentage bars of sense / antisense / unstranded fragments per sample. When both Salmon and RSeQC produced an inference, a dataset switcher above the plot lets you flip between the two methods' views.
+
+If RSeQC disagrees with the expected strandedness, or returns 'undetermined' (which can indicate gDNA contamination), the summary row is marked as a fail. When RSeQC isn't active (e.g. `--skip_rseqc`, `--skip_qc`), Salmon's auto-inference is still surfaced so the user always sees what the pipeline determined - just without a cross-check status.
 
 ![MultiQC - Strand check table](images/mqc_strand_check.png)
 
-Be sure to check the strandedness report when reviewing the QC for your samples.
+The **Configure columns** dialog above the summary table lets you toggle the hidden per-component percentages on:
+
+![MultiQC - Strandedness Configure columns modal](images/mqc_strand_check_columns.png)
+
+Be sure to check the strandedness section when reviewing the QC for your samples.
 
 ### Full samplesheet
 
@@ -196,10 +205,22 @@ Ribosomal RNA (rRNA) removal can be enabled with the `--remove_ribo_rna` paramet
 nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool sortmerna ...
 ```
 
-By default, [rRNA databases](https://github.com/biocore/sortmerna/tree/master/data/rRNA_databases) defined in the SortMeRNA GitHub repo are used. You can see an example in the pipeline GitHub repository in `assets/rrna-db-defaults.txt` which is used by default via the `--ribo_database_manifest` parameter.
+By default, the pipeline uses [`smr_v4.3_fast_db`](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7), a SILVA 138 and Rfam build clustered at 85/90 % (SILVA) and 90 % (Rfam). It covers archaeal, bacterial and eukaryotic 16S/18S/23S/28S rRNAs plus 5S/5.8S. The URL is listed in `assets/rrna-db-defaults.txt`, which is the default value of the `--ribo_database_manifest` parameter. SILVA 138+ is distributed under [CC-BY 4.0](https://www.arb-silva.de/silva-license-information), which permits commercial use with attribution.
 
-> [!NOTE]
-> The default databases are based on SILVA 119, which requires [licensing for commercial use](https://www.arb-silva.de/silva-license-information). SILVA 138+ uses CC-BY 4.0 licensing that freely permits commercial use with attribution. If you have licensing concerns, consider using Bowtie2 with custom rRNA reference sequences via `--ribo_removal_tool bowtie2`.
+SortMeRNA publishes four pre-built databases on its [v4.3.7 release](https://github.com/sortmerna/sortmerna/releases/tag/v4.3.7). They are the same underlying SILVA 138 + Rfam sequences progressively clustered: coarser clustering means a smaller reference, a smaller index and a faster run, at the cost of some sensitivity. The pipeline decompresses the gzipped FASTA before use.
+
+| Variant                            | Clustering               | Asset (gz) | Use when                                                                          |
+| ---------------------------------- | ------------------------ | ---------- | --------------------------------------------------------------------------------- |
+| `smr_v4.3_fast_db`                 | SILVA 85/90 %, Rfam 90 % | ~17 MB     | Pipeline default. Routine bulk RNA-seq with good-quality input                    |
+| `smr_v4.3_default_db`              | SILVA 90/95 %, Rfam 95 % | ~36 MB     | SortMeRNA upstream's balanced recommendation; moderate extra index footprint      |
+| `smr_v4.3_sensitive_db`            | SILVA 97 %, Rfam 97 %    | ~93 MB     | High-rRNA samples (e.g. total RNA without rRNA depletion), rare-lineage organisms |
+| `smr_v4.3_sensitive_db_rfam_seeds` | SILVA 97 % + Rfam seeds  | ~90 MB     | Maximum sensitivity, including the full Rfam seed set for non-rRNA ncRNA families |
+
+Picking a variant: `fast` keeps the index footprint close to what earlier pipeline versions used (~1-2 GB); `sensitive` and `sensitive_rfam_seeds` roughly triple that. Index size is a one-off cost per work directory (results are cached), but per-sample SortMeRNA memory and runtime also scale with the reference.
+
+To switch variant or use your own references, write a manifest file listing one FASTA URL or local path per line and pass it via `--ribo_database_manifest my_manifest.txt`. For example, a one-line manifest selecting the `default` variant would contain `https://github.com/sortmerna/sortmerna/releases/download/v4.3.7/smr_v4.3_default_db.fasta.gz`.
+
+Both plain `.fasta` and `.fasta.gz` entries are accepted; gzipped files are decompressed automatically before being handed to SortMeRNA.
 
 ### Bowtie2
 
@@ -221,6 +242,22 @@ nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool ribodetector .
 ```
 
 RiboDetector automatically determines read length from your data and uses its pre-trained neural network model to classify reads.
+
+#### GPU acceleration for RiboDetector
+
+RiboDetector supports GPU acceleration via `--use_gpu_ribodetector`. When enabled, the pipeline uses a CUDA-enabled container with PyTorch GPU support and switches to the GPU binary automatically.
+
+```bash
+nextflow run nf-core/rnaseq --remove_ribo_rna --ribo_removal_tool ribodetector --use_gpu_ribodetector ...
+```
+
+Requirements:
+
+- One or more NVIDIA GPUs (with appropriate drivers installed)
+- A container runtime (Docker, Singularity, or Apptainer); Conda is also supported
+- x86_64 architecture (ARM GPU is not currently supported)
+
+Container GPU flags (`--gpus all` for Docker, `--nv` for Singularity/Apptainer) are automatically applied and can be overridden via `--gpu_container_options`.
 
 ## Alignment options
 
@@ -406,7 +443,7 @@ When enabled:
 - **tximport** runs per-sample, producing individual gene-level and transcript-level count/TPM TSVs for each sample
 - **SummarizedExperiment** and **RSEM merge counts** are skipped entirely
 - **DESeq2 QC** is skipped (requires multiple samples)
-- **MultiQC** generates one report per sample rather than one merged report
+- **MultiQC** generates one report per sample rather than one merged report. Per-sample reports carry a manifest-only software versions section (pipeline name and Nextflow version); the full collated tool versions YAML is still published unchanged to `pipeline_info/`
 
 This mode works with any aligner or pseudo-aligner. For the fastest possible per-sample quantification, combine it with pseudo-alignment only:
 
@@ -586,16 +623,17 @@ nextflow run nf-core/rnaseq \
 
 ##### Input requirements
 
-| Input        | Parameter          | Requirements                                                                                                       |
-| ------------ | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| Samplesheet  | `--input`          | Standard CSV format (see [Samplesheet input](#samplesheet-input))                                                  |
-| Genome FASTA | `--fasta`          | Genomic sequence file (`.fasta`, `.fa`, `.fna`, optionally gzipped)                                                |
-| Annotation   | `--gff` or `--gtf` | Must contain **CDS features** with `gene_id` attributes. GFF3 format (`.gff3`, `.gff`) is typical for prokaryotes. |
+| Input        | Parameter          | Requirements                                                                                                                                        |
+| ------------ | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Samplesheet  | `--input`          | Standard CSV format (see [Samplesheet input](#samplesheet-input))                                                                                   |
+| Genome FASTA | `--fasta`          | Genomic sequence file (`.fasta`, `.fa`, `.fna`, optionally gzipped)                                                                                 |
+| Annotation   | `--gff` or `--gtf` | Transcript-like features (CDS, tRNA, rRNA, tmRNA, ncRNA, etc.) with `gene_id` attributes. GFF3 format (`.gff3`, `.gff`) is typical for prokaryotes. |
 
 **Key points:**
 
 - **Use GFF3 format**: Prokaryotic annotations are typically distributed as GFF3 (not GTF). Provide GFF3 files via `--gff` and GTF files via `--gtf`.
-- **CDS features required**: The annotation must contain CDS (coding sequence) features. The pipeline extracts transcripts from these.
+- **Transcripts are extracted from all transcript-like features**: GFFREAD will extract transcript sequences from CDS, tRNA, rRNA, tmRNA, ncRNA and other feature types present in the annotation, so non-coding RNAs are quantified alongside mRNAs.
+- **CDS used for featureCounts QC**: `featurecounts_feature_type` is set to `CDS`, so biotype/counting QC metrics are based on coding sequences. Your annotation should contain CDS features for these QC steps to be meaningful.
 - **Matching contig names**: Chromosome/contig names in your FASTA must exactly match those in your GFF/GTF (e.g., if your FASTA has `>NC_003197.2`, your GFF must use `NC_003197.2` in column 1).
 - **No transcript FASTA needed**: The pipeline generates the transcript FASTA automatically using GFFREAD.
 
