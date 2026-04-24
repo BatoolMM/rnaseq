@@ -131,7 +131,7 @@ workflow MULTIQC_RNASEQ {
         [
             [id: id],
             files,
-            [mqc_default_config, dynamic_config, mqc_custom_config].findAll { it },
+            [mqc_default_config, dynamic_config, mqc_custom_config].findAll { cfg -> cfg },
             mqc_logo,
             replace_names,
             [],
@@ -170,7 +170,7 @@ workflow MULTIQC_RNASEQ {
                 [
                     row[1],
                     row.drop(2)
-                        .findAll { it != null }
+                        .findAll { entry -> entry != null }
                         .collectMany { entry -> (entry instanceof List) ? entry : [entry] },
                 ]
             }
@@ -436,7 +436,7 @@ def strandCheckCompositionYaml(static_config, rows) {
     def config  = new LinkedHashMap(static_config)
     def pconfig = new LinkedHashMap(config.pconfig)
     if (datasets.size() > 1) {
-        pconfig.data_labels = labels.collect { [name: it, ylab: pconfig.ylab] }
+        pconfig.data_labels = labels.collect { label -> [name: label, ylab: pconfig.ylab] }
     }
     config.pconfig = pconfig
     config.data    = datasets.size() == 1 ? datasets[0] : datasets

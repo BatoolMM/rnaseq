@@ -703,12 +703,12 @@ def defineQcTools(params) {
 
         if (!params.skip_rseqc) {
             def rseqc_modules = params.rseqc_modules
-                ? params.rseqc_modules.split(',').collect { it.trim().toLowerCase() }
+                ? params.rseqc_modules.split(',').collect { mod -> mod.trim().toLowerCase() }
                 : []
             if (params.bam_csi_index) {
                 rseqc_modules.removeAll(['read_distribution', 'inner_distance', 'tin'])
             }
-            rseqc_modules.each { tools << "rseqc_${it}" }
+            rseqc_modules.each { mod -> tools << "rseqc_${mod}" }
         }
     }
 

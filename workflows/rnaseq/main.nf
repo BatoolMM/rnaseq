@@ -118,7 +118,7 @@ workflow RNASEQ {
     // meta per sample — if a future module mutates meta on one of them,
     // this aggregation silently emits duplicate rows.
     ch_mqc_per_sample_bundle = channel.empty()
-    def collapseAgg = { row -> [row[0].id, row.drop(1).findAll { it != null }.collectMany { e -> (e instanceof List) ? e : [e] }] }
+    def collapseAgg = { row -> [row[0].id, row.drop(1).findAll { e -> e != null }.collectMany { e -> (e instanceof List) ? e : [e] }] }
 
     //
     // Collect versions from the topic channel. Entries are either
@@ -551,7 +551,7 @@ workflow RNASEQ {
     // Pre-compute param-derived values for QC subworkflow
     //
     def biotype = params.gencode ? "gene_type" : params.featurecounts_group_type
-    def rseqc_modules = qc_tools.findAll { it.startsWith('rseqc_') }.collect { it.replace('rseqc_', '') }
+    def rseqc_modules = qc_tools.findAll { tool -> tool.startsWith('rseqc_') }.collect { tool -> tool.replace('rseqc_', '') }
 
     ch_inferexperiment_txt = channel.empty()
 
@@ -604,10 +604,10 @@ workflow RNASEQ {
             // Extract infer_experiment from rseqc channel
             ch_inferexperiment_txt = RUSTQC.out.rseqc
                 .map { meta, files ->
-                    def ie = (files instanceof List ? files : [files]).find { it.name.endsWith('.infer_experiment.txt') }
+                    def ie = (files instanceof List ? files : [files]).find { f -> f.name.endsWith('.infer_experiment.txt') }
                     ie ? [meta, ie] : null
                 }
-                .filter { it != null }
+                .filter { entry -> entry != null }
         } else {
             //
             // SUBWORKFLOW: Post-alignment QC
