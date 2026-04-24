@@ -55,6 +55,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
@@ -133,6 +134,7 @@ nextflow_workflow {
                 input[28] = use_sentieon_star
                 input[29] = use_parabricks_star
                 input[30] = null  // contaminant_screening
+                input[31] = false // prokaryotic
                 """
             }
         }
