@@ -40,6 +40,7 @@ Special thanks to the following for their contributions to the release:
 - [PR #1812](https://github.com/nf-core/rnaseq/pull/1812) - Dedupe redundant pipeline-level nf-test cases (fold `min_mapped_reads` into `skip_qc`; prune duplicate pseudo-alignment cases) without losing coverage
 - [PR #1814](https://github.com/nf-core/rnaseq/pull/1814) - Sync nf-core components to the latest versions, migrate the remaining local `deseq2_qc` module to topic-based version reporting, and retire `ch_versions` plumbing now that all modules emit versions via topic
 - [PR #1815](https://github.com/nf-core/rnaseq/pull/1815) - Gate the nf-test `cleanup` directive on `$CI` so pipeline-test work directories are retained on local reruns and only pruned in CI ([#1813](https://github.com/nf-core/rnaseq/issues/1813))
+- [PR #1818](https://github.com/nf-core/rnaseq/pull/1818) - Drop redundant `versions.yml` clauses from `saveAs` closures on processes that now emit versions via the `versions` topic; name closure parameters instead of implicit `it` in local workflow / subworkflow files
 
 ## [[3.24.0](https://github.com/nf-core/rnaseq/releases/tag/3.24.0)] - 2026-04-09
 
